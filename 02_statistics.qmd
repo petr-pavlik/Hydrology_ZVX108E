@@ -1,0 +1,25 @@
+# Statistical processing of hydrological data
+
+#### At the end of the lecture you should be familiar with following concepts: {.unnumbered}
+
+-   hydrological year
+-   data screening and cleaning
+-   basisc data summation and aggregation
+-   descriptive statistics
+-   visualisation of statistical data
+
+## Hydrological data
+
+Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape. There are some data sets.
+
+Let's take a look at data from **CAMELS** [@hess-21-5293-2017] at <https://gdex.ucar.edu/dataset/camels.html>. It is a curated large sample data set, which was produced by the UCAR with the intention to
+
+This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological Dataset introduced by Newman et al. (2015). For each catchment, we characterized a wide range of attributes that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.
+
+Topographic characteristics (e.g. elevation and slope) were retrieved from Newman et al. (2015). Climatic indices (e.g., aridity and frequency of dry days) and hydrological signatures (e.g., mean annual discharge and baseflow index) were computed using the time series provided by Newman et al. (2015). Soil characteristics (e.g., porosity and soil depth) were characterized using the STATSGO dataset and the Pelletier et al. (2016) dataset. Vegetation characteristics (e.g. the leaf area index and the rooting depth) were inferred using MODIS data. Geological characteristics (e.g., geologic class and the subsurface porosity) were computed using the GLiM and GLHYMPS datasets.
+
+```{r}
+#ts <- readr::read_csv("data/")
+```
+
+

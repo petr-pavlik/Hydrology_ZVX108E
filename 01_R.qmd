@@ -1,0 +1,158 @@
+# Introduction to R language
+
+R is a dynamically typed interpreted language, which is considered a *"glue"* language. It has built-in functions for statistical computing.
+
+Many great sources for R language with the focus on data science and statistical data processing are already written and free online. We will just name a few and limit the introduction at this site to bare minimum, which we use within this class.
+
+**High quality R sources:**
+
+-   CRAN manuals like **Introduction to R**\
+-   The R book\
+-   freeCodeCamp (R programming language)
+-   Advanced R from Hadley Wickham\
+-   
+
+For the newcomer to R ecosystem we highly encourage to print and use the various official *cheat sheets*, created by **Posit Inc.**. 
+
+## R as scientific calculator
+
+#### Arithmetic operations
+
+```{r, eval=FALSE}
+1 + 2           # addition
+1 - 2           # subtraction 
+1 / 2           # division
+1 * 2           # multiplication
+1 %% 2          # integer division
+1 %/% 2         # modulo oprator
+```
+
+#### Special values
+R is familiar with the concept of $\pm\infty$, hence `-Inf` and `Inf` values are at disposal. 
+You will get them most probably as results from computation heading to $\frac{\pm1}{0}$ numerically. 
+There are other special values like `NULL` (*null value*), `NA` (*not assigned*) and `NaN` (*not a number*).
+The concept of *not assigned* is one that is particularly important, since it has significant
+impact on the computed result ({@code-mean-rm}).
+
+```{r}
+x <- seq(1:10)             # general sequence of numbers
+x[c(5,6)] <- NA            # change some elements to not assigned
+print(x)
+mean(x)                    # without removal
+mean(x, na.rm = TRUE)      # and with removal
+```
+
+
+#### Matrix operations
+
+For the purpose of following examples let's use an arbitrary matrix $M$ and a vectors $U$ and $V$.
+
+$$
+A = \left(\begin{matrix}
+2x& - 3y& &= 3\\
+& - 2y& + 4z &= 9\\
+2x& + 13y& + 9z&= 10
+\end{matrix}\right),\\
+$$ {#eq-sys-linear}
+
+
+$$
+U = \begin{pmatrix}
+1\\
+-3\\
+8\\
+\end{pmatrix},
+V = \begin{pmatrix}
+1\\
+-3\\
+8\\
+\end{pmatrix}
+$$ {#eq-uv-vctrs}
+
+Solving a system of linear equations {@eq-sys-linear} is a one-liner:
+
+```{r}
+A <- matrix(data = c(2, -3, 0, 0, -2, 4, 2, 13, 9), nrow = 3, byrow = TRUE)
+B <- c(3, 9, 10)
+solve(A, B)
+```
+
+## R as programming language
+
+### Name conventions
+
+It is possible. We highly discourage using interpunction in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things.
+
+### Functions
+
+You can define own functions using the `function()` construct. If you work in RStudio, just type `fun` and tabulate a snippet from the IDE help, which produces:
+
+```{r}
+name <- function(variables) {
+  
+}
+```
+
+`name` is the name of the function we would like to create and `variables` are the arguments of that function. Space between the `{`and `}` is called a body of a function and contains all the computation which is invoked when the function is called.
+
+Let's put Here an example of creating own function to calculate *weighted mean*
+
+$$
+\dfrac{1}{n}\sum\limits_{i=1}^{n} x_iw_i, 
+$$ 
+where $x_iw_i$ are the individual weighted measurements.
+
+We define a simple function with
+
+```{r}
+w_mean <- function(x, w = 1/length(x)) {
+  1/1/length(x)*sum(x)
+}
+w_mean(1:10)
+```
+
+We can test if we get the same result as the *primitive* function from R using `all.equal()` statement.
+
+```{r}
+all.equal(w_mean(1:10), mean(1:10))
+```
+
+### Vectors
+
+Atomic vectors are single-type linear structures. They can contain elements of any type, from **logical**, **integer**, **numeric**, **complex**, **character**.
+
+```{r, eval=FALSE}
+V <- vector(mode = "numeric", length = 0) # empty vector creation
+V[1] <- 
+```
+
+### Matrices and arrays
+
+```{r}
+M <- matrix(0, nrow = 1, ncol = 1) # empty matrix creation
+M[1, 1] <- 1  # add single value at origin
+M[, 1] <- 0 
+M[1, 0] <- 0 
+```
+
+### Data frames
+
+`data.frame` structure is the workhorse of elementary data processing. It is a possibly heterogenic table-like structure, allowing storage of multiple data types (even other structures) in different columns. A *column* in any data frame is called a **variable** and *row* represents a single **observation**. If the data suffice this single condition, we say they are in **tidy** format. Processing *tidy* data is a big topic withing the R community and curious reader is encouraged to follow the development in **tidyverse** package ecosystem.
+
+```{r}
+streamflow <- data.frame() # empty data.frame creation
+```
+
+### Lists
+
+```{r, eval=FALSE}
+l <- list() # empty list creation 
+```
+
+### Other objects
+
+Although R is intended as functional programming language, more than one object oriented paradigm is implemented in the language. As new R users we encounter first OOP system in functions like `summary` and `plot`, which represent so called **S3 generic functions**. We will further work with **S4** system when processing geospatial data using proxy libraries like `sf` and `terra`. The OOP is very complex and will not be further discussed within this text. For further study we recommend OOP sections in Advanced R by Hadley Wickham.
+
+```{r}
+
+```

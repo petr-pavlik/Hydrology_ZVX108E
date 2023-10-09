@@ -1,0 +1,65 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "ZVX108E Hydrology"
+  subtitle: "Hydrology WS 23/24 Individual Sessions Compation"
+  author: 
+    - Petr Pavlík
+    - Hossein Abbasizadeh
+    - Petr Máca
+  favicon: cover.png
+  repo-actions: [edit]
+  date: today
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 01_R.qmd
+    - 02_statistics.qmd
+    - 03_gis.qmd
+    - 04_interpolation.qmd
+    - 05_CN.qmd
+
+
+    
+  
+  downloads: [pdf, epub]
+  sidebar:
+    title: "Hydrology ZVX108E"
+    pinned: true
+    tools:
+      - icon: save
+        menu:
+          - text: "mtcars.csv"
+            url:  "#"
+          - text: ""
+            url:  "#"
+          - text: ""
+            url:  "#"
+
+  search: 
+    location: sidebar
+    type: textbox
+  
+bibliography: references.bib
+
+format:
+  html:
+    page-layout: article
+    #include-after-body: custom.html
+    theme: 
+      - cosmo
+      - style.scss
+    max-width: 1600px
+    code-fold: show
+    linkcolor: "#006666"
+    highlight-style: syntax.theme
+    
+    
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+lang: en-EN
+

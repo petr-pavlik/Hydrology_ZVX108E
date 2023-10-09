@@ -1,0 +1,7 @@
+# Interpolation
+
+## Inverse distance weighting
+
+$$
+Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^P}}
+$$

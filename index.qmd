@@ -1,0 +1,17 @@
+# Introduction {.unnumbered}
+
+
+The **ZVX108E Hydrology** taught at the Czech University of Life Sciences is an introductory undergraduate course with students of various scientific background, many of whom do not possess knowledge of any programming language yet. Hence we introduce the **R programming language** which serves for decades as a great tool for scientific data processing, statistical evaluation, visualization and reporting. The choice of R over other tools is opinionated. R is told to be *"developed by statisticians for statisticians"* and such as fits perfectly well into the workflow of hydrological data processing. We believe it is more straightforward to learn than Python and does not main students with plethora of environments and incomparable versions. There is a saying "Python is the second best language for everything" and we as authors fully agree. Since the course only contains six practical sessions, oriented to various parts of hydrology, we focus on the basic and merit.  
+
+
+This text was created with the use of `r stringr::str_flatten(c(version$major, ".", version$minor))` and namespaces of following packages:
+
+```{r, echo=FALSE}
+installed.packages()[installed.packages()[, 1] %in% loadedNamespaces(), ][, c("Version")] |> 
+  data.frame() |> 
+  setNames("Version") 
+```
+
+Reproduction of all the materials should be possible using the same versions.
+
+## Data and companion structure
