@@ -4,9 +4,9 @@
 
 -   hydrological year
 -   data screening and cleaning
--   basisc data summation and aggregation
+-   basic data summation and aggregation
 -   descriptive statistics
--   visualisation of statistical data
+-   visualization of statistical data
 
 ## Hydrological data
 
@@ -21,6 +21,7 @@ Topographic characteristics (e.g. elevation and slope) were retrieved from Newma
 ```{r}
 #ts <- readr::read_csv("data/")
 ```
+
 ## Data
 
 Let's start with processing the data, that we will use within this chapter
@@ -54,7 +55,7 @@ These functions are based on **grouping**. In hydrology, the natural groups invo
 
 ### Box-plot
 
-When we want 
+When we want
 
 ```{r}
 station <- read.delim("./data/6242910_Q_Day.Cmd.txt", skip = 36, header = TRUE, sep = ";", col.names = c("date", "time", "value"))
@@ -76,6 +77,7 @@ boxplot(data = station_agg,
         xlab = "", 
         ylab = bquote(Discharge), font.main = 1)
 ```
+
 ### Q-Q plot
 
 ```{r}
@@ -88,25 +90,19 @@ quantile(rnorm(1000), probs = 1:100/100), frame = FALSE, pch = 20)
 abline(0, 1, col = "red")
 ```
 
-
 ### Exceedance curve
 
 ### Frequency distribution curve
 
-## Correlation and autocorrelation 
+## Correlation and autocorrelation
 
 $$
 \rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}
-$$
-$$
+$$ $$
 \rho_{X,X}
 $$
 
-
-
 ## Hydrological indices
-
-
 
 ### Runoff coefficient
 
@@ -114,6 +110,4 @@ The concept of runoff coefficient comes from the presumption, that over long-tim
 
 $$
 \varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
-$$
-where $R$ represents runoff and $P$ precipitation in long term.
-
+$$ where $R$ represents runoff and $P$ precipitation in long term.

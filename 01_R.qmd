@@ -6,16 +6,15 @@ Many great sources for R language with the focus on data science and statistical
 
 **High quality R sources:**
 
--   CRAN manuals like **Introduction to R**\
--   The R book\
--   freeCodeCamp (R programming language)
--   Advanced R from Hadley Wickham\
+-   CRAN manuals like **Introduction to R** at <https://cran.r-project.org/doc/manuals/R-intro.pdf>
+-   [The R Book](https://www.cs.upc.edu/~robert/teaching/estadistica/TheRBook.pdf) is a very comprehensive source, although strongly oriented towards statistics
+-   freeCodeCamp's [R programming tutorial](https://www.youtube.com/watch?v=_V8eKsto3Ug&t=4052s&pp=ygUWciBwcm9ncmFtbWluZyBsYW5ndWFnZQ%3D%3D) is a very mild introduction to scripting language
+-   [Advanced R (2nd edition)](https://adv-r.hadley.nz/) from Hadley Wickham contains a lot of information about langugae fundamentals and \
 -   
 
 For the newcomer to R ecosystem we highly encourage to print and use the various official *cheat sheets*, created by **Posit Inc.**.
 
-#### Some basic commands {-} 
-
+#### Some basic commands {.unnumbered}
 
 ```{r, eval=FALSE}
 version   # start by checking version of your R, should be at least 4.0 and above
@@ -26,6 +25,7 @@ rm()      # removes object from
 View()    # show internals of and object
 ...
 ```
+
 Then there are commands that work with file structure such as
 
 ```{r, eval=FALSE}
@@ -40,18 +40,18 @@ and you can also invoke shell/cmd command with `system2()` interface.
 
 ## R as scientific calculator
 
-#### Arithmetic operations {-}
+#### Arithmetic operations {.unnumbered}
 
 ```{r, eval=FALSE}
 1 + 2           # addition
 1 - 2           # subtraction 
 1 / 2           # division
 1 * 2           # multiplication
-1 %% 2          # integer division
-1 %/% 2         # modulo oprator
+1 %/% 2         # integer division
+1 %% 2          # modulo oprator
 ```
 
-#### Special values {-}
+#### Special values {.unnumbered}
 
 R is familiar with the concept of $\pm\infty$, hence `-Inf` and `Inf` values are at disposal. You will get them most probably as results from computation heading to $\frac{\pm1}{0}$ numerically. There are other special values like `NULL` (*null value*), `NA` (*not assigned*) and `NaN` (*not a number*). The concept of *not assigned* is one that is particularly important, since it has significant impact on the computed result ({@code-mean-rm}).
 
@@ -63,7 +63,7 @@ mean(x)                    # without removal
 mean(x, na.rm = TRUE)      # and with removal
 ```
 
-#### Matrix operations {-}
+#### Matrix operations {.unnumbered}
 
 For the purpose of following examples let's use an arbitrary matrix $M$ and a vectors $U$ and $V$.
 
@@ -135,7 +135,7 @@ We can test if we get the same result as the *primitive* function from R using `
 all.equal(w_mean(1:10), mean(1:10))
 ```
 
-Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct*. 
+Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct*.
 
 ### Data types
 
@@ -149,21 +149,20 @@ TRUE    # logical, also T as short version
 "A"     # character, also 'A'
 ```
 
-
 ### Data structures
 
-#### Vectors {-}
+#### Vectors {.unnumbered}
 
 Atomic vectors are single-type linear structures. They can contain elements of any type, from **logical**, **integer**, **numeric**, **complex**, **character**.
 
-```{r} 
+```{r}
 #| label: test-code-annotation
 #| echo: fenced
 V <- vector(mode = "numeric", length = 0) # empty numeric vector creation
 V[1] <- "A"
 ```
 
-#### Matrices and arrays {-}
+#### Matrices and arrays {.unnumbered}
 
 If the object has more than one *dimension*, it is treated as an array. A special type of **array** is a **matrix**. Both object types have accompanying functions like `colSums()`, `rowMeans()`.
 
@@ -194,8 +193,7 @@ $$
 
 ```
 
-
-#### Data frames {-}
+#### Data frames {.unnumbered}
 
 `data.frame` structure is the workhorse of elementary data processing. It is a possibly heterogenic table-like structure, allowing storage of multiple data types (even other structures) in different columns. A *column* in any data frame is called a **variable** and *row* represents a single **observation**. If the data suffice this single condition, we say they are in **tidy** format. Processing *tidy* data is a big topic withing the R community and curious reader is encouraged to follow the development in **tidyverse** package ecosystem.
 
@@ -206,9 +204,9 @@ thaya <- data.frame(date = NA,
 #thaya$runoff <- rnorm(100, 1, 2)
 ```
 
-#### Lists {-}
+#### Lists {.unnumbered}
 
-**List** is the most general basic data structure. It is possible to store vectors, matrices, data frames and also other lists within a list. List structure does not pose any limitations on the internal objects lengths. 
+**List** is the most general basic data structure. It is possible to store vectors, matrices, data frames and also other lists within a list. List structure does not pose any limitations on the internal objects lengths.
 
 ```{r, eval=TRUE}
 l <- list() # empty list creation 
@@ -218,7 +216,7 @@ l$A <- 2
 print(l)
 ```
 
-#### Other objects {-}
+#### Other objects {.unnumbered}
 
 Although R is intended as functional programming language, more than one object oriented paradigm is implemented in the language. As new R users we encounter first OOP system in functions like `summary` and `plot`, which represent so called **S3 generic functions**. We will further work with **S4** system when processing geospatial data using proxy libraries like `sf` and `terra`. The OOP is very complex and will not be further discussed within this text. For further study we recommend OOP sections in **Advanced R** by Hadley Wickham.
 
@@ -226,11 +224,9 @@ Although R is intended as functional programming language, more than one object 
 
 ```
 
-
 ### Conditions
 
-A condition in code creates branching of computation. Placing a condition creates at least two options from which only one is to be satisfied. The condition is created either by `if()`/`ifelse()` or `switch()` construct.
-We can again call for a snippet from RStudio help resulting in
+A condition in code creates branching of computation. Placing a condition creates at least two options from which only one is to be satisfied. The condition is created either by `if()`/`ifelse()` or `switch()` construct. We can again call for a snippet from RStudio help resulting in
 
 ```{r, eval=FALSE}
 if (condition) {
@@ -242,11 +238,11 @@ switch (object,
 )
 ```
 
+### Cycles[^01_r-1]
 
+[^01_r-1]: It is a bad habit to use cycles in order to enlarge any structure storing data. The structure has to be copied to newly allocated free part of memory every time it is enlarged, thus significantly slowing the computation.
 
-### Cycles[^1]
-
-#### `for` cycle {-}
+#### `for` cycle {.unnumbered}
 
 Probably the most common cycle is used when you **know the number of iterations prior to calling**. The iteration is therefore inherently finite.
 
@@ -258,11 +254,11 @@ for (variable in vector) {
 for(i in seq_along)
 ```
 
-#### `while` cycle {-}
+#### `while` cycle {.unnumbered}
 
 **while** is used in when it is impossible to state how many times something should be repeated. The case is rather in the form *while some condition is or is not met, repeat what is inside the body*. It is also used in intentionally infinite loop e.g. operating systems.
 
-#### `repeat` cycle {-}
+#### `repeat` cycle {.unnumbered}
 
 In the cases when we need the repetition at least once, we will evaluate the code inside *until* a condition is met.
 
@@ -276,15 +272,9 @@ repeat({
 
 #### `break` and `next`
 
-There are two statements which controls the iteration flow. Anytime `break` is called, the rest of the body is skipped and the loop ends. Anytime `next` is called, the rest of the body is skipped and next iteration is started. 
-
-
-[^1]: It is a bad habit to use cycles in order to enlarge any structure storing data. The structure has to be copied to newly allocated free part of memory every time it is enlarged, thus significantly slowing the computation.
-
-
+There are two statements which controls the iteration flow. Anytime `break` is called, the rest of the body is skipped and the loop ends. Anytime `next` is called, the rest of the body is skipped and next iteration is started.
 
 ### Exercise
 
-1. create a sequence of numbers calling 
-2. What type is `NA`, why would you say is it?
-
+1.  create a sequence of numbers calling
+2.  What type is `NA`, why would you say is it?
