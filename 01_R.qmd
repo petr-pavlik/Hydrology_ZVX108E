@@ -36,13 +36,13 @@ file.exists()
 ...
 ```
 
-and you can also invoke shell/cmd command with `system2()` interface.
+and you can also invoke any shell/cmd command plus attributes with `system2()` interface.
 
 ## R as scientific calculator
 
 #### Arithmetic operations {.unnumbered}
 
-```{r, eval=FALSE}
+```{r, eval=TRUE, collapse=TRUE}
 1 + 2           # addition
 1 - 2           # subtraction 
 1 / 2           # division
@@ -62,6 +62,19 @@ print(x)
 mean(x)                    # without removal
 mean(x, na.rm = TRUE)      # and with removal
 ```
+
+#### Set operations {-}
+
+For manipulating sets, there are a couple of essential functions `union()`, `intersect()`, `setdiff()` and operator `%in%`. 
+
+```{r, collapse=TRUE}
+set_A <- c("a", "a", "b", "c", "D")
+set_B <- c("a", "b", "d")
+union(set_A, set_B)
+intersect(set_A, set_B)
+set_A %in% set_B
+```
+
 
 #### Matrix operations {.unnumbered}
 
@@ -100,11 +113,11 @@ solve(A, B)
 
 ### Variables and name conventions
 
-It is possible. We highly discourage using interpunction in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things.
+It is possible. We highly discourage using diacritical marks in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things.
 
 ### Functions
 
-You can define own functions using the `function()` construct. If you work in RStudio, just type `fun` and tabulate a snippet from the IDE help. The action produces {@code-function-snippet}.
+You can define own functions using the `function()` construct. If you work in ****RStudio, just type `fun` and tabulate a snippet from the IDE help. The action produces {@code-function-snippet}.
 
 ```{r}
 name <- function(variables) {
@@ -132,16 +145,16 @@ w_mean(1:10)
 We can test if we get the same result as the *primitive* function from R using `all.equal()` statement.
 
 ```{r}
-all.equal(w_mean(1:10), mean(1:10))
+all.equal(w_mean(x = 1:10), weighted.mean(x = 1:10, w = rep(x = 1/10, times = 10)))
 ```
 
-Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct*.
+Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct* or *ellipsis*. The **ellipsis** allows for adding any number of arguments to a function call, after all the named ones.
 
 ### Data types
 
-The basic types are **logical**, **integer**, **numeric**, **complex**, **character** and **raw**. There are some additional types which we will encounter like **Date**. Since R is dynamically typed, it is not necessary for the user to declare variables before using them. Also the type changes wihout notice based on the stored values, where the chain goes from the least complex to the most. The summary is in the following table
+The basic types are **logical**, **integer**, **numeric**, **complex**, **character** and **raw**. There are some additional types which we will encounter like **Date**. Since R is dynamically typed, it is not necessary for the user to declare variables before using them. Also the type changes without notice based on the stored values, where the chain goes from the least complex to the most. The summary is in the following table
 
-```{r}
+```{r, collapse=TRUE}
 TRUE    # logical, also T as short version
 1L      # integer
 1.2     # numeric
@@ -273,6 +286,28 @@ repeat({
 #### `break` and `next`
 
 There are two statements which controls the iteration flow. Anytime `break` is called, the rest of the body is skipped and the loop ends. Anytime `next` is called, the rest of the body is skipped and next iteration is started.
+
+
+:::: {.columns}
+
+::: {.column width="70%"}
+I would like to have text here
+
+Sentence becomes longer, it should automatically stay in their column
+:::
+
+::: {.column width="10%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="20%"}
+and here
+
+More text
+:::
+
+::::
+
 
 ### Exercise
 
