@@ -143,6 +143,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -166,7 +167,7 @@ div.csl-indent {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Hydrology ZVX108E</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
     <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-save"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
         <li>
@@ -183,6 +184,7 @@ div.csl-indent {
           </a>
         </li>
     </ul>
+    <a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
     <a href="" title="Download" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
     <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
         <li>
@@ -253,8 +255,21 @@ div.csl-indent {
    
   <ul>
   <li><a href="#hydrological-data" id="toc-hydrological-data" class="nav-link active" data-scroll-target="#hydrological-data"><span class="toc-section-number">3.1</span>  Hydrological data</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="toc-section-number">3.2</span>  Data</a></li>
+  <li><a href="#aggregation-and-summation" id="toc-aggregation-and-summation" class="nav-link" data-scroll-target="#aggregation-and-summation"><span class="toc-section-number">3.3</span>  Aggregation and summation</a>
+  <ul class="collapse">
+  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="toc-section-number">3.3.1</span>  Box-plot</a></li>
+  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="toc-section-number">3.3.2</span>  Q-Q plot</a></li>
+  <li><a href="#exceedance-curve" id="toc-exceedance-curve" class="nav-link" data-scroll-target="#exceedance-curve"><span class="toc-section-number">3.3.3</span>  Exceedance curve</a></li>
+  <li><a href="#frequency-distribution-curve" id="toc-frequency-distribution-curve" class="nav-link" data-scroll-target="#frequency-distribution-curve"><span class="toc-section-number">3.3.4</span>  Frequency distribution curve</a></li>
+  </ul></li>
+  <li><a href="#correlation-and-autocorrelation" id="toc-correlation-and-autocorrelation" class="nav-link" data-scroll-target="#correlation-and-autocorrelation"><span class="toc-section-number">3.4</span>  Correlation and autocorrelation</a></li>
+  <li><a href="#hydrological-indices" id="toc-hydrological-indices" class="nav-link" data-scroll-target="#hydrological-indices"><span class="toc-section-number">3.5</span>  Hydrological indices</a>
+  <ul class="collapse">
+  <li><a href="#runoff-coefficient" id="toc-runoff-coefficient" class="nav-link" data-scroll-target="#runoff-coefficient"><span class="toc-section-number">3.5.1</span>  Runoff coefficient</a></li>
+  </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/02_statistics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -298,6 +313,109 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ts &lt;- readr::read_csv("data/")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
+<section id="data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="data"><span class="header-section-number">3.2</span> Data</h2>
+<p>Let’s start with processing the data, that we will use within this chapter</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_03463300 <span class="ot">&lt;-</span> <span class="fu">read.fwf</span>(<span class="at">file =</span> <span class="st">"./data/03463300_streamflow_qc.txt"</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">4</span>), </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data_03463300) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"yr"</span>, <span class="st">"mon"</span>, <span class="st">"day"</span>, <span class="st">"discharge"</span>, <span class="st">"cat"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>data_03463300<span class="sc">$</span>mon <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">x =</span> <span class="fu">as.character</span>(data_03463300<span class="sc">$</span>mon), </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pattern =</span> <span class="st">" "</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">replacement =</span> <span class="st">"0"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>data_03463300<span class="sc">$</span>day <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">x =</span> data_03463300<span class="sc">$</span>day, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pattern =</span> <span class="st">" "</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">replacement =</span> <span class="st">"0"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>data_03463300<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">paste</span>(data_03463300<span class="sc">$</span>yr, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                            data_03463300<span class="sc">$</span>mon, </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                            data_03463300<span class="sc">$</span>day, <span class="at">sep =</span> <span class="st">"-"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(data_03463300, </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>     <span class="fu">plot</span>(<span class="at">x =</span> , <span class="at">y =</span> , <span class="at">type =</span> <span class="st">"l"</span>, </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">frame.plot =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="aggregation-and-summation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="aggregation-and-summation"><span class="header-section-number">3.3</span> Aggregation and summation</h2>
+<p>These functions are based on <strong>grouping</strong>. In hydrology, the natural groups involve - <em>stations/basins</em>, <em>decades/years/months</em>, <em>groundwater regions</em>, etc.</p>
+<section id="box-plot" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">3.3.1</span> Box-plot</h3>
+<p>When we want</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>station <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">"./data/6242910_Q_Day.Cmd.txt"</span>, <span class="at">skip =</span> <span class="dv">36</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">";"</span>, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"time"</span>, <span class="st">"value"</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>station<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(station<span class="sc">$</span>date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>station_agg <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(station<span class="sc">$</span>value <span class="sc">~</span> <span class="fu">as.factor</span>(data.table<span class="sc">::</span><span class="fu">month</span>(station<span class="sc">$</span>date)), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">FUN =</span> <span class="st">"quantile"</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(station_agg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Month"</span>, <span class="st">"Discharge"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">font.main =</span> <span class="dv">1</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">adj =</span> <span class="fl">0.1</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxs =</span> <span class="st">"i"</span>, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxs =</span> <span class="st">"i"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="at">data =</span> station_agg, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        Discharge <span class="sc">~</span> Month, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distribution of discharge in months"</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">frame =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">20</span>), </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">""</span>, </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="fu">bquote</span>(Discharge), <span class="at">font.main =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="02_statistics_files/figure-html/unnamed-chunk-3-1.svg" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="q-q-plot" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">3.3.2</span> Q-Q plot</h3>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">font.main =</span> <span class="dv">1</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">adj =</span> <span class="fl">0.1</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxs =</span> <span class="st">"i"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxs =</span> <span class="st">"i"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">quantile</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>), <span class="at">probs =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span><span class="sc">/</span><span class="dv">100</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>), <span class="at">probs =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span><span class="sc">/</span><span class="dv">100</span>), <span class="at">frame =</span> <span class="cn">FALSE</span>, <span class="at">pch =</span> <span class="dv">20</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="02_statistics_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="exceedance-curve" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="exceedance-curve"><span class="header-section-number">3.3.3</span> Exceedance curve</h3>
+</section>
+<section id="frequency-distribution-curve" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="frequency-distribution-curve"><span class="header-section-number">3.3.4</span> Frequency distribution curve</h3>
+</section>
+</section>
+<section id="correlation-and-autocorrelation" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="correlation-and-autocorrelation"><span class="header-section-number">3.4</span> Correlation and autocorrelation</h2>
+<p><span class="math display">\[
+\rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}
+\]</span> <span class="math display">\[
+\rho_{X,X}
+\]</span></p>
+</section>
+<section id="hydrological-indices" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="hydrological-indices"><span class="header-section-number">3.5</span> Hydrological indices</h2>
+<section id="runoff-coefficient" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="runoff-coefficient"><span class="header-section-number">3.5.1</span> Runoff coefficient</h3>
+<p>The concept of runoff coefficient comes from the presumption, that over long-time period</p>
+<p><span class="math display">\[
+\varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
+\]</span> where <span class="math inline">\(R\)</span> represents runoff and <span class="math inline">\(P\)</span> precipitation in long term.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
@@ -305,6 +423,7 @@ div.csl-indent {
 Addor, N., A. J. Newman, N. Mizukami, and M. P. Clark. 2017. <span>“The CAMELS Data Set: Catchment Attributes and Meteorology for Large-Sample Studies.”</span> <em>Hydrology and Earth System Sciences</em> 21 (10): 5293–313. <a href="https://doi.org/10.5194/hess-21-5293-2017">https://doi.org/10.5194/hess-21-5293-2017</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->

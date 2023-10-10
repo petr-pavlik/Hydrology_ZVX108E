@@ -21,5 +21,99 @@ Topographic characteristics (e.g. elevation and slope) were retrieved from Newma
 ```{r}
 #ts <- readr::read_csv("data/")
 ```
+## Data
 
+Let's start with processing the data, that we will use within this chapter
+
+```{r, eval=FALSE}
+data_03463300 <- read.fwf(file = "./data/03463300_streamflow_qc.txt", 
+                          widths = c(8, 4, 2, 2, 8, 4), 
+                          header = FALSE)
+
+names(data_03463300) <- c("id", "yr", "mon", "day", "discharge", "cat")
+
+data_03463300$mon <- gsub(x = as.character(data_03463300$mon), 
+                          pattern = " ", 
+                          replacement = "0")
+data_03463300$day <- gsub(x = data_03463300$day, 
+                          pattern = " ",
+                          replacement = "0")
+data_03463300$date <- paste(data_03463300$yr, 
+                            data_03463300$mon, 
+                            data_03463300$day, sep = "-")
+
+with(data_03463300, 
+     plot(x = , y = , type = "l", 
+          frame.plot = FALSE))
+
+```
+
+## Aggregation and summation
+
+These functions are based on **grouping**. In hydrology, the natural groups involve - *stations/basins*, *decades/years/months*, *groundwater regions*, etc.
+
+### Box-plot
+
+When we want 
+
+```{r}
+station <- read.delim("./data/6242910_Q_Day.Cmd.txt", skip = 36, header = TRUE, sep = ";", col.names = c("date", "time", "value"))
+station$date <- as.Date(station$date, format = "%Y-%m-%d")
+
+station_agg <- aggregate(station$value ~ as.factor(data.table::month(station$date)), 
+                         FUN = "quantile", 
+                         probs = c(0.1, 0.25, 0.5, 0.75, 0.9))
+names(station_agg) <- c("Month", "Discharge")
+par(font.main = 1, 
+    adj = 0.1, 
+    xaxs = "i", 
+    yaxs = "i")
+boxplot(data = station_agg, 
+        Discharge ~ Month, 
+        main = "Distribution of discharge in months", 
+        frame = FALSE, 
+        ylim = c(0,20), 
+        xlab = "", 
+        ylab = bquote(Discharge), font.main = 1)
+```
+### Q-Q plot
+
+```{r}
+par(font.main = 1, 
+    adj = 0.1, 
+    xaxs = "i", 
+    yaxs = "i")
+plot(quantile(rnorm(1000), probs = 1:100/100),
+quantile(rnorm(1000), probs = 1:100/100), frame = FALSE, pch = 20)
+abline(0, 1, col = "red")
+```
+
+
+### Exceedance curve
+
+### Frequency distribution curve
+
+## Correlation and autocorrelation 
+
+$$
+\rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}
+$$
+$$
+\rho_{X,X}
+$$
+
+
+
+## Hydrological indices
+
+
+
+### Runoff coefficient
+
+The concept of runoff coefficient comes from the presumption, that over long-time period
+
+$$
+\varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
+$$
+where $R$ represents runoff and $P$ precipitation in long term.
 

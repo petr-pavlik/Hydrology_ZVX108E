@@ -57,7 +57,7 @@
             "underline": false
         },
         "String": {
-            "text-color": "#008000",
+            "text-color": "#006666",
             "background-color": null,
             "bold": false,
             "italic": false,

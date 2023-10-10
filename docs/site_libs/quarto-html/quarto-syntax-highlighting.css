@@ -5,7 +5,7 @@
   --quarto-hl-ss-color: #540775;
   --quarto-hl-an-color: #696969;
   --quarto-hl-fu-color: #06287e;
-  --quarto-hl-st-color: #008000;
+  --quarto-hl-st-color: #006666;
   --quarto-hl-cf-color: #d91e18;
   --quarto-hl-op-color: #505152;
   --quarto-hl-er-color: #7928a1;
@@ -74,7 +74,7 @@ code span.fu {
 }
 
 code span.st {
-  color: #008000;
+  color: #006666;
 }
 
 code span.cf {

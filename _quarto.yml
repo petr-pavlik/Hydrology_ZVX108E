@@ -4,13 +4,14 @@ project:
 
 book:
   title: "ZVX108E Hydrology"
-  subtitle: "Hydrology WS 23/24 Individual Sessions Compation"
+  subtitle: "Hydrology WS 23/24 Individual Sessions Companion"
   author: 
     - Petr Pavlík
     - Hossein Abbasizadeh
     - Petr Máca
   favicon: cover.png
-  repo-actions: [edit]
+  repo-url: https://github.com/petr-pavlik/Hydrology_ZVX108E/
+  repo-actions: [edit, issue]
   date: today
   chapters:
     - index.qmd
@@ -20,7 +21,7 @@ book:
     - 03_gis.qmd
     - 04_interpolation.qmd
     - 05_CN.qmd
-
+  
 
     
   
@@ -55,7 +56,9 @@ format:
     code-fold: show
     linkcolor: "#006666"
     highlight-style: syntax.theme
-    
+    code-annotation: hover
+    fig-format: svg
+    fig-cap-location: bottom
     
   pdf:
     documentclass: scrreprt
@@ -63,3 +66,6 @@ format:
 editor: visual
 lang: en-EN
 
+quarto:
+  footnotes:
+    footnoteRef: '<i class="fa-duotone fa-arrow-left"></i>'
