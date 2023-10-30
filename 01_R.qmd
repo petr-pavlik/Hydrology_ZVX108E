@@ -1,6 +1,6 @@
 # Introduction to R language
 
-R is a dynamically typed interpreted language, which is considered a *"glue"* language. It has built-in functions for statistical computing.
+R is a **dynamically typed interpreted** language. It is a highly capable enviornment for computing and graphics, for which R is often labeled a *glue* language. It has built-in functions for statistical computing.
 
 Many great sources for R language with the focus on data science and statistical data processing are already written and free online. We will just name a few and limit the introduction at this site to bare minimum, which we use within this class.
 
@@ -9,8 +9,7 @@ Many great sources for R language with the focus on data science and statistical
 -   CRAN manuals like **Introduction to R** at <https://cran.r-project.org/doc/manuals/R-intro.pdf>
 -   [The R Book](https://www.cs.upc.edu/~robert/teaching/estadistica/TheRBook.pdf) is a very comprehensive source, although strongly oriented towards statistics
 -   freeCodeCamp's [R programming tutorial](https://www.youtube.com/watch?v=_V8eKsto3Ug&t=4052s&pp=ygUWciBwcm9ncmFtbWluZyBsYW5ndWFnZQ%3D%3D) is a very mild introduction to scripting language
--   [Advanced R (2nd edition)](https://adv-r.hadley.nz/) from Hadley Wickham contains a lot of information about langugae fundamentals and \
--   
+-   [Advanced R (2nd edition)](https://adv-r.hadley.nz/) from Hadley Wickham contains a lot of information about langugae fundamentals and\
 
 For the newcomer to R ecosystem we highly encourage to print and use the various official *cheat sheets*, created by **Posit Inc.**.
 
@@ -63,9 +62,9 @@ mean(x)                    # without removal
 mean(x, na.rm = TRUE)      # and with removal
 ```
 
-#### Set operations {-}
+#### Set operations {.unnumbered}
 
-For manipulating sets, there are a couple of essential functions `union()`, `intersect()`, `setdiff()` and operator `%in%`. 
+For manipulating sets, there are a couple of essential functions `union()`, `intersect()`, `setdiff()` and operator `%in%`.
 
 ```{r, collapse=TRUE}
 set_A <- c("a", "a", "b", "c", "D")
@@ -74,7 +73,6 @@ union(set_A, set_B)
 intersect(set_A, set_B)
 set_A %in% set_B
 ```
-
 
 #### Matrix operations {.unnumbered}
 
@@ -113,15 +111,15 @@ solve(A, B)
 
 ### Variables and name conventions
 
-It is possible. We highly discourage using diacritical marks in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things.
+It is possible. We highly discourage using diacritical marks in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things. Variables do not contain spaces, quotes, arithmetical, logical nor relational operators neither they contain special characters like `=`, `-`, ``.
 
 ### Functions
 
-You can define own functions using the `function()` construct. If you work in ****RStudio, just type `fun` and tabulate a snippet from the IDE help. The action produces {@code-function-snippet}.
+You can define own functions using the `function()` construct. If you work in \*\*\*\*RStudio, just type `fun` and tabulate a snippet from the IDE help. The action produces {@code-function-snippet}.
 
-```{r}
+```{r, eval=FALSE}
 name <- function(variables) {
-  
+  ...
 }
 ```
 
@@ -145,7 +143,8 @@ w_mean(1:10)
 We can test if we get the same result as the *primitive* function from R using `all.equal()` statement.
 
 ```{r}
-all.equal(w_mean(x = 1:10), weighted.mean(x = 1:10, w = rep(x = 1/10, times = 10)))
+all.equal(w_mean(x = 1:10), 
+          weighted.mean(x = 1:10, w = rep(x = 1/10, times = 10)))
 ```
 
 Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct* or *ellipsis*. The **ellipsis** allows for adding any number of arguments to a function call, after all the named ones.
@@ -179,11 +178,11 @@ V[1] <- "A"
 
 If the object has more than one *dimension*, it is treated as an array. A special type of **array** is a **matrix**. Both object types have accompanying functions like `colSums()`, `rowMeans()`.
 
-```{r}
-M <- matrix(0, nrow = 1, ncol = 1) # empty matrix creation
-M[1, 1] <- 1                       # add single value at origin
-M[, 1] <- 0 
-M[1, 0] <- 0
+```{r, collapse=TRUE}
+M <- matrix(data = 0, nrow = 5, ncol = 2) # empty matrix creation
+M[1, 1] <- 1                              # add single value at origin
+M[, 1] <- 1.5                             # store 1.5 to the whole first column
+M[c(1,3), 1:2] <- rnorm(2)                # store random numbers to first two rows
 
 colMeans(M) 
 rowSums(M)
@@ -193,12 +192,12 @@ It is possible to have matrices containing any data type, e.g.
 
 $$
 M = \left(\begin{matrix}
-A & B\\
-C & D
+\mathrm{A} & \mathrm{B}\\
+\mathrm{C} & \mathrm{D}
 \end{matrix}\right),\qquad
 N = \left(\begin{matrix}
-\mathrm{TRUE} & \mathrm{FALSE}\\
-\mathrm{FALSE} & \mathrm{TRUE}
+1+i & 5-3i\\
+10+2i & i
 \end{matrix}\right)
 $$
 
@@ -243,35 +242,54 @@ A condition in code creates branching of computation. Placing a condition create
 
 ```{r, eval=FALSE}
 if (condition) {
-  
+  ...
 }
 
 switch (object,
   case = action
 )
+
+ifelse(test, TRUE, FALSE)
 ```
 
-### Cycles[^01_r-1]
 
-[^01_r-1]: It is a bad habit to use cycles in order to enlarge any structure storing data. The structure has to be copied to newly allocated free part of memory every time it is enlarged, thus significantly slowing the computation.
+The condition can be branched to larger structures like
+```{r}
+temperature <- 30
+if (temperature > 30) {
+  cat("The temperature is hot.")
+} else if (temperature > 15) {
+  cat("The temperature is warm.")
+}
+```
 
-#### `for` cycle {.unnumbered}
 
-Probably the most common cycle is used when you **know the number of iterations prior to calling**. The iteration is therefore inherently finite.
+### Repetition
+
+Loops (cycles) provide use with the ability to execute single statement of a block of code in `{}` multiple times. There are three key words for loop construction. They differ in use cases.
+
+#### `for` cycle
+
+Probably the most common loop is used when you **know the number of iterations prior to calling**. The iteration is therefore explicitly finite.
 
 ```{r, eval=FALSE}
 for (variable in vector) {
-  
+  ...
 }
-
-for(i in seq_along)
 ```
 
-#### `while` cycle {.unnumbered}
+An example
+
+```{r}
+for(i in 1:4) cat(i, ". iteration", "\n", sep = "")
+```
+
+
+#### `while` cycle
 
 **while** is used in when it is impossible to state how many times something should be repeated. The case is rather in the form *while some condition is or is not met, repeat what is inside the body*. It is also used in intentionally infinite loop e.g. operating systems.
 
-#### `repeat` cycle {.unnumbered}
+#### `repeat` cycle
 
 In the cases when we need the repetition at least once, we will evaluate the code inside *until* a condition is met.
 
@@ -287,9 +305,7 @@ repeat({
 
 There are two statements which controls the iteration flow. Anytime `break` is called, the rest of the body is skipped and the loop ends. Anytime `next` is called, the rest of the body is skipped and next iteration is started.
 
-
-:::: {.columns}
-
+::: columns
 ::: {.column width="70%"}
 I would like to have text here
 
@@ -305,9 +321,7 @@ and here
 
 More text
 :::
-
-::::
-
+:::
 
 ### Exercise
 

@@ -1,3 +1,5 @@
+prefer-html: true
+
 project:
   type: book
   output-dir: docs
@@ -21,6 +23,7 @@ book:
     - 03_gis.qmd
     - 04_interpolation.qmd
     - 05_CN.qmd
+  
   
 
     
@@ -54,7 +57,7 @@ format:
       - style.scss
     max-width: 1600px
     code-fold: show
-    linkcolor: "#006666"
+    #linkcolor: "#006666"
     highlight-style: syntax.theme
     code-annotation: hover
     fig-format: svg

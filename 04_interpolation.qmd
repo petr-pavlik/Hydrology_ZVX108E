@@ -1,9 +1,254 @@
 # Interpolation
 
-## Inverse distance weighting
+Products which enter hydrological analysis like temperatures or precipitation are
+measured **locally at point locations**. Here we will show one well-known method 
+to interpolate across fairly homogeneous space and one method for interpolation 
+across more tedious and complex domain like a river network.
+
+## Inverse distance weighting (IDW)
 
 $$
 Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^P}}
 $$
 
 Let's create an arbitrary spatial domain
+
+```{r, fig.align='center'}
+library(sf)          # Spatial Feature library for spatial data
+library(scico)       # Scientific pallette collection called "scico"
+
+n <- 25
+dom <- data.frame(x     = runif(n, 0, 50),
+                  y     = runif(n, 0, 50), 
+                  value = rnorm(n)) |>
+  sf::st_as_sf(coords   = c("x", "y"), crs = 4326)
+plot(dom, 
+     nbreaks = 26,
+     pal = scico(n = 25,      
+                 palette   = "davos", 
+                 end       = 0.9, 
+                 direction = -1), 
+     main      = "Precipitation [mm]", 
+     pch       = 20,          # Point character selection
+     graticule = TRUE,        # Display graticules
+     axes      = TRUE,        # Display plot axes
+     bgc       = "#f0f0f033", # Background color
+     key.pos   = 1)           # Legend position
+```
+
+We need a grid of new points, which will represent the raster on which we want to recalculate 
+
+```{r, fig.align='center', fig.cap='Point location of Precipitation measuring stations'}
+grid <- st_make_grid(x = dom, 
+                     cellsize = 2, 
+                     crs = 4326) |> 
+  st_sf()
+plot(x = dom, 
+     nbreaks = 26,
+     pal = scico(n = 25,      
+                 palette   = "davos", 
+                 end       = 0.9, 
+                 direction = -1), 
+     main      = "Precipitation [mm]", 
+     pch       = 20,          # Point character selection
+     graticule = TRUE,        # Display graticules
+     axes      = TRUE,        # Display plot axes
+     bgc       = "#f0f0f033", # Background color
+     key.pos   = 1, reset = FALSE)           # Legend position
+plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE)
+
+
+```
+
+Now we compute the distances between the points
+
+```{r, eval=TRUE, fig.align='center', fig.cap=''}
+distances <- outer(
+  st_coordinates(grid)[, "X"], st_coordinates(dom)[, "X"],
+  st_coordinates(grid)[, "Y"], st_coordinates(dom)[, "Y"],
+  FUN = function(x1, x2, y1, y2) sqrt((x1 - x2)^2 + (y1 - y2)^2)
+)
+```
+
+
+```{r, eval=TRUE, fig.align='center'}
+power <- 2
+weighted_sum <- apply(distances, 1, function(d) sum(dom$value / (d^power)))
+
+
+
+weights_sum <- apply(distances, 1, function(d) sum(1 / (d^power)))
+interpolated_values <- weighted_sum / weights_sum
+
+results <- data.frame(
+  x = st_coordinates(grid)[, "X"],
+  y = st_coordinates(grid)[, "Y"],
+  value = interpolated_values) |> 
+  sf::st_as_sf(coords   = c("x", "y"), crs = 4326)
+
+results$value[which(is.nan(results$value))] <- NA
+
+library(ggplot2)
+ggplot() +
+  geom_sf(data = results, aes(color = value)) +
+  geom_sf(data = grid, fill = NA) +
+  theme_bw() +
+  scale_color_scico(palette = "davos")
+
+# plot(x = results, 
+#      nbreaks = 11,
+#      pal = scico(n = 10,
+#                  palette   = "davos",
+#                  end       = 0.9,
+#                  direction = -1),
+#      main      = "Precipitation [mm] estimated by IDW", 
+#      pch       = 20,          # Point character selection
+#      graticule = TRUE,        # Display graticules
+#      axes      = TRUE,        # Display plot axes
+#      bgc       = "#f0f0f033", # Background color
+#      key.pos   = 1, reset = FALSE)           # Legend position
+# plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE)
+# 
+# interpolated_matrix <- matrix(interpolated_values, ncol = length(st_coordinates(grid)[, "X"]), nrow = length(st_coordinates(grid)[, "Y"]))
+# 
+# nrow <- length(unique(st_coordinates(results)[, "Y"]))
+# ncol <- length(unique(st_coordinates(results)[, "X"]))
+# dim(results)
+# interpolated_matrix <- matrix(results_df$interpolated_value, nrow = nrow, ncol = ncol, byrow = TRUE)
+# 
+# plot(interpolated_matrix[, 1], interpolated_matrix[, 2])
+# contour(unique(st_coordinates(results)[, "X"]), unique(st_coordinates(results)[, "Y"]), z = results$value)
+# # Plot the interpolated values as an image
+# image(
+#   x = na.omit(st_coordinates(grid)[, "X"]),
+#   y = na.omit(st_coordinates(grid)[, "Y"]),
+#   z = interpolated_matrix,
+#   col = heat.colors(100),  # You can choose a color palette
+#   main = "Interpolated Values"
+# )
+```
+
+## `gstat` 
+
+There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages. 
+
+```{r, eval=FALSE}
+library(gstat)
+gstat::idw(precipitation ~ x + y, locations = ~x+y)
+```
+
+```{r, eval=FALSE}
+power <- 2  # You can adjust the power parameter
+weighted_sum <- apply(distances, 1, function(d) sum(df$value / (d^power)))
+weighted_sum
+```
+
+
+
+## Krigging
+
+Another interpolation technique is called **Krigging**. 
+
+### Data
+Let's use some artificial data set for this example as well.
+
+$$
+\mathrm{Distances} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}\qquad \mathrm{for}\:i, j = 1,2, \ldots,n
+$$
+
+$$
+\mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for} 
+$$
+### Semivariogram calculation
+
+$$
+\gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2
+$$
+where $\gamma(h)$ represents the semivariance lag at distance $h$.  
+
+```{r, eval=FALSE}
+df <- data.frame(
+  x = runif(10, 0, 50),
+  y = runif(10, 0, 50),
+  value = rnorm(10)
+)
+n <- nrow(df)
+dist_matrix <- as.matrix(dist(cbind(df$x, df$y)))
+differences_matrix <- matrix(0, n, n)
+
+for (i in 1:n) {
+  differences_matrix[i, ] <- df$value - df$value[i]
+}
+lag_tol <- 1  # Lag tolerance, you can adjust this
+max_lag <- 10  # Maximum lag distance, you can adjust this
+
+semivariance <- rep(0, max_lag / lag_tol)
+num_pairs <- rep(0, max_lag / lag_tol)
+
+for (i in 1:(n - 1)) {
+  for (j in (i + 1):n) {
+    distance_ij <- sqrt((df$x[i] - df$x[j])^2 + (df$y[i] - df$y[j])^2)
+    lag <- round(distance_ij / lag_tol)
+    if (lag <= max_lag / lag_tol) {
+      semivariance[lag] <- semivariance[lag] + (df$value[i] - df$value[j])^2
+      num_pairs[lag] <- num_pairs[lag] + 1
+    }
+  }
+}
+
+semivariance <- semivariance / (2 * num_pairs)
+
+prediction_grid <- expand.grid(
+  x = seq(0, 50, by = 1),
+  y = seq(0, 50, by = 1)
+)
+
+n_grid <- nrow(prediction_grid)
+semivariance_at_grid <- rep(0, n_grid)
+
+for (i in 1:n_grid) {
+  differences_to_data <- df$value - prediction_grid[i, ]
+  distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2)
+  lag_values <- round(distances_to_data / lag_tol)
+  semivariance_at_grid[i] <- sum((differences_to_data)^2 / (2 * lag_values))
+}
+
+n_lags <- length(semivariance)
+kriged_values <- rep(0, n_grid)
+
+for (i in 1:n_grid) {
+  kriging_weights <- rep(0, n)
+  distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2)
+  lag_values <- round(distances_to_data / lag_tol)
+  for (j in 1:n) {
+    if (lag_values[j] <= n_lags) {
+      kriging_weights[j] <- (semivariance[lag_values[j]] - semivariance_at_grid[i]) / semivariance[lag_values[j]]
+    }
+  }
+  # Check if there are valid weights to avoid replacement with length zero
+  if (any(kriging_weights != 0)) {
+    kriged_values[i] <- sum(kriging_weights * df$value)
+  }
+}
+
+
+```
+
+### Now we have to state the varigram model. We will calculate the semivariogram 
+to model the **spatial covariance** structure. Then calculate the pairwise distances
+and differences between data points.
+
+```{r, eval=FALSE}
+n <- nrow(df)
+dist_matrix <- as.matrix(dist(cbind(df$x, df$y)))
+differences_matrix <- matrix(0, n, n)
+
+for (i in 1:n) {
+  differences_matrix[i, ] <- df$value - df$value[i]
+}
+```
+
+
+
+
+

@@ -1,1 +1,7 @@
 # Curve number method
+
+The Curve number (CN) is a method developed in ... ^[https://edepot.wur.nl/183157] CN helps with the estimation of runoff at basins where no runoff has
+been measured.
+$$
+\dfrac{F}{S} = \dfrac{Q}{P-I_a}
+$$

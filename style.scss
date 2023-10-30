@@ -1,8 +1,54 @@
 /*-- scss:defaults --*/
-$primary_1: #006666;
-$primary_2: #99CCFF;
-$primary_3: #004C99;
+$primary-1: #06287e;
+$primary-2: #99CCFF;
+$primary-3: #004C99;
 $code-block-bg: #01010005;
+
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #373a3c !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$blue:    #2780e3 !default;
+$indigo:  #6610f2 !default;
+$purple:  #613d7c !default;
+$pink:    #e83e8c !default;
+$red:     #ff0039 !default;
+$orange:  #f0ad4e !default;
+$yellow:  #ff7518 !default;
+$green:   #3fb618 !default;
+$teal:    #20c997 !default;
+$cyan:    #9954bb !default;
+
+$primary:       $primary-1 !default;
+$secondary:     $gray-800 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$code-color:    $primary-1 !default;
+
+
+
+
+/*
+
 $code-color:$primary_3;
 $toc-color: $primary_3;
 $navbar-fg: $primary_3;
+$link-color: $primary_3;
+$toc-link-color: $primary_1;
+
+*/
+/*-- scss:rules --*/

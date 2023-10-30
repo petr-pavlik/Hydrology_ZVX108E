@@ -22,7 +22,7 @@
             "text-color": "#545454"
         },
         "Other": {
-            "text-color": "#d91e18",
+            "text-color": "black",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -64,7 +64,7 @@
             "underline": false
         },
         "ControlFlow": {
-            "text-color": "#d91e18",
+            "text-color": "#06287e",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -197,7 +197,7 @@
             "underline": false
         },
         "Constant": {
-            "text-color": "#d91e18",
+            "text-color": "black",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -218,7 +218,7 @@
             "underline": false
         },
         "Keyword": {
-            "text-color": "#d91e18",
+            "text-color": "black",
             "background-color": null,
             "bold": false,
             "italic": false,

@@ -1,4 +1,8 @@
-# Statistical processing of hydrological data
+# Statistical processing of hydrological dataset
+
+A dataset is a collection of measurements which is used to create or evaluate 
+assumptions about a population. Within this session, only **univariate** data 
+are studied.
 
 #### At the end of the lecture you should be familiar with following concepts: {.unnumbered}
 
@@ -8,13 +12,36 @@
 -   descriptive statistics
 -   visualization of statistical data
 
+## Exploratory Data Analysis (EDA)
+
+When studying data set, we will look at certain statistical features, representative 
+for the whole data set.
+
+### Measures of location
+
+#### Mean
+
+$$
+\bar{x} = \dfrac{1}{n}\sum\limits_{i=1}^{n} x_i
+$$
+
+```{r}
+
+```
+
+### Measures of variability
+
+$$
+\sigma = \dfrac{\sqrt{(x_i - \bar{x})^2}}{n-1}
+$$
+
 ## Hydrological data
 
-Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape. There are some data sets.
+Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape.
 
 Let's take a look at data from **CAMELS** [@hess-21-5293-2017] at <https://gdex.ucar.edu/dataset/camels.html>. It is a curated large sample data set, which was produced by the UCAR with the intention to
 
-This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological Dataset introduced by Newman et al. (2015). For each catchment, we characterized a wide range of attributes that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.
+This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological dataset introduced by Newman et al. (2015). A wide range of attributes accompanies each catchment that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.
 
 Topographic characteristics (e.g. elevation and slope) were retrieved from Newman et al. (2015). Climatic indices (e.g., aridity and frequency of dry days) and hydrological signatures (e.g., mean annual discharge and baseflow index) were computed using the time series provided by Newman et al. (2015). Soil characteristics (e.g., porosity and soil depth) were characterized using the STATSGO dataset and the Pelletier et al. (2016) dataset. Vegetation characteristics (e.g. the leaf area index and the rooting depth) were inferred using MODIS data. Geological characteristics (e.g., geologic class and the subsurface porosity) were computed using the GLiM and GLHYMPS datasets.
 
@@ -90,6 +117,89 @@ quantile(rnorm(1000), probs = 1:100/100), frame = FALSE, pch = 20)
 abline(0, 1, col = "red")
 ```
 
+### P-P plot
+
+```{r}
+n <- 100
+data <- rweibull(n, shape = 2, scale = 1)
+
+# Estimated parameters for Pareto
+shape_est <- 2
+scale_est <- 1
+
+# Calculate the theoretical quantiles for the Pareto distribution
+theoretical_quantiles <- qweibull(p = seq(0, 1, 0.01), shape = shape_est, scale = scale_est)
+
+# Create the Q-Q plot
+qqplot(theoretical_quantiles, data, 
+       xlab = "Theoretical Quantiles", 
+       ylab = "Sample Quantiles", ylim = c(0,2.5), xlim = c(0, 2.5))
+abline(0, 1, col = "red")  # Add a 45-degree reference line
+
+```
+```{r}
+# Create the empirical cumulative distribution function (ECDF) for the data
+ecdf_data <- ecdf(data)
+
+# Calculate the empirical probabilities for the Weibull distribution
+theoretical_quantiles <- qweibull(rev(ppoints(n, length(data))), shape = shape_est, scale = scale_est)
+empirical_probs <- ecdf_data(theoretical_quantiles)
+
+# Create the P-P plot
+plot(empirical_probs, ppoints(length(data)), xlab = "Empirical Probabilities", ylab = "Theoretical Probabilities")
+abline(0, 1, col = "red")  # Add a 45-degree reference line
+
+```
+
+
+
+```{r, eval=FALSE}
+library(tidyverse)
+
+# ddd <- read_fwf("data/6242910_Q_Day.Cmd.txt", 
+#                 skip = 36, 
+#                 col_positions = fwf_widths(widths = c(8, 4, 4, 8, 2)), col_types = "cccdc")
+ddd <- read_csv2("data/6242910_Q_Day.Cmd.txt", 
+                skip = 36, 
+                col_types = "ccc")
+ddd |> 
+  set_names(c("Date", "D", "Discharge")) |> 
+  mutate(Date = as.Date(Date, format = "%Y-%m-%d"), 
+         Discharge = as.numeric(Discharge)) |> 
+  select(Date, Discharge) -> ddd
+
+
+
+ddd |> 
+  mutate(ri = rank(Discharge), 
+         s = sd(Discharge), 
+         q = pweibull(Discharge, shape = 2, scale = 1))
+
+pdfunc <- function(x, b = 0.44) {
+  n <- length(x)
+  m <- rank(x)
+  (m - b)/(n + 1 - 2*b)
+}
+plot(pdfunc(x <- ddd$Discharge), type = "l")
+
+ddd |> 
+  ggplot(aes(Date, Discharge)) +
+  geom_line()
+
+ddd |> 
+  ggplot(aes(Discharge, ri = rank(Discharge / length(Discharge)))) +
+  geom_line()
+
+ddd |> 
+  mutate(pi = rank(Discharge - 0.5)/length(Discharge))
+
+
+x <- c(1, 6 ,6, 1, 2, 0)
+rank(x)
+
+```
+
+
 ### Exceedance curve
 
 ### Frequency distribution curve
@@ -111,3 +221,6 @@ The concept of runoff coefficient comes from the presumption, that over long-tim
 $$
 \varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
 $$ where $R$ represents runoff and $P$ precipitation in long term.
+
+
+

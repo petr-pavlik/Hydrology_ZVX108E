@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-EN" xml:lang="en-EN"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,48 +47,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +73,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -139,10 +110,12 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -151,11 +124,16 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_statistics.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -163,110 +141,128 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Hydrology ZVX108E</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="" title="" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-save"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./#">
-          mtcars.csv
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./#">
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./#">
-          </a>
-        </li>
-    </ul>
-    <a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Download" id="sidebar-tool-dropdown-1" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-download"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-1">
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./ZVX108E-Hydrology.pdf">
-            <i class="bi bi-bi-file-pdf pe-1"></i>
-          Download PDF
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="./ZVX108E-Hydrology.epub">
-            <i class="bi bi-bi-journal pe-1"></i>
-          Download ePub
-          </a>
-        </li>
-    </ul>
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-save"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./#">
+            mtcars.csv
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./#">
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./#">
+            </a>
+          </li>
+      </ul>
+    </div>
+    <a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./ZVX108E-Hydrology.pdf">
+              <i class="bi bi-bi-file-pdf pe-1"></i>
+            Download PDF
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="./ZVX108E-Hydrology.epub">
+              <i class="bi bi-bi-journal pe-1"></i>
+            Download ePub
+            </a>
+          </li>
+      </ul>
+    </div>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Introduction</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">| echo: false</span></a>
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data download</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R language</span></a>
+  <a href="./01_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02_statistics.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></a>
+  <a href="./02_statistics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_gis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></a>
+  <a href="./03_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpolation</span></a>
+  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interpolation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05_CN.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Curve number method</span></a>
+  <a href="./05_CN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Curve number method</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#hydrological-data" id="toc-hydrological-data" class="nav-link active" data-scroll-target="#hydrological-data"><span class="toc-section-number">3.1</span>  Hydrological data</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="toc-section-number">3.2</span>  Data</a></li>
-  <li><a href="#aggregation-and-summation" id="toc-aggregation-and-summation" class="nav-link" data-scroll-target="#aggregation-and-summation"><span class="toc-section-number">3.3</span>  Aggregation and summation</a>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link active" data-scroll-target="#exploratory-data-analysis-eda"><span class="header-section-number">3.1</span> Exploratory Data Analysis (EDA)</a>
   <ul class="collapse">
-  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="toc-section-number">3.3.1</span>  Box-plot</a></li>
-  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="toc-section-number">3.3.2</span>  Q-Q plot</a></li>
-  <li><a href="#exceedance-curve" id="toc-exceedance-curve" class="nav-link" data-scroll-target="#exceedance-curve"><span class="toc-section-number">3.3.3</span>  Exceedance curve</a></li>
-  <li><a href="#frequency-distribution-curve" id="toc-frequency-distribution-curve" class="nav-link" data-scroll-target="#frequency-distribution-curve"><span class="toc-section-number">3.3.4</span>  Frequency distribution curve</a></li>
+  <li><a href="#measures-of-location" id="toc-measures-of-location" class="nav-link" data-scroll-target="#measures-of-location"><span class="header-section-number">3.1.1</span> Measures of location</a></li>
+  <li><a href="#measures-of-variability" id="toc-measures-of-variability" class="nav-link" data-scroll-target="#measures-of-variability"><span class="header-section-number">3.1.2</span> Measures of variability</a></li>
   </ul></li>
-  <li><a href="#correlation-and-autocorrelation" id="toc-correlation-and-autocorrelation" class="nav-link" data-scroll-target="#correlation-and-autocorrelation"><span class="toc-section-number">3.4</span>  Correlation and autocorrelation</a></li>
-  <li><a href="#hydrological-indices" id="toc-hydrological-indices" class="nav-link" data-scroll-target="#hydrological-indices"><span class="toc-section-number">3.5</span>  Hydrological indices</a>
+  <li><a href="#hydrological-data" id="toc-hydrological-data" class="nav-link" data-scroll-target="#hydrological-data"><span class="header-section-number">3.2</span> Hydrological data</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">3.3</span> Data</a></li>
+  <li><a href="#aggregation-and-summation" id="toc-aggregation-and-summation" class="nav-link" data-scroll-target="#aggregation-and-summation"><span class="header-section-number">3.4</span> Aggregation and summation</a>
   <ul class="collapse">
-  <li><a href="#runoff-coefficient" id="toc-runoff-coefficient" class="nav-link" data-scroll-target="#runoff-coefficient"><span class="toc-section-number">3.5.1</span>  Runoff coefficient</a></li>
+  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="header-section-number">3.4.1</span> Box-plot</a></li>
+  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="header-section-number">3.4.2</span> Q-Q plot</a></li>
+  <li><a href="#p-p-plot" id="toc-p-p-plot" class="nav-link" data-scroll-target="#p-p-plot"><span class="header-section-number">3.4.3</span> P-P plot</a></li>
+  <li><a href="#exceedance-curve" id="toc-exceedance-curve" class="nav-link" data-scroll-target="#exceedance-curve"><span class="header-section-number">3.4.4</span> Exceedance curve</a></li>
+  <li><a href="#frequency-distribution-curve" id="toc-frequency-distribution-curve" class="nav-link" data-scroll-target="#frequency-distribution-curve"><span class="header-section-number">3.4.5</span> Frequency distribution curve</a></li>
+  </ul></li>
+  <li><a href="#correlation-and-autocorrelation" id="toc-correlation-and-autocorrelation" class="nav-link" data-scroll-target="#correlation-and-autocorrelation"><span class="header-section-number">3.5</span> Correlation and autocorrelation</a></li>
+  <li><a href="#hydrological-indices" id="toc-hydrological-indices" class="nav-link" data-scroll-target="#hydrological-indices"><span class="header-section-number">3.6</span> Hydrological indices</a>
+  <ul class="collapse">
+  <li><a href="#runoff-coefficient" id="toc-runoff-coefficient" class="nav-link" data-scroll-target="#runoff-coefficient"><span class="header-section-number">3.6.1</span> Runoff coefficient</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/02_statistics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -276,7 +272,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological data</span></h1>
 </div>
 
 
@@ -301,11 +297,30 @@ div.csl-indent {
 <li>visualization of statistical data</li>
 </ul>
 </section>
-<section id="hydrological-data" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="hydrological-data"><span class="header-section-number">3.1</span> Hydrological data</h2>
-<p>Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape. There are some data sets.</p>
+<section id="exploratory-data-analysis-eda" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="exploratory-data-analysis-eda"><span class="header-section-number">3.1</span> Exploratory Data Analysis (EDA)</h2>
+<p>When studying data set, we will look at certain statistical features, representative for the whole data set.</p>
+<section id="measures-of-location" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="measures-of-location"><span class="header-section-number">3.1.1</span> Measures of location</h3>
+<section id="mean" class="level4" data-number="3.1.1.1">
+<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="mean"><span class="header-section-number">3.1.1.1</span> Mean</h4>
+<p><span class="math display">\[
+\bar{x} = \dfrac{1}{n}\sum\limits_{i=1}^{n} x_i
+\]</span></p>
+</section>
+</section>
+<section id="measures-of-variability" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="measures-of-variability"><span class="header-section-number">3.1.2</span> Measures of variability</h3>
+<p><span class="math display">\[
+\sigma = \dfrac{\sqrt{(x_i - \bar{x})^2}}{n-1}
+\]</span></p>
+</section>
+</section>
+<section id="hydrological-data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="hydrological-data"><span class="header-section-number">3.2</span> Hydrological data</h2>
+<p>Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape.</p>
 <p>Let’s take a look at data from <strong>CAMELS</strong> <span class="citation" data-cites="hess-21-5293-2017">(<a href="#ref-hess-21-5293-2017" role="doc-biblioref">Addor et al. 2017</a>)</span> at <a href="https://gdex.ucar.edu/dataset/camels.html" class="uri">https://gdex.ucar.edu/dataset/camels.html</a>. It is a curated large sample data set, which was produced by the UCAR with the intention to</p>
-<p>This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological Dataset introduced by Newman et al.&nbsp;(2015). For each catchment, we characterized a wide range of attributes that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.</p>
+<p>This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological dataset introduced by Newman et al.&nbsp;(2015). A wide range of attributes accompanies each catchment that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.</p>
 <p>Topographic characteristics (e.g.&nbsp;elevation and slope) were retrieved from Newman et al.&nbsp;(2015). Climatic indices (e.g., aridity and frequency of dry days) and hydrological signatures (e.g., mean annual discharge and baseflow index) were computed using the time series provided by Newman et al.&nbsp;(2015). Soil characteristics (e.g., porosity and soil depth) were characterized using the STATSGO dataset and the Pelletier et al.&nbsp;(2016) dataset. Vegetation characteristics (e.g.&nbsp;the leaf area index and the rooting depth) were inferred using MODIS data. Geological characteristics (e.g., geologic class and the subsurface porosity) were computed using the GLiM and GLHYMPS datasets.</p>
 <div class="cell">
 <details open="">
@@ -314,8 +329,8 @@ div.csl-indent {
 </details>
 </div>
 </section>
-<section id="data" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="data"><span class="header-section-number">3.2</span> Data</h2>
+<section id="data" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="data"><span class="header-section-number">3.3</span> Data</h2>
 <p>Let’s start with processing the data, that we will use within this chapter</p>
 <div class="cell">
 <details open="">
@@ -342,11 +357,11 @@ div.csl-indent {
 </details>
 </div>
 </section>
-<section id="aggregation-and-summation" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="aggregation-and-summation"><span class="header-section-number">3.3</span> Aggregation and summation</h2>
+<section id="aggregation-and-summation" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="aggregation-and-summation"><span class="header-section-number">3.4</span> Aggregation and summation</h2>
 <p>These functions are based on <strong>grouping</strong>. In hydrology, the natural groups involve - <em>stations/basins</em>, <em>decades/years/months</em>, <em>groundwater regions</em>, etc.</p>
-<section id="box-plot" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">3.3.1</span> Box-plot</h3>
+<section id="box-plot" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">3.4.1</span> Box-plot</h3>
 <p>When we want</p>
 <div class="cell">
 <details open="">
@@ -371,12 +386,12 @@ div.csl-indent {
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="fu">bquote</span>(Discharge), <span class="at">font.main =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_statistics_files/figure-html/unnamed-chunk-3-1.svg" class="img-fluid"></p>
+<p><img src="02_statistics_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="q-q-plot" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">3.3.2</span> Q-Q plot</h3>
+<section id="q-q-plot" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">3.4.2</span> Q-Q plot</h3>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -389,37 +404,87 @@ div.csl-indent {
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_statistics_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid"></p>
+<p><img src="02_statistics_files/figure-html/unnamed-chunk-5-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="exceedance-curve" class="level3" data-number="3.3.3">
-<h3 data-number="3.3.3" class="anchored" data-anchor-id="exceedance-curve"><span class="header-section-number">3.3.3</span> Exceedance curve</h3>
+<section id="p-p-plot" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="p-p-plot"><span class="header-section-number">3.4.3</span> P-P plot</h3>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ddd &lt;- read_fwf("data/6242910_Q_Day.Cmd.txt", </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                 skip = 36, </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                 col_positions = fwf_widths(widths = c(8, 4, 4, 8, 2)), col_types = "cccdc")</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ddd <span class="ot">&lt;-</span> <span class="fu">read_csv2</span>(<span class="st">"data/6242910_Q_Day.Cmd.txt"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">skip =</span> <span class="dv">36</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">col_types =</span> <span class="st">"ccc"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ddd <span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_names</span>(<span class="fu">c</span>(<span class="st">"Date"</span>, <span class="st">"D"</span>, <span class="st">"Discharge"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(Date, <span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>), </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">Discharge =</span> <span class="fu">as.numeric</span>(Discharge)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Discharge) <span class="ot">-&gt;</span> ddd</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>ddd <span class="sc">|&gt;</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ri =</span> <span class="fu">rank</span>(Discharge), </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">s =</span> <span class="fu">sd</span>(Discharge), </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">q =</span> <span class="fu">pweibull</span>(Discharge, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">1</span>))</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>pdfunc <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">b =</span> <span class="fl">0.44</span>) {</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">rank</span>(x)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  (m <span class="sc">-</span> b)<span class="sc">/</span>(n <span class="sc">+</span> <span class="dv">1</span> <span class="sc">-</span> <span class="dv">2</span><span class="sc">*</span>b)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">pdfunc</span>(x <span class="ot">&lt;-</span> ddd<span class="sc">$</span>Discharge), <span class="at">type =</span> <span class="st">"l"</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>ddd <span class="sc">|&gt;</span> </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Date, Discharge)) <span class="sc">+</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>ddd <span class="sc">|&gt;</span> </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Discharge, <span class="at">ri =</span> <span class="fu">rank</span>(Discharge <span class="sc">/</span> <span class="fu">length</span>(Discharge)))) <span class="sc">+</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>ddd <span class="sc">|&gt;</span> </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pi =</span> <span class="fu">rank</span>(Discharge <span class="sc">-</span> <span class="fl">0.5</span>)<span class="sc">/</span><span class="fu">length</span>(Discharge))</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">6</span> ,<span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="fu">rank</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
-<section id="frequency-distribution-curve" class="level3" data-number="3.3.4">
-<h3 data-number="3.3.4" class="anchored" data-anchor-id="frequency-distribution-curve"><span class="header-section-number">3.3.4</span> Frequency distribution curve</h3>
+<section id="exceedance-curve" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="exceedance-curve"><span class="header-section-number">3.4.4</span> Exceedance curve</h3>
+</section>
+<section id="frequency-distribution-curve" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="frequency-distribution-curve"><span class="header-section-number">3.4.5</span> Frequency distribution curve</h3>
 </section>
 </section>
-<section id="correlation-and-autocorrelation" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="correlation-and-autocorrelation"><span class="header-section-number">3.4</span> Correlation and autocorrelation</h2>
+<section id="correlation-and-autocorrelation" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="correlation-and-autocorrelation"><span class="header-section-number">3.5</span> Correlation and autocorrelation</h2>
 <p><span class="math display">\[
 \rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}
 \]</span> <span class="math display">\[
 \rho_{X,X}
 \]</span></p>
 </section>
-<section id="hydrological-indices" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="hydrological-indices"><span class="header-section-number">3.5</span> Hydrological indices</h2>
-<section id="runoff-coefficient" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="runoff-coefficient"><span class="header-section-number">3.5.1</span> Runoff coefficient</h3>
+<section id="hydrological-indices" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="hydrological-indices"><span class="header-section-number">3.6</span> Hydrological indices</h2>
+<section id="runoff-coefficient" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="runoff-coefficient"><span class="header-section-number">3.6.1</span> Runoff coefficient</h3>
 <p>The concept of runoff coefficient comes from the presumption, that over long-time period</p>
 <p><span class="math display">\[
 \varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
 \]</span> where <span class="math inline">\(R\)</span> represents runoff and <span class="math inline">\(P\)</span> precipitation in long term.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-hess-21-5293-2017" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-hess-21-5293-2017" class="csl-entry" role="listitem">
 Addor, N., A. J. Newman, N. Mizukami, and M. P. Clark. 2017. <span>“The CAMELS Data Set: Catchment Attributes and Meteorology for Large-Sample Studies.”</span> <em>Hydrology and Earth System Sciences</em> 21 (10): 5293–313. <a href="https://doi.org/10.5194/hess-21-5293-2017">https://doi.org/10.5194/hess-21-5293-2017</a>.
 </div>
 </div>
@@ -454,9 +519,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -521,6 +600,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

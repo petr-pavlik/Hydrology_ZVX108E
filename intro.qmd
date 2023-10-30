@@ -5,18 +5,20 @@
 .btn-default,
 .btn-default:hover,
 .btn-default:active {
-  font-size: 20px;
-  color: orangered;
+  font-size: 16px;
+  color: dimgrey;
   background-color: transparent;
   border-color: transparent;
 }
 
 .btn-default:hover {
-  color: grey;
+  color: #0e0e0e;
   transition: 0.2s;
 }
 
 ```
+
+A list of datasets, used within the sessions.
 
 ```{r}
 #| echo: false
