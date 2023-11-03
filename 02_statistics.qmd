@@ -31,9 +31,14 @@ $$
 
 ### Measures of variability
 
+#### Variance
+
 $$
 \sigma = \dfrac{\sqrt{(x_i - \bar{x})^2}}{n-1}
 $$
+
+#### Standard deviation
+
 
 ## Hydrological data
 
