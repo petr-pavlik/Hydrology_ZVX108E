@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -146,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data download</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data and companion structure</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -219,6 +253,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Spatial Data Science&nbsp;<br>
+Geocomputation with R</p>
 <section id="whiteboxtools" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="whiteboxtools"><span class="header-section-number">4.1</span> WhiteboxTools</h2>
 <p>Within this introduction we use WhiteboxTools, a modern and advanced geospatial package, which contains ~450 tools and functions. The advantage of using WBT is in capability of inducing command line functions from within R.</p>
@@ -230,6 +266,137 @@ ul.task-list li input[type="checkbox"] {
 - acquiring digital elevation model of area<br>
 - pit and sink removal<br>
 - flow accumulation calculation - flow direction calculation - outlet identification - delineation towards specified outlet</p>
+<p><code>whitebox</code> package contains an API to the WhiteboxTools executable binary.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>whitebox<span class="sc">::</span><span class="fu">check_whitebox_binary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span>fwrite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x, file = "", append = FALSE, quote = "auto", sep = ",", 
+    sep2 = c("", "|", ""), eol = if (.Platform$OS.type == "windows") "\r\n" else "\n", 
+    na = "", dec = ".", row.names = FALSE, col.names = TRUE, 
+    qmethod = c("double", "escape"), logical01 = getOption("datatable.logical01", 
+        FALSE), logicalAsInt = logical01, scipen = getOption("scipen", 
+        0L), dateTimeAs = c("ISO", "squash", "epoch", "write.csv"), 
+    buffMB = 8, nThread = getDTthreads(verbose), showProgress = getOption("datatable.showProgress", 
+        interactive()), compress = c("auto", "none", "gzip"), 
+    yaml = FALSE, bom = FALSE, verbose = getOption("datatable.verbose", 
+        FALSE)) 
+{
+    na = as.character(na[1L])
+    if (missing(qmethod)) 
+        qmethod = qmethod[1L]
+    if (missing(compress)) 
+        compress = compress[1L]
+    if (missing(dateTimeAs)) {
+        dateTimeAs = dateTimeAs[1L]
+    }
+    else if (length(dateTimeAs) &gt; 1L) 
+        stop("dateTimeAs must be a single string")
+    dateTimeAs = chmatch(dateTimeAs, c("ISO", "squash", "epoch", 
+        "write.csv")) - 1L
+    if (is.na(dateTimeAs)) 
+        stop("dateTimeAs must be 'ISO','squash','epoch' or 'write.csv'")
+    if (!missing(logical01) &amp;&amp; !missing(logicalAsInt)) 
+        stop("logicalAsInt has been renamed logical01. Use logical01 only, not both.")
+    if (!missing(logicalAsInt)) {
+        logical01 = logicalAsInt
+        logicalAsInt = NULL
+    }
+    scipen = if (is.numeric(scipen)) 
+        as.integer(scipen)
+    else 0L
+    buffMB = as.integer(buffMB)
+    nThread = as.integer(nThread)
+    if (is.matrix(x)) {
+        message("x being coerced from class: matrix to data.table")
+        x = as.data.table(x)
+    }
+    stopifnot(is.list(x), identical(quote, "auto") || isTRUEorFALSE(quote), 
+        is.character(sep) &amp;&amp; length(sep) == 1L &amp;&amp; nchar(sep) == 
+            1L, is.character(sep2) &amp;&amp; length(sep2) == 3L &amp;&amp; nchar(sep2[2L]) == 
+            1L, is.character(dec) &amp;&amp; length(dec) == 1L &amp;&amp; nchar(dec) == 
+            1L, dec != sep, is.character(eol) &amp;&amp; length(eol) == 
+            1L, length(qmethod) == 1L &amp;&amp; qmethod %chin% c("double", 
+            "escape"), length(compress) == 1L &amp;&amp; compress %chin% 
+            c("auto", "none", "gzip"), isTRUEorFALSE(col.names), 
+        isTRUEorFALSE(append), isTRUEorFALSE(row.names), isTRUEorFALSE(verbose), 
+        isTRUEorFALSE(showProgress), isTRUEorFALSE(logical01), 
+        isTRUEorFALSE(bom), length(na) == 1L, is.character(file) &amp;&amp; 
+            length(file) == 1L &amp;&amp; !is.na(file), length(buffMB) == 
+            1L &amp;&amp; !is.na(buffMB) &amp;&amp; 1L &lt;= buffMB &amp;&amp; buffMB &lt;= 
+            1024L, length(nThread) == 1L &amp;&amp; !is.na(nThread) &amp;&amp; 
+            nThread &gt;= 1L)
+    is_gzip = compress == "gzip" || (compress == "auto" &amp;&amp; grepl("\\.gz$", 
+        file))
+    file = path.expand(file)
+    if (append &amp;&amp; (file == "" || file.exists(file))) {
+        if (missing(col.names)) 
+            col.names = FALSE
+        if (verbose) 
+            cat("Appending to existing file so setting bom=FALSE and yaml=FALSE\n")
+        bom = FALSE
+        yaml = FALSE
+    }
+    if (identical(quote, "auto")) 
+        quote = NA
+    if (file == "") {
+        nThread = 1L
+        showProgress = FALSE
+        eol = "\n"
+    }
+    if (NCOL(x) == 0L &amp;&amp; file != "") {
+        if (file.exists(file)) {
+            warning("Input has no columns; doing nothing.", if (!append) 
+                paste("\nIf you intended to overwrite the file at", 
+                  file, "with an empty one, please use file.remove first."))
+            return(invisible())
+        }
+        else {
+            warning("Input has no columns; creating an empty file at '", 
+                file, "' and exiting.")
+            file.create(file)
+            return(invisible())
+        }
+    }
+    yaml = if (!yaml) 
+        ""
+    else {
+        if (!requireNamespace("yaml", quietly = TRUE)) 
+            stop("'data.table' relies on the package 'yaml' to write the file header; please add this to your library with install.packages('yaml') and try again.")
+        schema_vec = sapply(x, class)
+        if (is.list(schema_vec)) 
+            schema_vec = sapply(schema_vec, `[`, 1L)
+        schema_vec = list(name = names(schema_vec), type = as.vector(schema_vec))
+        yaml_header = list(source = sprintf("R[v%s.%s]::data.table[v%s]::fwrite", 
+            R.version$major, R.version$minor, format(tryCatch(utils::packageVersion("data.table"), 
+                error = function(e) "DEV"))), creation_time_utc = format(Sys.time(), 
+            tz = "UTC"), schema = list(fields = lapply(seq_along(x), 
+            function(i) list(name = schema_vec$name[i], type = schema_vec$type[i]))), 
+            header = col.names, sep = sep, sep2 = sep2, eol = eol, 
+            na.strings = na, dec = dec, qmethod = qmethod, logical01 = logical01)
+        paste0("---", eol, yaml::as.yaml(yaml_header, line.sep = eol), 
+            "---", eol)
+    }
+    file = enc2native(file)
+    .Call(CfwriteR, x, file, sep, sep2, eol, na, dec, quote, 
+        qmethod == "escape", append, row.names, col.names, logical01, 
+        scipen, dateTimeAs, buffMB, nThread, showProgress, is_gzip, 
+        bom, yaml, verbose)
+    invisible()
+}
+&lt;bytecode: 0x7f7e69ea6ba0&gt;
+&lt;environment: namespace:data.table&gt;</code></pre>
+</div>
+</div>
 </section>
 <section id="geostatistics" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="geostatistics"><span class="header-section-number">4.3</span> Geostatistics</h2>

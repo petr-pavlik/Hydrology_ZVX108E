@@ -1,35 +1,36 @@
 # GIS in Hydrology
 
+Spatial Data Science\    
+Geocomputation with R
+
 ## WhiteboxTools
 
-Within this introduction we use WhiteboxTools, a modern and advanced geospatial
-package, which contains ~450 tools and functions. The advantage of using WBT
-is in capability of inducing command line functions from within R.
-
+Within this introduction we use WhiteboxTools, a modern and advanced geospatial package, which contains \~450 tools and functions. The advantage of using WBT is in capability of inducing command line functions from within R.
 
 ## Watershed delineation
 
-The process of delineation is the first step in basin description. One simply has 
-to delineate the domain 
+The process of delineation is the first step in basin description. One simply has to delineate the domain
 
-The step-by-step process involves:   
- - acquiring digital elevation model of area   
- - pit and sink removal   
- - flow accumulation calculation
- - flow direction calculation
- - outlet identification
- - delineation towards specified outlet
+The step-by-step process involves:\
+- acquiring digital elevation model of area\
+- pit and sink removal\
+- flow accumulation calculation - flow direction calculation - outlet identification - delineation towards specified outlet
+
+`whitebox` package contains an API to the WhiteboxTools executable binary.
+
+
+```{r}
+whitebox::check_whitebox_binary()
+data.table::fwrite
+```
 
 
 ## Geostatistics
 
 ### River morphology statistics
 
-Under the term **river morphology** we understand the description of the shape of 
-river channels. Hydrologist utilize indices such as **stream length**, **Strahler 
-order**
+Under the term **river morphology** we understand the description of the shape of river channels. Hydrologist utilize indices such as **stream length**, **Strahler order**
 
 ## Session
 
-1. Start with downloading DEM of specified area.
-
+1.  Start with downloading DEM of specified area.

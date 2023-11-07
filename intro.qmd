@@ -65,7 +65,11 @@ palmerpenguins::penguins %>%
 ```
 :::
 
-# Data download
+# Data and companion structure
+
+The data for all the chapters
+At the beginning of each chapter there is a list of needed knowledge and  that you need to grasp in order
+## Data download
 
 ## Recommended literature
 

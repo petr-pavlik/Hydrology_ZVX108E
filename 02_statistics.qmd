@@ -14,6 +14,9 @@ are studied.
 
 ## Exploratory Data Analysis (EDA)
 
+EDA is not a strictly formalized set of procedures, rather it is an general approach
+on how to study, describe, extract, evaluate and report about the data. Hence the workflow 
+is specific to data in process.\
 When studying data set, we will look at certain statistical features, representative 
 for the whole data set.
 
@@ -31,6 +34,9 @@ $$
 
 ### Measures of variability
 
+With **measures of variability** we describe the spread of the data around its . 
+Some degree of variability is a natural occurring phenomenon. 
+
 #### Variance
 
 $$
@@ -38,6 +44,8 @@ $$
 $$
 
 #### Standard deviation
+
+
 
 
 ## Hydrological data

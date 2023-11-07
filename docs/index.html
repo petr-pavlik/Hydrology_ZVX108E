@@ -9,7 +9,7 @@
 <meta name="author" content="Petr Pavlík">
 <meta name="author" content="Hossein Abbasizadeh">
 <meta name="author" content="Petr Máca">
-<meta name="dcterms.date" content="2023-11-03">
+<meta name="dcterms.date" content="2023-11-04">
 
 <title>ZVX108E Hydrology</title>
 <style>
@@ -149,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data download</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data and companion structure</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -192,10 +192,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
-  <ul class="collapse">
-  <li><a href="#data-and-companion-structure" id="toc-data-and-companion-structure" class="nav-link" data-scroll-target="#data-and-companion-structure">Data and companion structure</a></li>
-  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -224,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 3, 2023</p>
+      <p class="date">November 4, 2023</p>
     </div>
   </div>
   
@@ -236,7 +233,9 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>The <strong>ZVX108E Hydrology</strong> taught at the Czech University of Life Sciences is an introductory undergraduate course with students of various scientific background, many of whom do not possess knowledge of any programming language yet. Hence we introduce the <strong>R programming language</strong> which serves for decades as a great tool for scientific data processing, statistical evaluation, visualization and reporting. The choice of R over other tools is opinionated. R is told to be <em>“developed by statisticians for statisticians”</em> and such as fits perfectly well into the workflow of hydrological data processing. We believe it is more straightforward to learn than Python and does not main students with plethora of environments and incomparable versions. There is a saying “Python is the second best language for everything” and we as authors fully agree. Since the course only contains six practical sessions, oriented to various parts of hydrology, we focus on the basic and merit.</p>
+<p>The <strong>ZVX108E Hydrology</strong> taught at the Czech University of Life Sciences is an introductory undergraduate course with students of various scientific background, many of whom do not possess knowledge of any programming language yet. Therefore we introduce within the sessions the <strong>R programming language</strong>, which serves for decades as a great tool for scientific data processing, statistical evaluation, visualization and reporting. The choice of R over other tools (like Matlab, Python or Julia) is opinionated. R is told to be <em>“developed by statisticians for statisticians”</em> and such as fits well into the workflow of hydrological data processing, which in most of scenarios start with some statistical analysis. We believe that the language is more straightforward to learn than others, especially non-programmers and does not maim a student’s workflow with plethora of environments and mutually incomparable versions. Though there is a saying <em>“Python is the second best language for everything”</em> a statement with which we as authors fully agree. In recent years Python also made a huge step forward in making things more straightforward and many formerly R’s bound features like RStudio/RMarkdown made a breach to Python’s community.</p>
+<p><br>
+Since the course only contains six practical sessions, oriented to various parts of hydrology, we focus on the basic and merit. The <em>book</em> starts with a fairly fast-paced introduction to R language and it is due to this, that it did not end far from it. We purposefully avoid using what is considered a modern approach in data workflow (mainly with the help from <strong>tidyverse</strong> &amp; <strong>data.table</strong>) as well using <em>native pipe</em> <code>|&gt;</code> operator, a syntactical feature from <code>(R&gt;=4.1.0)</code> which we consider too big of a change of the programming paradigm for a newbie.</p>
 <p>This text was created with the use of 4.3.0 and namespaces of following packages:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -270,11 +269,8 @@ xfun           0.40</code></pre>
 </div>
 </div>
 <p>Reproduction of all the materials should be possible using the same versions.</p>
-<section id="data-and-companion-structure" class="level2">
-<h2 class="anchored" data-anchor-id="data-and-companion-structure">Data and companion structure</h2>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -516,7 +512,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./intro.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data download</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data and companion structure</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
