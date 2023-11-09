@@ -128,14 +128,14 @@ name <- function(variables) {
 Let's put Here an example of creating own function to calculate *weighted mean*
 
 $$
-\bar{x}\mathbf{w} := \dfrac{1}{n}\sum\limits_{i=1}^{n} x_iw_i, 
+\bar{x} = \dfrac{\sum\limits_{i=1}^{n} w_ix_i}{\sum\limits_{i=1}^{n}w_i}, 
 $$ where $x_iw_i$ are the individual weighted measurements.
 
 We define a simple function for that purpose and run an example.
 
 ```{r}
 w_mean <- function(x, w = 1/length(x)) {
-  1/1/length(x)*sum(x)
+  sum(x*w)/sum(w)
 }
 w_mean(1:10)
 ```
@@ -143,8 +143,8 @@ w_mean(1:10)
 We can test if we get the same result as the *primitive* function from R using `all.equal()` statement.
 
 ```{r}
-all.equal(w_mean(x = 1:10), 
-          weighted.mean(x = 1:10, w = rep(x = 1/10, times = 10)))
+all.equal(w_mean(x = 1:5, w = c(0.25, 0.25, 1, 2, 3)), 
+          weighted.mean(x = 1:5, w = c(0.25, 0.25, 1, 2, 3)))
 ```
 
 Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify `...` a so-called *three dot construct* or *ellipsis*. The **ellipsis** allows for adding any number of arguments to a function call, after all the named ones.
