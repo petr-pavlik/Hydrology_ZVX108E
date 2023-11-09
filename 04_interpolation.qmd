@@ -1,9 +1,6 @@
 # Interpolation
 
-Products which enter hydrological analysis like temperatures or precipitation are
-measured **locally at point locations**. Here we will show one well-known method 
-to interpolate across fairly homogeneous space and one method for interpolation 
-across more tedious and complex domain like a river network.
+Products which enter hydrological analysis like temperatures or precipitation are measured **locally at point locations**. Here we will show one well-known method to interpolate across fairly homogeneous space and one method for interpolation across more tedious and complex domain like a river network.
 
 ## Inverse distance weighting (IDW)
 
@@ -36,7 +33,7 @@ plot(dom,
      key.pos   = 1)           # Legend position
 ```
 
-We need a grid of new points, which will represent the raster on which we want to recalculate 
+We need a grid of new points, which will represent the raster on which we want to recalculate
 
 ```{r, fig.align='center', fig.cap='Point location of Precipitation measuring stations'}
 grid <- st_make_grid(x = dom, 
@@ -70,8 +67,7 @@ distances <- outer(
 )
 ```
 
-
-```{r, eval=TRUE, fig.align='center'}
+```{r, eval=TRUE, fig.align='center', fig.ext='svg'}
 power <- 2
 weighted_sum <- apply(distances, 1, function(d) sum(dom$value / (d^power)))
 
@@ -94,6 +90,7 @@ ggplot() +
   geom_sf(data = grid, fill = NA) +
   theme_bw() +
   scale_color_scico(palette = "davos")
+ggsave("docs/grid.svg", device = "svg")
 
 # plot(x = results, 
 #      nbreaks = 11,
@@ -128,9 +125,11 @@ ggplot() +
 # )
 ```
 
-## `gstat` 
+![](grid.svg)
 
-There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages. 
+## `gstat`
+
+There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages.
 
 ```{r, eval=FALSE}
 library(gstat)
@@ -143,13 +142,12 @@ weighted_sum <- apply(distances, 1, function(d) sum(df$value / (d^power)))
 weighted_sum
 ```
 
-
-
 ## Krigging
 
-Another interpolation technique is called **Krigging**. 
+Another interpolation technique is called **Krigging**.
 
 ### Data
+
 Let's use some artificial data set for this example as well.
 
 $$
@@ -158,13 +156,11 @@ $$
 
 $$
 \mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for} 
-$$
-### Semivariogram calculation
+$$ \### Semivariogram calculation
 
 $$
 \gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2
-$$
-where $\gamma(h)$ represents the semivariance lag at distance $h$.  
+$$ where $\gamma(h)$ represents the semivariance lag at distance $h$.
 
 ```{r, eval=FALSE}
 df <- data.frame(
@@ -234,9 +230,30 @@ for (i in 1:n_grid) {
 
 ```
 
-### Now we have to state the varigram model. We will calculate the semivariogram 
-to model the **spatial covariance** structure. Then calculate the pairwise distances
-and differences between data points.
+$$
+\left[
+\begin{matrix}
+\mathbf{G} & \mathbf{j}\\
+\mathbf{j^\prime} & \mathbf{0}\\
+\end{matrix}
+\right]
+\left[
+\begin{matrix}
+\lambda\\
+\mu_L
+\end{matrix}
+\right] = 
+\left[
+\begin{matrix}
+\mathbf{g}\\
+1
+\end{matrix}
+\right]
+$$ Where $\mathbf{G}$ is a rectangular matrix containing the values of variograph for all doubles of measured points, $\mathbf{1}$ is a vector of weights s with values of
+
+### Now we have to state the varigram model. We will calculate the semivariogram
+
+to model the **spatial covariance** structure. Then calculate the pairwise distances and differences between data points.
 
 ```{r, eval=FALSE}
 n <- nrow(df)
@@ -247,8 +264,3 @@ for (i in 1:n) {
   differences_matrix[i, ] <- df$value - df$value[i]
 }
 ```
-
-
-
-
-

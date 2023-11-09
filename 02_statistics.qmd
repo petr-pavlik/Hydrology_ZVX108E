@@ -1,8 +1,6 @@
 # Statistical processing of hydrological dataset
 
-A dataset is a collection of measurements which is used to create or evaluate 
-assumptions about a population. Within this session, only **univariate** data 
-are studied.
+A dataset is a collection of measurements which is used to create or evaluate assumptions about a population. Within this session, only **univariate** data are studied.
 
 #### At the end of the lecture you should be familiar with following concepts: {.unnumbered}
 
@@ -14,88 +12,154 @@ are studied.
 
 ## Exploratory Data Analysis (EDA)
 
-EDA is not a strictly formalized set of procedures, rather it is an general approach
-on how to study, describe, extract, evaluate and report about the data. Hence the workflow 
-is specific to data in process.\
-When studying data set, we will look at certain statistical features, representative 
-for the whole data set.
+EDA is not a strictly formalized set of procedures, rather it is an general approach on how to study, describe, extract, evaluate and report about the data. Hence the workflow is specific to data in process.\
+When studying data, we will look at certain statistical features, which represent esteemed characteristcs for the whole data set.
 
 ### Measures of location
 
+The farthest one can reduce data, while still retaining any information at all is by a single value. They describe a central tendency of the data.
+
 #### Mean
 
+The arithmetic mean (or average) is simply the sum of observations devided by the number of observations.
+
 $$
-\bar{x} = \dfrac{1}{n}\sum\limits_{i=1}^{n} x_i
+\text{mean} = \dfrac{\text{sum of data}}{\text{number of data}}, \qquad \bar{x} = \dfrac{1}{n}\sum\limits_{i=1}^{n} x_i
+$$
+
+```{r, collapse=TRUE}
+set.seed(123) # using the set seed will ensure that we will get the samme generated numbers every time
+x <- rnorm(n = 30, mean = 50, sd = 10) # some random-generated numbers from the normal distribution
+x
+```
+
+#### Median
+
+The **median** is another central tendency based on the *sorted* data set. It is the $50$th quantile in the data. A half of the values is smaller than median, and a half is larger.
+
+$$
+\tilde{x} = 
+$$
+
+```{r, collapse=TRUE}
+median(x)
+(sort(x)[length(x)/2] + sort(x)[length(x)/2 + 1])/2
+```
+
+#### Mode
+
+For continuous variables in real numbers, computation of **modus** does make sense when applied on bins of values.
+
+```{r}
+x
+cut(x, breaks = 10)
+y <- cut(x, breaks = seq(from = -10, to = 100, by = 10))
+table(y)
+barplot(height = table(y))
+```
+
+#### $n-$th quantile
+
+```{r}
+quantile(x, probs = c(0.1, 0.9))
+```
+
+### Measures of spread (variability)
+
+With **measures of variability** we describe the spread of the data around its central tendency. Some degree of variability is a natural occurring phenomenon.
+
+#### Variation range
+
+The simples measure of spread is the **variation range**. It is computed as the difference of both end extremes of the data.
+
+$$
+R = \max{x} - \min{x}
 $$
 
 ```{r}
-
+max(x) - min(x)
 ```
-
-### Measures of variability
-
-With **measures of variability** we describe the spread of the data around its . 
-Some degree of variability is a natural occurring phenomenon. 
 
 #### Variance
 
+We calculate the **variance** as the average of the squares of the deviations of individual character values from their arithmetic mean.
+
 $$
-\sigma = \dfrac{\sqrt{(x_i - \bar{x})^2}}{n-1}
+\sigma^2 = \frac{1}{n}(x_i - \bar{x})^2
 $$
 
 #### Standard deviation
 
+The **standard deviation** is defined as sqruare root of variance.
 
+```{r, collapse=TRUE}
+sd(x)
+var(x)^0.5
+```
 
+#### Coefficient of variation
+
+The **coefficient of variation** is given by the ratio of the standard deviation and the arithmetic mean, and it follows from the definition of this ratio that it is a dimensionless indicator.
+
+$$
+\nu = \frac{s}{\bar{x}}
+$$
+
+#### Interquartile range
+
+The $\text{IQR}$ is the **upper quartile** ($75$th percentile) minus the **lower quartile** ($25$th percentile)
+
+$$
+\text{IQR} = Q_{\text{III}} - Q_{\text{I}}
+$$
 
 ## Hydrological data
 
 Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape.
 
-Let's take a look at data from **CAMELS** [@hess-21-5293-2017] at <https://gdex.ucar.edu/dataset/camels.html>. It is a curated large sample data set, which was produced by the UCAR with the intention to
+Let's take a look at sample data from **MOOPEX**. It is a simple curated large sample dataset.
 
-This dataset covers the same 671 catchments as the Large-Sample Hydrometeorological dataset introduced by Newman et al. (2015). A wide range of attributes accompanies each catchment that influence catchment behavior and hydrological processes. Datasets characterizing these attributes have been available separately for some time, but comprehensive multivariate catchment scale assessments have so far been difficult, because these datasets typically have different spatial configurations, are stored in different archives, or use different data formats. By creating catchment scale estimates of these attributes, our aim is to simplify the assessment of their interrelationships.
+This dataset covers the same 438 catchments in daily step with measured discharge. The dataset is publicly available at <https://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily/>
 
-Topographic characteristics (e.g. elevation and slope) were retrieved from Newman et al. (2015). Climatic indices (e.g., aridity and frequency of dry days) and hydrological signatures (e.g., mean annual discharge and baseflow index) were computed using the time series provided by Newman et al. (2015). Soil characteristics (e.g., porosity and soil depth) were characterized using the STATSGO dataset and the Pelletier et al. (2016) dataset. Vegetation characteristics (e.g. the leaf area index and the rooting depth) were inferred using MODIS data. Geological characteristics (e.g., geologic class and the subsurface porosity) were computed using the GLiM and GLHYMPS datasets.
-
-```{r}
-#ts <- readr::read_csv("data/")
+```{r, collapse=TRUE}
+url <- "./data/01138000.dly"
+mpx <- read.fwf(file = url, 
+                widths = c(8, rep(10, times = 5)), 
+                header = FALSE)
+names(mpx) <- c("date", "prec", "pet", "r", "tmax", "tmin")
+mpx$date <- gsub(x = mpx$date, pattern = " ", replacement = "0")
+mpx$date <- as.Date(mpx$date, format = "%Y%m%d")
+mpx[which(mpx$r < 0), "r"] <- NA 
+head(mpx)
 ```
 
-## Data
-
-Let's start with processing the data, that we will use within this chapter
-
-```{r, eval=FALSE}
-data_03463300 <- read.fwf(file = "./data/03463300_streamflow_qc.txt", 
-                          widths = c(8, 4, 2, 2, 8, 4), 
-                          header = FALSE)
-
-names(data_03463300) <- c("id", "yr", "mon", "day", "discharge", "cat")
-
-data_03463300$mon <- gsub(x = as.character(data_03463300$mon), 
-                          pattern = " ", 
-                          replacement = "0")
-data_03463300$day <- gsub(x = data_03463300$day, 
-                          pattern = " ",
-                          replacement = "0")
-data_03463300$date <- paste(data_03463300$yr, 
-                            data_03463300$mon, 
-                            data_03463300$day, sep = "-")
-
-with(data_03463300, 
-     plot(x = , y = , type = "l", 
-          frame.plot = FALSE))
-
-```
+Let's add some features to the data. For the purpose of the analysis it would be beneficial to add `year`, `month`, `quarters`, `decade` and `hyear` as **hydrological year**.
 
 ## Aggregation and summation
+
+```{r}
+mpx$year <- as.integer(format(mpx$date, "%Y"))
+mpx$month <- as.integer(format(mpx$date, "%m"))
+```
+
+Try to add `quart` variable using `quarters()` function.
+
+```{r}
+mpx$hyear <- ifelse(mpx$month > 10, as.integer(mpx$year + 1), as.integer(mpx$year))
+```
+
+Now let`s exercise some basic calculations
+ - Fraction of days with no precipitation
+ - How many freezing days occur?
+ - How many freezing days in late spring (May) and summer?
+ - 10 highest and 10 lowest temperatures
+ - 
 
 These functions are based on **grouping**. In hydrology, the natural groups involve - *stations/basins*, *decades/years/months*, *groundwater regions*, etc.
 
 ### Box-plot
 
-When we want
+When we want to visualize
 
 ```{r}
 station <- read.delim("./data/6242910_Q_Day.Cmd.txt", skip = 36, header = TRUE, sep = ";", col.names = c("date", "time", "value"))
@@ -120,110 +184,136 @@ boxplot(data = station_agg,
 
 ### Q-Q plot
 
+The **rankit graph** produces a quantile-quantile graph of the values from selected data. `qqline` then adds the theoretical line, which outputs 
+ 
 ```{r}
 par(font.main = 1, 
     adj = 0.1, 
     xaxs = "i", 
     yaxs = "i")
-plot(quantile(rnorm(1000), probs = 1:100/100),
-quantile(rnorm(1000), probs = 1:100/100), frame = FALSE, pch = 20)
-abline(0, 1, col = "red")
+qqnorm(mpx$tmax, 
+       pch = 21, 
+       col = "black", 
+       bg = "lightgray", cex = 0.5, 
+       main = "")
+qqline(mpx$tmax)
 ```
 
-### P-P plot
 
-```{r}
-n <- 100
-data <- rweibull(n, shape = 2, scale = 1)
+<!-- ```{r} -->
+<!-- plot(quantile(rnorm(1000), probs = 1:100/100), -->
+<!-- quantile(rnorm(1000), probs = 1:100/100), frame = FALSE, pch = 20) -->
+<!-- abline(0, 1, col = "red") -->
+<!-- ``` -->
 
-# Estimated parameters for Pareto
-shape_est <- 2
-scale_est <- 1
+<!-- ### P-P plot -->
 
-# Calculate the theoretical quantiles for the Pareto distribution
-theoretical_quantiles <- qweibull(p = seq(0, 1, 0.01), shape = shape_est, scale = scale_est)
+<!-- ```{r} -->
+<!-- n <- 100 -->
+<!-- data <- rweibull(n, shape = 2, scale = 1) -->
 
-# Create the Q-Q plot
-qqplot(theoretical_quantiles, data, 
-       xlab = "Theoretical Quantiles", 
-       ylab = "Sample Quantiles", ylim = c(0,2.5), xlim = c(0, 2.5))
-abline(0, 1, col = "red")  # Add a 45-degree reference line
+<!-- # Estimated parameters for Pareto -->
+<!-- shape_est <- 2 -->
+<!-- scale_est <- 1 -->
 
-```
+<!-- # Calculate the theoretical quantiles for the Pareto distribution -->
+<!-- theoretical_quantiles <- qweibull(p = seq(0, 1, 0.01), shape = shape_est, scale = scale_est) -->
+
+<!-- # Create the Q-Q plot -->
+<!-- qqplot(theoretical_quantiles, data,  -->
+<!--        xlab = "Theoretical Quantiles",  -->
+<!--        ylab = "Sample Quantiles", ylim = c(0,2.5), xlim = c(0, 2.5)) -->
+<!-- abline(0, 1, col = "red")  # Add a 45-degree reference line -->
+
+<!-- ``` -->
+
+### Empirical distribution function
+
 ```{r}
 # Create the empirical cumulative distribution function (ECDF) for the data
-ecdf_data <- ecdf(data)
-
-# Calculate the empirical probabilities for the Weibull distribution
-theoretical_quantiles <- qweibull(rev(ppoints(n, length(data))), shape = shape_est, scale = scale_est)
-empirical_probs <- ecdf_data(theoretical_quantiles)
-
-# Create the P-P plot
-plot(empirical_probs, ppoints(length(data)), xlab = "Empirical Probabilities", ylab = "Theoretical Probabilities")
-abline(0, 1, col = "red")  # Add a 45-degree reference line
+ecdf_data <- ecdf(na.omit(mpx$r))
+max(mpx$r, na.rm = TRUE)
+ecdf_data(35) # percent of data lower than 35
 
 ```
 
+<!-- ```{r, eval=FALSE} -->
+<!-- library(tidyverse) -->
 
-
-```{r, eval=FALSE}
-library(tidyverse)
-
-# ddd <- read_fwf("data/6242910_Q_Day.Cmd.txt", 
-#                 skip = 36, 
-#                 col_positions = fwf_widths(widths = c(8, 4, 4, 8, 2)), col_types = "cccdc")
-ddd <- read_csv2("data/6242910_Q_Day.Cmd.txt", 
-                skip = 36, 
-                col_types = "ccc")
-ddd |> 
-  set_names(c("Date", "D", "Discharge")) |> 
-  mutate(Date = as.Date(Date, format = "%Y-%m-%d"), 
-         Discharge = as.numeric(Discharge)) |> 
-  select(Date, Discharge) -> ddd
+<!-- # ddd <- read_fwf("data/6242910_Q_Day.Cmd.txt",  -->
+<!-- #                 skip = 36,  -->
+<!-- #                 col_positions = fwf_widths(widths = c(8, 4, 4, 8, 2)), col_types = "cccdc") -->
+<!-- ddd <- read_csv2("data/6242910_Q_Day.Cmd.txt",  -->
+<!--                 skip = 36,  -->
+<!--                 col_types = "ccc") -->
+<!-- ddd |>  -->
+<!--   set_names(c("Date", "D", "Discharge")) |>  -->
+<!--   mutate(Date = as.Date(Date, format = "%Y-%m-%d"),  -->
+<!--          Discharge = as.numeric(Discharge)) |>  -->
+<!--   select(Date, Discharge) -> ddd -->
 
 
 
-ddd |> 
-  mutate(ri = rank(Discharge), 
-         s = sd(Discharge), 
-         q = pweibull(Discharge, shape = 2, scale = 1))
+<!-- ddd |>  -->
+<!--   mutate(ri = rank(Discharge),  -->
+<!--          s = sd(Discharge),  -->
+<!--          q = pweibull(Discharge, shape = 2, scale = 1)) -->
 
-pdfunc <- function(x, b = 0.44) {
-  n <- length(x)
-  m <- rank(x)
-  (m - b)/(n + 1 - 2*b)
-}
-plot(pdfunc(x <- ddd$Discharge), type = "l")
+<!-- pdfunc <- function(x, b = 0.44) { -->
+<!--   n <- length(x) -->
+<!--   m <- rank(x) -->
+<!--   (m - b)/(n + 1 - 2*b) -->
+<!-- } -->
+<!-- plot(pdfunc(x <- ddd$Discharge), type = "l") -->
 
-ddd |> 
-  ggplot(aes(Date, Discharge)) +
-  geom_line()
+<!-- ddd |>  -->
+<!--   ggplot(aes(Date, Discharge)) + -->
+<!--   geom_line() -->
 
-ddd |> 
-  ggplot(aes(Discharge, ri = rank(Discharge / length(Discharge)))) +
-  geom_line()
+<!-- ddd |>  -->
+<!--   ggplot(aes(Discharge, ri = rank(Discharge / length(Discharge)))) + -->
+<!--   geom_line() -->
 
-ddd |> 
-  mutate(pi = rank(Discharge - 0.5)/length(Discharge))
+<!-- ddd |>  -->
+<!--   mutate(pi = rank(Discharge - 0.5)/length(Discharge)) -->
 
 
-x <- c(1, 6 ,6, 1, 2, 0)
-rank(x)
+<!-- x <- c(1, 6 ,6, 1, 2, 0) -->
+<!-- rank(x) -->
 
-```
-
+<!-- ``` -->
 
 ### Exceedance curve
 
-### Frequency distribution curve
+```{r}
+r_sorted <- sort(mpx$r, decreasing = TRUE)
 
-## Correlation and autocorrelation
+# Empirical
+n <- length(r_sorted)
+exceedance_prob <- 1:n / n
 
-$$
-\rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y}
-$$ $$
-\rho_{X,X}
-$$
+plot(exceedance_prob, r_sorted, type = "l", xlab = "Exceedance Probability", ylab = "Runoff Value", main = "Empirical Exceedance Curve")
+```
+
+### Return period
+
+We calculate the return period as inverse to the exceedance probability
+
+```{r}
+return_period <- 1/exceedance_prob 
+
+plot(return_period, r_sorted, type = "l", xlab = "Return Period", ylab = "Runoff Value", main = "Empirical Return Period")
+```
+
+<!-- ### Frequency distribution curve -->
+
+<!-- ## Correlation and autocorrelation -->
+
+<!-- $$ -->
+<!-- \rho_{X, Y} = \dfrac{\mathrm{cov}(X,Y)}{\sigma_X\sigma_Y} -->
+<!-- $$ $$ -->
+<!-- \rho_{X,X} -->
+<!-- $$ -->
 
 ## Hydrological indices
 
@@ -232,8 +322,30 @@ $$
 The concept of runoff coefficient comes from the presumption, that over long-time period
 
 $$
-\varphi [-] = \dfrac{R\:[\mathrm{mm}]}{P\:[\mathrm{mm}]}
+\varphi [-] = \dfrac{R}{P}
 $$ where $R$ represents runoff and $P$ precipitation in long term.
 
+```{r}
+R <- mean(aggregate(r ~ year, FUN = mean, data = mpx)[, "r"])
+P <- mean(aggregate(prec ~ year, FUN = mean, data = mpx)[, "prec"])
+
+R/P
+```
 
 
+### Flow duration curve
+
+```{r}
+
+M <- c(30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 355, 364)
+m_day <- function(streamflow) {
+  quantile(na.omit(streamflow), 1 - M/365.25)
+}
+plot(M, m_day(mpx$r), 
+     type = "b", 
+     pch = 21,
+     bg = "darkgray",
+     xlab = "", 
+     ylab = "Discharge", 
+     main = "M-day discharge")
+```

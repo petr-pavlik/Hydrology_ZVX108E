@@ -128,7 +128,7 @@ name <- function(variables) {
 Let's put Here an example of creating own function to calculate *weighted mean*
 
 $$
-\bar{\mathbf{x}}\mathbf{w} := \dfrac{1}{n}\sum\limits_{i=1}^{n} x_iw_i, 
+\bar{x}\mathbf{w} := \dfrac{1}{n}\sum\limits_{i=1}^{n} x_iw_i, 
 $$ where $x_iw_i$ are the individual weighted measurements.
 
 We define a simple function for that purpose and run an example.

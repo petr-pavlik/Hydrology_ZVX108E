@@ -17,12 +17,12 @@ book:
   date: today
   chapters:
     - index.qmd
-    - intro.qmd
+    # - intro.qmd
     - 01_R.qmd
     - 02_statistics.qmd
-    - 03_gis.qmd
-    - 04_interpolation.qmd
-    - 05_CN.qmd
+    #- 03_gis.qmd
+    #- 04_interpolation.qmd
+    #- 05_CN.qmd
   
   
 
@@ -35,12 +35,8 @@ book:
     tools:
       - icon: save
         menu:
-          - text: "mtcars.csv"
-            url:  "#"
-          - text: ""
-            url:  "#"
-          - text: ""
-            url:  "#"
+          - text: "mpx.dly"
+            url:  "./data/01138000.dly"
 
   search: 
     location: sidebar
@@ -61,6 +57,7 @@ format:
     highlight-style: syntax.theme
     code-annotation: hover
     fig-format: svg
+    fig-dpi: 400
     fig-cap-location: bottom
     
   pdf:
