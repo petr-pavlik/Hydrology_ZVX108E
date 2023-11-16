@@ -113,11 +113,15 @@ $$
 \text{IQR} = Q_{\text{III}} - Q_{\text{I}}
 $$
 
+```{r}
+IQR(x)
+```
+
+
 ## Hydrological data
 
-Datasets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape.
-
-Let's take a look at sample data from **MOOPEX**. It is a simple curated large sample dataset.
+Data sets containing hydrological data are most commonly, although not exclusively, in tabular (rectangular) shape.
+Let's take a look at sample data from **MOOPEX**. It is a simple curated large sample data set.
 
 This dataset covers the same 438 catchments in daily step with measured discharge. The dataset is publicly available at <https://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily/>
 
@@ -148,18 +152,18 @@ Try to add `quart` variable using `quarters()` function.
 mpx$hyear <- ifelse(mpx$month > 10, as.integer(mpx$year + 1), as.integer(mpx$year))
 ```
 
-Now let`s exercise some basic calculations
+Now exercise some basic calculations
+ 
  - Fraction of days with no precipitation
  - How many freezing days occur?
  - How many freezing days in late spring (May) and summer?
  - 10 highest and 10 lowest temperatures
- - 
 
 These functions are based on **grouping**. In hydrology, the natural groups involve - *stations/basins*, *decades/years/months*, *groundwater regions*, etc.
 
 ### Box-plot
 
-When we want to visualize
+Come handy, when we want to visualize the important quantiles related to any categorical variable.
 
 ```{r}
 station <- read.delim("./data/6242910_Q_Day.Cmd.txt", skip = 36, header = TRUE, sep = ";", col.names = c("date", "time", "value"))
@@ -184,7 +188,9 @@ boxplot(data = station_agg,
 
 ### Q-Q plot
 
-The **rankit graph** produces a quantile-quantile graph of the values from selected data. `qqline` then adds the theoretical line, which outputs 
+The so called **rankit graph** produces a quantile-quantile graph of the values 
+from selected data. This one can compare if the distribution of the data fit
+with the assumed distribution, e.q. Normal. `qqline` then adds the theoretical line, which outputs 
  
 ```{r}
 par(font.main = 1, 
@@ -229,13 +235,35 @@ qqline(mpx$tmax)
 
 ### Empirical distribution function
 
+Large portion of the data which is processed in Hydrology originates from time series
+of streamflow or runoff. This enables us to construct empirical probability of exceeding
+certain value in the data $P(X\geq x_k)$, simply using the well know definition
+
+$$
+P = \dfrac{m}{n}
+$$
+where $m$ is the number of reaching or exceeding of value $x_k$ and $n$
+is the length of the series. This equation is valid strictly for $n \rightarrow \infty$.\
+There are several empirical formulas in use to calculate the empirical exceedance
+probability like the one from Čegodajev
+
+$$
+P = \dfrac{m - 0.3}{n + 0.4}
+$$
+In R we can utilize a highe order function called `ecdf()`
+
+```{r, include=FALSE}
+plot(cumsum(1/rank(mpx$r)/length(mpx$r)))
+```
+
+
 ```{r}
-# Create the empirical cumulative distribution function (ECDF) for the data
-ecdf_data <- ecdf(na.omit(mpx$r))
+
+ecdf_data <- ecdf(na.omit(mpx$r))   # <1>
 max(mpx$r, na.rm = TRUE)
 ecdf_data(35) # percent of data lower than 35
-
 ```
+1. # Create the empirical cumulative distribution function (ECDF) for the data
 
 <!-- ```{r, eval=FALSE} -->
 <!-- library(tidyverse) -->
@@ -317,13 +345,19 @@ plot(return_period, r_sorted, type = "l", xlab = "Return Period", ylab = "Runoff
 
 ## Hydrological indices
 
+Originated from the combination of aggregation and summation methods and the measures
+of location and dispersion. 
+
 ### Runoff coefficient
 
 The concept of runoff coefficient comes from the presumption, that over long-time period
 
 $$
 \varphi [-] = \dfrac{R}{P}
-$$ where $R$ represents runoff and $P$ precipitation in long term.
+$$ 
+where $R$ represents runoff and $P$ precipitation in long term, typically 30 year 
+so called **Normal period**, which is a decadal moving 30 window; the current being 
+1991--2020.
 
 ```{r}
 R <- mean(aggregate(r ~ year, FUN = mean, data = mpx)[, "r"])
@@ -349,3 +383,20 @@ plot(M, m_day(mpx$r),
      ylab = "Discharge", 
      main = "M-day discharge")
 ```
+
+### Baseflow
+
+The **Total runoff** comprises from **direct runoff**, **hypodermic runoff** and **baseflow**. From the baseflow separation process usually the **baseflow index** is calculated $\text{BFI}=\dfrac{\text{baseflow}}{\text{total runoff}}$
+
+<!-- #### Eckhart-filter -->
+
+
+
+<!-- #### Lyne-Hollick -->
+
+<!-- ## Exercise -->
+
+
+
+
+

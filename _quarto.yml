@@ -55,7 +55,7 @@ format:
     code-fold: show
     #linkcolor: "#006666"
     highlight-style: syntax.theme
-    code-annotation: hover
+    code-annotations: hover
     fig-format: svg
     fig-dpi: 400
     fig-cap-location: bottom
