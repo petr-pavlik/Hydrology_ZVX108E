@@ -118,7 +118,7 @@ We have the raster prepared for the delineation, now we need to provide a point
 layer with the gauge, to which the watershed should be delineated. The point
 has to be placed at the stream network. We will create the layer from scratch.
 
-```{r}
+```{r, eval=FALSE}
 st_write(obj = st_sfc(st_point(x = c(671035, 4885783), 
                                dim = "XY"), 
                       crs = st_crs(26918)), 
@@ -126,7 +126,7 @@ st_write(obj = st_sfc(st_point(x = c(671035, 4885783),
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 tm_layout() +
   tm_shape(dem) +
   tm_raster() +
@@ -136,14 +136,14 @@ tm_layout() +
 
 ## Geostatistics
 
-```{r}
+```{r, eval=FALSE}
 wbt_jenson_snap_pour_points(pour_pts = paste(wd_path, "gauge/gauge.shp", sep = "/"), 
                             streams = paste(wd_path, "streams.tif", sep = "/"), 
                             output = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
                             snap_dist = 1000)
 ```
 
-```{r}
+```{r, eval=FALSE}
 wbt_watershed(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
               pour_pts = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
               output = paste(wd_path, "watershed.tif", sep = "/"))
