@@ -5,32 +5,155 @@ Geocomputation with R
 
 ## WhiteboxTools
 
-Within this introduction we use WhiteboxTools, a modern and advanced geospatial package, which contains \~450 tools and functions. The advantage of using WBT is in capability of inducing command line functions from within R.
+In this session we use the **WhiteboxTools** (WBT) a modern and advanced geospatial 
+package, tools collection, which contains \~450 functions. The WBT has an interface 
+to r and python. 
+
+The tool can be downloaded from [http://whiteboxgeo.com/](http://whiteboxgeo.com/).
+
+## Raster and vector data
+
+**Raster** data are represented by a matrix of pixels (cells) with values. Raster
+is used for data which display continuous information across an area which cannot
+be easily divided into vector features. For the purpose of watershed delineation
+the raster input of Digital Elevation Model is used.
 
 ## Watershed delineation
 
-The process of delineation is the first step in basin description. One simply has to delineate the domain
+The process of delineation is the first step in basin description. One simply has 
+to delineate the domain
 
 The step-by-step process involves:\
-- acquiring digital elevation model of area\
-- pit and sink removal\
-- flow accumulation calculation - flow direction calculation - outlet identification - delineation towards specified outlet
 
-`whitebox` package contains an API to the WhiteboxTools executable binary.
+  - acquiring digital elevation model of area\
+  - pit and sink removal\
+  - flow accumulation calculation \
+  - flow direction calculation \
+  - outlet identification \
+  - delineation towards specified outlet\
 
+Let's start with `whitebox` package that contains an API to the WhiteboxTools 
+executable binary. \
+We need to reference path to the executable 
+
+Except for the `whitebox` package, some other packages for general work with spatial 
+data are necessary. The packages `terra` and `sf` are needed for working with the 
+raster and vector data. They also provide access to **PROJ**, **GEOS** and **GDAL** 
+which are open source libraries that handle projections, format standards and provide 
+geoscientific calculations. And the package `tmap` makes plotting both raster and 
+vector layers very easy.
+
+## Watershed delineation workflow
+
+```{r, collapse=TRUE}
+library(whitebox)               # <1>
+library(terra)                  # <2>
+library(sf)                     # <3>
+library(tmap)                   # <4> 
+whitebox::wbt_init(exe_path = "~/Downloads/WBT/whitebox_tools") # <5>
+whitebox::check_whitebox_binary() # <6>
+```
+1. Load the Whitebox API package
+2. Load the `terra` package for raster use
+3. Load the `sf` package for vector use
+4. Load the `tmap` plotting functions for layers
+5. Whitebox needs the information where the data executable is stored
+6. Binary check of functionality
+
+
+#### Sample data
 
 ```{r}
-whitebox::check_whitebox_binary()
-data.table::fwrite
+dem <- rast(whitebox::sample_dem_data()) # <1>
+tm_layout(legend.outside = TRUE) + # <2>
+  tm_shape(dem) + # <2>
+  tm_raster(palette = "-Greys", n = 50) # <2>
+```
+1. Use the `rast()` function to load the data
+2. Plot via the `tmap` workflow
+
+#### DEM workflow
+The digital elevation model has to be adjusted for the watershed delineation 
+algorithm to be able to run successfully.
+
+```{r, collapse=TRUE, eval=FALSE}
+wd_path <- "~/Desktop/GIS"
+wbt_fill_depressions_wang_and_liu(dem = paste(wd_path, 
+                                              "dem.tif", 
+                                              sep = "/"), 
+                                  output = paste(wd_path, 
+                                                 "filled_depresions.tif", 
+                                                 sep = "/"))
+
+wbt_d8_pointer(dem = paste(wd_path, 
+                           "filled_depresions.tif", 
+                           sep = "/"), 
+               output = paste(wd_path, 
+                              "d8pointer.tif", 
+                              sep = "/"))
+
+wbt_d8_flow_accumulation(input = paste(wd_path, 
+                                       "filled_depresions.tif", 
+                                       sep = "/"),
+                         output = paste(wd_path, 
+                                        "flow_accu.tif", 
+                                        sep = "/"), 
+                         out_type = "cells")
+
+wbt_extract_streams(flow_accum = paste(wd_path, 
+                                       "flow_accu.tif", 
+                                       sep = "/"), 
+                    output = paste(wd_path, 
+                                   "streams.tif", 
+                                   sep = "/"), 
+                    threshold = 200)
+
+
+
+```
+
+### Gauge
+
+We have the raster prepared for the delineation, now we need to provide a point 
+layer with the gauge, to which the watershed should be delineated. The point
+has to be placed at the stream network. We will create the layer from scratch.
+
+```{r}
+st_write(obj = st_sfc(st_point(x = c(671035, 4885783), 
+                               dim = "XY"), 
+                      crs = st_crs(26918)), 
+         dsn = paste(wd_path, "gauge", sep = "/"), driver = "ESRI Shapefile")
 ```
 
 
+```{r}
+tm_layout() +
+  tm_shape(dem) +
+  tm_raster() +
+  tm_shape(gauge) +
+  tm_dots(col = "red", size = 2)
+```
+
 ## Geostatistics
+
+```{r}
+wbt_jenson_snap_pour_points(pour_pts = paste(wd_path, "gauge/gauge.shp", sep = "/"), 
+                            streams = paste(wd_path, "streams.tif", sep = "/"), 
+                            output = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
+                            snap_dist = 1000)
+```
+
+```{r}
+wbt_watershed(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
+              pour_pts = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
+              output = paste(wd_path, "watershed.tif", sep = "/"))
+```
 
 ### River morphology statistics
 
-Under the term **river morphology** we understand the description of the shape of river channels. Hydrologist utilize indices such as **stream length**, **Strahler order**
+Under the term **river morphology** we understand the description of the shape of river channels. Hydrologists use indices such as **stream length**, **Strahler order**
 
-## Session
 
-1.  Start with downloading DEM of specified area.
+
+
+

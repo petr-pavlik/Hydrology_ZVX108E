@@ -63,6 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./03_gis.html" rel="next">
 <link href="./01_R.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -182,6 +183,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological dataset</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -212,7 +219,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#flow-duration-curve" id="toc-flow-duration-curve" class="nav-link" data-scroll-target="#flow-duration-curve"><span class="header-section-number">2.4.2</span> Flow duration curve</a></li>
   <li><a href="#baseflow" id="toc-baseflow" class="nav-link" data-scroll-target="#baseflow"><span class="header-section-number">2.4.3</span> Baseflow</a></li>
   </ul></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">2.5</span> Exercise</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/02_statistics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -497,7 +503,7 @@ R = \max{x} - \min{x}
 </section>
 <section id="q-q-plot" class="level3" data-number="2.3.2">
 <h3 data-number="2.3.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">2.3.2</span> Q-Q plot</h3>
-<p>The so called <strong>rankit graph</strong> produces a quantile-quantile graph of the values from selected data. <code>qqline</code> then adds the theoretical line, which outputs</p>
+<p>The so called <strong>rankit graph</strong> produces a quantile-quantile graph of the values from selected data. This one can compare if the distribution of the data fit with the assumed distribution, e.q. Normal. <code>qqline</code> then adds the theoretical line, which outputs</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -543,10 +549,10 @@ R = \max{x} - \min{x}
 <p><span class="math display">\[
 P = \dfrac{m}{n}
 \]</span> where <span class="math inline">\(m\)</span> is the number of reaching or exceeding of value <span class="math inline">\(x_k\)</span> and <span class="math inline">\(n\)</span> is the length of the series. This equation is valid strictly for <span class="math inline">\(n \rightarrow \infty\)</span>.<br>
-There are several empirical formulas in use to calculate the emipirical exceedance probability like the one from Čegodajev</p>
+There are several empirical formulas in use to calculate the empirical exceedance probability like the one from Čegodajev</p>
 <p><span class="math display">\[
 P = \dfrac{m - 0.3}{n + 0.4}
-\]</span> In R we can utilize a functor</p>
+\]</span> In R we can utilize a highe order function called <code>ecdf()</code></p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -558,7 +564,7 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-cell="annotated-cell-16" data-code-annotation="1">Create the empirical cumulative distribution function (ECDF) for the data</span>
+<span data-code-cell="annotated-cell-16" data-code-annotation="1" data-code-lines="1">Create the empirical cumulative distribution function (ECDF) for the data</span>
 </dd>
 </dl>
 </div>
@@ -690,18 +696,12 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <section id="baseflow" class="level3" data-number="2.4.3">
 <h3 data-number="2.4.3" class="anchored" data-anchor-id="baseflow"><span class="header-section-number">2.4.3</span> Baseflow</h3>
 <p>The <strong>Total runoff</strong> comprises from <strong>direct runoff</strong>, <strong>hypodermic runoff</strong> and <strong>baseflow</strong>. From the baseflow separation process usually the <strong>baseflow index</strong> is calculated <span class="math inline">\(\text{BFI}=\dfrac{\text{baseflow}}{\text{total runoff}}\)</span></p>
-<section id="eckhart-filter" class="level4" data-number="2.4.3.1">
-<h4 data-number="2.4.3.1" class="anchored" data-anchor-id="eckhart-filter"><span class="header-section-number">2.4.3.1</span> Eckhart-filter</h4>
-</section>
-<section id="lyne-hollick" class="level4" data-number="2.4.3.2">
-<h4 data-number="2.4.3.2" class="anchored" data-anchor-id="lyne-hollick"><span class="header-section-number">2.4.3.2</span> Lyne-Hollick</h4>
-</section>
-</section>
-</section>
-<section id="exercise" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="exercise"><span class="header-section-number">2.5</span> Exercise</h2>
+<!-- #### Eckhart-filter -->
+<!-- #### Lyne-Hollick -->
+<!-- ## Exercise -->
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1010,6 +1010,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./03_gis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
