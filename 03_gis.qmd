@@ -25,12 +25,12 @@ to delineate the domain
 
 The step-by-step process involves:\
 
-  - acquiring digital elevation model of area\
-  - pit and sink removal\
-  - flow accumulation calculation \
-  - flow direction calculation \
-  - outlet identification \
-  - delineation towards specified outlet\
+  - Acquiring digital elevation model of area\
+  - Pit and sink removal\
+  - Flow accumulation calculation \
+  - Flow direction calculation \
+  - Outlet identification \
+  - Delineation towards specified outlet\
 
 Let's start with `whitebox` package that contains an API to the WhiteboxTools 
 executable binary. \
@@ -65,9 +65,9 @@ whitebox::check_whitebox_binary() # <6>
 
 ```{r}
 dem <- rast(whitebox::sample_dem_data()) # <1>
-tm_layout(legend.outside = TRUE) + # <2>
+tm_layout() + # <2>
   tm_shape(dem) + # <2>
-  tm_raster(palette = "-Greys", n = 50) # <2>
+  tm_raster(palette = "-Greys", n = 50, legend.show = FALSE) # <2>
 ```
 1. Use the `rast()` function to load the data
 2. Plot via the `tmap` workflow
@@ -76,72 +76,95 @@ tm_layout(legend.outside = TRUE) + # <2>
 The digital elevation model has to be adjusted for the watershed delineation 
 algorithm to be able to run successfully.
 
-```{r, collapse=TRUE, eval=FALSE}
+We need to specifiy a path to working directory. It has to be somewhere where you
+as a user have access to write files. Be sure the folder exists. 
+
+```{r, collapse=TRUE, eval=TRUE}
 wd_path <- "~/Desktop/GIS"
-wbt_fill_depressions_wang_and_liu(dem = paste(wd_path, 
-                                              "dem.tif", 
-                                              sep = "/"), 
-                                  output = paste(wd_path, 
-                                                 "filled_depresions.tif", 
-                                                 sep = "/"))
+```
 
-wbt_d8_pointer(dem = paste(wd_path, 
-                           "filled_depresions.tif", 
-                           sep = "/"), 
-               output = paste(wd_path, 
-                              "d8pointer.tif", 
-                              sep = "/"))
 
-wbt_d8_flow_accumulation(input = paste(wd_path, 
-                                       "filled_depresions.tif", 
-                                       sep = "/"),
-                         output = paste(wd_path, 
-                                        "flow_accu.tif", 
-                                        sep = "/"), 
-                         out_type = "cells")
+```{r, collapse=TRUE, eval=FALSE}
 
-wbt_extract_streams(flow_accum = paste(wd_path, 
-                                       "flow_accu.tif", 
-                                       sep = "/"), 
-                    output = paste(wd_path, 
-                                   "streams.tif", 
-                                   sep = "/"), 
-                    threshold = 200)
+wbt_fill_depressions_wang_and_liu(dem = paste(wd_path,      # <1>
+                                              "dem.tif",       # <1>
+                                              sep = "/"),       # <1>
+                                  output = paste(wd_path,       # <1>
+                                                 "filled_depresions.tif",      # <1> 
+                                                 sep = "/"))      # <1>
+
+wbt_d8_pointer(dem = paste(wd_path,       # <2>
+                           "filled_depresions.tif",       # <2>
+                           sep = "/"),       # <2>
+               output = paste(wd_path,       # <2>
+                              "d8pointer.tif",       # <2>
+                              sep = "/"))      # <2>
+
+wbt_d8_flow_accumulation(input = paste(wd_path,  # <3>
+                                       "filled_depresions.tif",   # <3>
+                                       sep = "/"),  # <3>
+                         output = paste(wd_path,   # <3>
+                                        "flow_accu.tif",  # <3> 
+                                        sep = "/"),   # <3>
+                         out_type = "cells")  # <3>
+
+wbt_extract_streams(flow_accum = paste(wd_path,   # <4>
+                                       "flow_accu.tif",    # <4>
+                                       sep = "/"),    # <4>
+                    output = paste(wd_path,    # <4>
+                                   "streams.tif",    # <4>
+                                   sep = "/"),    # <4>
+                    threshold = 200)   # <4>
 
 
 
 ```
+1. This algorithm involves removing flat areas and filling depressions, thus producing hydrologically corrected DEM
+2. Pointer is ![https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png](https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png)
 
-### Gauge
+
+
+## Gauge
 
 We have the raster prepared for the delineation, now we need to provide a point 
 layer with the gauge, to which the watershed should be delineated. The point
 has to be placed at the stream network. We will create the layer from scratch.
 
-```{r, eval=FALSE}
-st_write(obj = st_sfc(st_point(x = c(671035, 4885783), 
+```{r, eval=TRUE}
+gauge <- st_sfc(st_point(x = c(671035, 4885783), 
                                dim = "XY"), 
-                      crs = st_crs(26918)), 
-         dsn = paste(wd_path, "gauge", sep = "/"), driver = "ESRI Shapefile")
+                      crs = st_crs(26918))
+st_write(obj = gauge, 
+         dsn = paste(wd_path, "gauge", sep = "/"), 
+         driver = "ESRI Shapefile", 
+         delete_dsn = TRUE)
 ```
 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 tm_layout() +
   tm_shape(dem) +
-  tm_raster() +
+  tm_raster(palette = "-Greys", n = 50, legend.show = FALSE) +
   tm_shape(gauge) +
-  tm_dots(col = "red", size = 2)
+  tm_dots(col = "red", size = 1)
 ```
-
-## Geostatistics
+If the point is not located directly in the stream, it could cause troubles.
+The **Jenson snap pour** makes sure to move the point to the nearest stream pixel.
 
 ```{r, eval=FALSE}
-wbt_jenson_snap_pour_points(pour_pts = paste(wd_path, "gauge/gauge.shp", sep = "/"), 
-                            streams = paste(wd_path, "streams.tif", sep = "/"), 
-                            output = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
+wbt_jenson_snap_pour_points(pour_pts = paste(wd_path, 
+                                             "gauge/gauge.shp", 
+                                             sep = "/"), 
+                            streams = paste(wd_path, 
+                                            "streams.tif", 
+                                            sep = "/"), 
+                            output = paste(wd_path, 
+                                           "gauge_snapped.shp", 
+                                           sep = "/"), 
                             snap_dist = 1000)
 ```
+
+Now everything is set to delineate the watershed with using the gauge and D8 pointer.
 
 ```{r, eval=FALSE}
 wbt_watershed(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
@@ -149,11 +172,77 @@ wbt_watershed(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
               output = paste(wd_path, "watershed.tif", sep = "/"))
 ```
 
-### River morphology statistics
+The watershed is usually used in vector format, but now it is in raster. Let's 
+finish with the conversion.
 
-Under the term **river morphology** we understand the description of the shape of river channels. Hydrologists use indices such as **stream length**, **Strahler order**
+```{r}
+wtshd <- rast(paste(wd_path, "watershed.tif", sep = "/"))
+watershed <- terra::as.polygons(wtshd)
+```
 
 
+## River morphology
+
+Under the term **river morphology** we understand the description of the shape of 
+river channels. Hydrologists use indices such as **stream length** or **Strahler order**. 
+
+```{r}
+wbt_strahler_stream_order(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"), 
+                          streams = paste(wd_path, "streams.tif", sep = "/"), 
+                          output = paste(wd_path, "strahler.tif", sep = "/"))
+```
+
+```{r, echo=FALSE, eval=FALSE}
+library(ggplot2)
+library(tidyterra)
+
+results <- list.files(wd_path, pattern = "tif$", full.names = TRUE)
+r <- lapply(results, rast)
+r1 <- rast(results[2])
+r2 <- rast(results[1])
+r3 <- rast(results[4])
+r4 <- rast(results[6])
+r5 <- watershed
+r6 <- rast(results[5])
 
 
+p1 <- ggplot() +
+  ggtitle(label = "a) Corrected DEM") +
+  geom_spatraster(data = r1, show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  theme_minimal()
+p2 <- ggplot() +
+  ggtitle(label = "b) D8 Pointer") +
+  geom_spatraster(data = r2, show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  theme_minimal() 
+p3 <- ggplot() +
+  ggtitle(label = "c) Flow Accumulation") +
+  geom_spatraster(data = r3, show.legend = FALSE) +
+  scale_fill_viridis_b(na.value = "white") +
+  theme_minimal() 
+p4 <- ggplot() +
+  ggtitle(label = "d) Identified Streams") +
+  geom_spatraster(data = r4, show.legend = FALSE) +
+  scale_fill_viridis_c(na.value = "white") +
+  theme_minimal() 
+p5 <- ggplot() +
+  ggtitle(label = "e) Watershed") +
+  geom_spatraster(data = r1, show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  geom_spatvector(data = r5, show.legend = FALSE) +
+  theme_minimal() 
+p6 <- ggplot() +
+  ggtitle(label = "f) Strahler Order") +
+  geom_spatraster(data = r6, show.legend = FALSE) +
+  scale_fill_viridis_b(na.value = "white") +
+  theme_minimal() 
+
+cowplot::plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2, greedy = TRUE)
+ggsave("~/Documents/github_projects/Hydrology_ZVX108E/data/output.png")
+```
+
+## Results
+
+![data/output.png](data/output.png)
 

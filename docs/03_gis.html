@@ -203,10 +203,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#gauge" id="toc-gauge" class="nav-link" data-scroll-target="#gauge"><span class="header-section-number">3.4.1</span> Gauge</a></li>
   </ul></li>
-  <li><a href="#geostatistics" id="toc-geostatistics" class="nav-link" data-scroll-target="#geostatistics"><span class="header-section-number">3.5</span> Geostatistics</a>
-  <ul class="collapse">
-  <li><a href="#river-morphology-statistics" id="toc-river-morphology-statistics" class="nav-link" data-scroll-target="#river-morphology-statistics"><span class="header-section-number">3.5.1</span> River morphology statistics</a></li>
-  </ul></li>
+  <li><a href="#river-morphology" id="toc-river-morphology" class="nav-link" data-scroll-target="#river-morphology"><span class="header-section-number">3.5</span> River morphology</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3.6</span> Results</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/03_gis.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -247,17 +245,17 @@ Geocomputation with R</p>
 <p>The step-by-step process involves:<br>
 </p>
 <ul>
-<li>acquiring digital elevation model of area<br>
+<li>Acquiring digital elevation model of area<br>
 </li>
-<li>pit and sink removal<br>
+<li>Pit and sink removal<br>
 </li>
-<li>flow accumulation calculation<br>
+<li>Flow accumulation calculation<br>
 </li>
-<li>flow direction calculation<br>
+<li>Flow direction calculation<br>
 </li>
-<li>outlet identification<br>
+<li>Outlet identification<br>
 </li>
-<li>delineation towards specified outlet<br>
+<li>Delineation towards specified outlet<br>
 </li>
 </ul>
 <p>Let’s start with <code>whitebox</code> package that contains an API to the WhiteboxTools executable binary.<br>
@@ -285,27 +283,27 @@ We need to reference path to the executable</p>
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="1" data-code-lines="1">Load the Whitebox API package</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Load the Whitebox API package</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="2" data-code-lines="2">Load the <code>terra</code> package for raster use</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2">Load the <code>terra</code> package for raster use</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="3" data-code-lines="4">Load the <code>sf</code> package for vector use</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="4" data-code-annotation="3">Load the <code>sf</code> package for vector use</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="4" data-code-lines="6">Load the <code>tmap</code> plotting functions for layers</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="6" data-code-annotation="4">Load the <code>tmap</code> plotting functions for layers</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="5" data-code-lines="9">Whitebox needs the information where the data executable is stored</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="9" data-code-annotation="5">Whitebox needs the information where the data executable is stored</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-1" data-code-annotation="6" data-code-lines="10">Binary check of functionality</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="10" data-code-annotation="6">Binary check of functionality</span>
 </dd>
 </dl>
 </div>
@@ -316,19 +314,19 @@ We need to reference path to the executable</p>
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>dem <span class="ot">&lt;-</span> <span class="fu">rast</span>(whitebox<span class="sc">::</span><span class="fu">sample_dem_data</span>())</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_layout</span>(<span class="at">legend.outside =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_layout</span>() <span class="sc">+</span></span>
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
-<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">palette =</span> <span class="st">"-Greys"</span>, <span class="at">n =</span> <span class="dv">50</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">palette =</span> <span class="st">"-Greys"</span>, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">legend.show =</span> <span class="cn">FALSE</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-annotation="1" data-code-lines="1">Use the <code>rast()</code> function to load the data</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">Use the <code>rast()</code> function to load the data</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-annotation="2" data-code-lines="2,3,4">Plot via the <code>tmap</code> workflow</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="2,3,4" data-code-annotation="2">Plot via the <code>tmap</code> workflow</span>
 </dd>
 </dl>
 </div>
@@ -340,40 +338,59 @@ We need to reference path to the executable</p>
 <section id="dem-workflow" class="level4" data-number="3.4.0.2">
 <h4 data-number="3.4.0.2" class="anchored" data-anchor-id="dem-workflow"><span class="header-section-number">3.4.0.2</span> DEM workflow</h4>
 <p>The digital elevation model has to be adjusted for the watershed delineation algorithm to be able to run successfully.</p>
+<p>We need to specifiy a path to working directory. It has to be somewhere where you as a user have access to write files. Be sure the folder exists.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wd_path <span class="ot">&lt;-</span> <span class="st">"~/Desktop/GIS"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_fill_depressions_wang_and_liu</span>(<span class="at">dem =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="st">"dem.tif"</span>, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">output =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"filled_depresions.tif"</span>, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">sep =</span> <span class="st">"/"</span>))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_d8_pointer</span>(<span class="at">dem =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"filled_depresions.tif"</span>, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">output =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"d8pointer.tif"</span>, </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sep =</span> <span class="st">"/"</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_d8_flow_accumulation</span>(<span class="at">input =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"filled_depresions.tif"</span>, </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">sep =</span> <span class="st">"/"</span>),</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">output =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"flow_accu.tif"</span>, </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                         <span class="at">out_type =</span> <span class="st">"cells"</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_extract_streams</span>(<span class="at">flow_accum =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"flow_accu.tif"</span>, </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> <span class="fu">paste</span>(wd_path, </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"streams.tif"</span>, </span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">threshold =</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wd_path <span class="ot">&lt;-</span> <span class="st">"~/Desktop/GIS"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+</div>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_fill_depressions_wang_and_liu</span>(<span class="at">dem =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>                                              <span class="st">"dem.tif"</span>,</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">output =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>                                                 <span class="st">"filled_depresions.tif"</span>,</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">sep =</span> <span class="st">"/"</span>))</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-9" class="code-annotation-target"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_d8_pointer</span>(<span class="at">dem =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"filled_depresions.tif"</span>,</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">output =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"d8pointer.tif"</span>,</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sep =</span> <span class="st">"/"</span>))</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_d8_flow_accumulation</span>(<span class="at">input =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"filled_depresions.tif"</span>,</span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>                         <span class="at">output =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"flow_accu.tif"</span>,</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>                         <span class="at">out_type =</span> <span class="st">"cells"</span>)</span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_extract_streams</span>(<span class="at">flow_accum =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"flow_accu.tif"</span>,</span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> <span class="fu">paste</span>(wd_path,</span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"streams.tif"</span>,</span>
+<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="annotated-cell-4-30"><a href="#annotated-cell-4-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">threshold =</span> <span class="dv">200</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2,3,4,5,6,7" data-code-annotation="1">This algorithm involves removing flat areas and filling depressions, thus producing hydrologically corrected DEM</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="9,10,11,12,13,14" data-code-annotation="2">Pointer is <img src="https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png" class="img-fluid" alt="https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png"></span>
+</dd>
+</dl>
+</div>
 </div>
 </section>
 <section id="gauge" class="level3" data-number="3.4.1">
@@ -382,49 +399,91 @@ We need to reference path to the executable</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_write</span>(<span class="at">obj =</span> <span class="fu">st_sfc</span>(<span class="fu">st_point</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">671035</span>, <span class="dv">4885783</span>), </span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gauge <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">st_point</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">671035</span>, <span class="dv">4885783</span>), </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">dim =</span> <span class="st">"XY"</span>), </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">26918</span>)), </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">dsn =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), <span class="at">driver =</span> <span class="st">"ESRI Shapefile"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">26918</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">st_write</span>(<span class="at">obj =</span> gauge, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">dsn =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">driver =</span> <span class="st">"ESRI Shapefile"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">delete_dsn =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Deleting source `/Users/petrmbpro/Desktop/GIS/gauge' using driver `ESRI Shapefile'
+Writing layer `gauge' to data source 
+  `/Users/petrmbpro/Desktop/GIS/gauge' using driver `ESRI Shapefile'
+Writing 1 features with 0 fields and geometry type Point.</code></pre>
+</div>
 </div>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_layout</span>() <span class="sc">+</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(gauge) <span class="sc">+</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">col =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_layout</span>() <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">palette =</span> <span class="st">"-Greys"</span>, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(gauge) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">col =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="03_gis_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid"></p>
+</div>
+</div>
+<p>If the point is not located directly in the stream, it could cause troubles. The <strong>Jenson snap pour</strong> makes sure to move the point to the nearest stream pixel.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_jenson_snap_pour_points</span>(<span class="at">pour_pts =</span> <span class="fu">paste</span>(wd_path, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"gauge/gauge.shp"</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">streams =</span> <span class="fu">paste</span>(wd_path, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"streams.tif"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">output =</span> <span class="fu">paste</span>(wd_path, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"gauge_snapped.shp"</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">snap_dist =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Now everything is set to delineate the watershed with using the gauge and D8 pointer.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_watershed</span>(<span class="at">d8_pntr =</span> <span class="fu">paste</span>(wd_path, <span class="st">"d8pointer.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>),</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">pour_pts =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge_snapped.shp"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">output =</span> <span class="fu">paste</span>(wd_path, <span class="st">"watershed.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>The watershed is usually used in vector format, but now it is in raster. Let’s finish with the conversion.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wtshd <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">paste</span>(wd_path, <span class="st">"watershed.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>watershed <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.polygons</span>(wtshd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 </section>
-<section id="geostatistics" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="geostatistics"><span class="header-section-number">3.5</span> Geostatistics</h2>
+<section id="river-morphology" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="river-morphology"><span class="header-section-number">3.5</span> River morphology</h2>
+<p>Under the term <strong>river morphology</strong> we understand the description of the shape of river channels. Hydrologists use indices such as <strong>stream length</strong> or <strong>Strahler order</strong>.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_jenson_snap_pour_points</span>(<span class="at">pour_pts =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge/gauge.shp"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">streams =</span> <span class="fu">paste</span>(wd_path, <span class="st">"streams.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">output =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge_snapped.shp"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">snap_dist =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_strahler_stream_order</span>(<span class="at">d8_pntr =</span> <span class="fu">paste</span>(wd_path, <span class="st">"d8pointer.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">streams =</span> <span class="fu">paste</span>(wd_path, <span class="st">"streams.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">output =</span> <span class="fu">paste</span>(wd_path, <span class="st">"strahler.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell">
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wbt_watershed</span>(<span class="at">d8_pntr =</span> <span class="fu">paste</span>(wd_path, <span class="st">"d8pointer.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>),</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">pour_pts =</span> <span class="fu">paste</span>(wd_path, <span class="st">"gauge_snapped.shp"</span>, <span class="at">sep =</span> <span class="st">"/"</span>), </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">output =</span> <span class="fu">paste</span>(wd_path, <span class="st">"watershed.tif"</span>, <span class="at">sep =</span> <span class="st">"/"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+</section>
+<section id="results" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="results"><span class="header-section-number">3.6</span> Results</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data/output.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">data/output.png</figcaption>
+</figure>
 </div>
-<section id="river-morphology-statistics" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="river-morphology-statistics"><span class="header-section-number">3.5.1</span> River morphology statistics</h3>
-<p>Under the term <strong>river morphology</strong> we understand the description of the shape of river channels. Hydrologists use indices such as <strong>stream length</strong>, <strong>Strahler order</strong></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
