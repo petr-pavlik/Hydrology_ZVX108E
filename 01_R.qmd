@@ -9,9 +9,11 @@ Many great sources for R language with the focus on data science and statistical
 -   CRAN manuals like **Introduction to R** at <https://cran.r-project.org/doc/manuals/R-intro.pdf>
 -   [The R Book](https://www.cs.upc.edu/~robert/teaching/estadistica/TheRBook.pdf) is a very comprehensive source, although strongly oriented towards statistics
 -   freeCodeCamp's [R programming tutorial](https://www.youtube.com/watch?v=_V8eKsto3Ug&t=4052s&pp=ygUWciBwcm9ncmFtbWluZyBsYW5ndWFnZQ%3D%3D) is a very mild introduction to scripting language
--   [Advanced R (2nd edition)](https://adv-r.hadley.nz/) from Hadley Wickham contains a lot of information about langugae fundamentals and\
+-   [Advanced R (2nd edition)](https://adv-r.hadley.nz/) from Hadley Wickham contains a lot of information about langugae fundamentals and extra information.
 
-For the newcomer to R ecosystem we highly encourage to print and use the various official *cheat sheets*, created by **Posit Inc.**.
+For the newcomer to R ecosystem we highly encourage to print and use the various official *cheat sheets*, created by the R community and **Posit Inc.**
+
+[![](images/base-r-1.jpg){fig-align="center"}](images/base-r-cheat-sheet.pdf)
 
 #### Some basic commands {.unnumbered}
 
@@ -37,9 +39,20 @@ file.exists()
 
 and you can also invoke any shell/cmd command plus attributes with `system2()` interface.
 
+## Getting help
+
+It is entered into the console in the form `help(<function name>)` or `?<function name>`. If we would like to look directly into the code of the function, it is also possible, we just enter the name of the function in the console without brackets, or use the command `View(<function name>)`. In addition, R also has `help.search(<function name>)` under the shortcut `??,` which searches for full-text help across installed packages. Furthermore, it is still possible to search the R language mailing list using the function `RSiteSearch()`, which opens a new window of the predefined browser. In addition, thematically integrated help cards are very useful: `?Logical`, `?Constants`, `?Control`, `?Arithmetic`, `?Syntax`, `?Special` etc.
+
+##### Exercise
+
+1.  Try to find help to `DateTimeClasses`.
+    a)  What do the `POSIXct` a `POSIXlt` represent?
+    b)  What is the difference between them?
+    c)  Find a function for calculating $5!$
+
 ## R as scientific calculator
 
-#### Arithmetic operations {.unnumbered}
+### Arithmetic operations
 
 ```{r, eval=TRUE, collapse=TRUE}
 1 + 2           # addition
@@ -50,19 +63,24 @@ and you can also invoke any shell/cmd command plus attributes with `system2()` i
 1 %% 2          # modulo oprator
 ```
 
-#### Special values {.unnumbered}
+### Special values
 
-R is familiar with the concept of $\pm\infty$, hence `-Inf` and `Inf` values are at disposal. You will get them most probably as results from computation heading to $\frac{\pm1}{0}$ numerically. There are other special values like `NULL` (*null value*), `NA` (*not assigned*) and `NaN` (*not a number*). The concept of *not assigned* is one that is particularly important, since it has significant impact on the computed result ({@code-mean-rm}).
+R is familiar with the concept of $\pm\infty$, hence `-Inf` and `Inf` values are at disposal. You will get them most probably as results from computation heading to $\frac{\pm1}{0}$ numerically. There are other special values like `NULL` (*null value*), `NA` (*not assigned*) and `NaN` (*not a number*). The concept of *not assigned* is one that is particularly important, since it has significant impact on the computed result ({@code-mean-rm}). `NA` is of default type `logical`. Otherwise it si possible to specify missing value in all other data type like `NA_real_` (matches double), `NA_integer_`, `NA_complex_` and `NA_character_`, these are all usable in pre-allocation of memory for data structures. Try to find the usage of functions `na.omit()`, `is.na()`, `complete.cases()`.
 
 ```{r}
-x <- seq(1:10)             # general sequence of numbers
-x[c(5,6)] <- NA            # change some elements to not assigned
+x <- seq(1:10)             #<1> 
+x[c(5,6)] <- NA            #<2> 
 print(x)
-mean(x)                    # without removal
-mean(x, na.rm = TRUE)      # and with removal
+mean(x)                    #<3> 
+mean(x, na.rm = TRUE)      #<4> 
 ```
 
-#### Set operations {.unnumbered}
+1.  General sequence of numbers
+2.  change some elements to not assigned
+3.  without removal
+4.  and with removal
+
+### Set operations
 
 For manipulating sets, there are a couple of essential functions `union()`, `intersect()`, `setdiff()` and operator `%in%`.
 
@@ -74,32 +92,91 @@ intersect(set_A, set_B)
 set_A %in% set_B
 ```
 
+The operators fall in arithmetic, relation, assign categories and we also put set functions here.
+
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| Sign                                                        | Meaning                                                                                                         |
++=============================================================+=================================================================================================================+
+| `+` , `-` , `*` , `/` , `%%` , `%/%` , `**` nebo `^`, `%*%` | arithmetic operators (plus, minus, multiply, divide, modulo, integer division, power and matrix multiplication) |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `>` ,`>=` , `<` , `<=` , `==` , `!=`                        | relation operators (larger/smaller than, equal, not equal)                                                      |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `!` , `&` , `&&` , `|` , `||`                               | logical (negation, and, or)                                                                                     |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `~`                                                         | functional relationship                                                                                         |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `<-` , `=`, `<<-`, `->`                                     | assign operator                                                                                                 |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `$`                                                         | naming indexation in heterogenic structures                                                                     |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `:`                                                         | rangea                                                                                                          |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+| `isTRUE()` , `all()` , `any()` , `%in%` , `setdiff()`       | set functions                                                                                                   |
++-------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
+
+### Mathematical functions
+
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Function                          | Meaning                                                                                                                                                                                                                                                                                                                                        |
++===================================+================================================================================================================================================================================================================================================================================================================================================+
+| `log(x)`                          | logarithm $x$ to the base $e$                                                                                                                                                                                                                                                                                                                  |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `exp(x)`                          | $x(e^x)$                                                                                                                                                                                                                                                                                                                                       |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `log(x, n)`                       | logarithm $x$ base $n$                                                                                                                                                                                                                                                                                                                         |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `log10(x)`                        | logarithm $x$ base $10$                                                                                                                                                                                                                                                                                                                        |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `sqrt(x)`                         | square root from $x$                                                                                                                                                                                                                                                                                                                           |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `factorial`(x)                    | $x!$                                                                                                                                                                                                                                                                                                                                           |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `choose(n, x)`                    | binomial coefficients\                                                                                                                                                                                                                                                                                                                         |
+|                                   | $$                                                                                                                                                                                                                                                                                                                                             |
+|                                   |                                                                                                                                                                                                                                                                                                             \binom{n}{k} = \frac{n!}{k!(n-k)!} |
+|                                   |                                                                                                                                                                                                                                                                                                          $$                                    |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `ceiling(x)`                      | smallest integer large than $x$                                                                                                                                                                                                                                                                                                                |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `floor(x)`                        | largest integer before $x$                                                                                                                                                                                                                                                                                                                     |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `trunc(x)`                        | closest number between $x$ a 0                                                                                                                                                                                                                                                                                                                 |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `round(x, digits)`                | round $x$ to $n$ decimals                                                                                                                                                                                                                                                                                                                      |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `signif(x, digits)`               | round $x$ to $n$ significant numbers                                                                                                                                                                                                                                                                                                           |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `cos(x)` , `sin(x)` , `tan(x)`    | function ins rad                                                                                                                                                                                                                                                                                                                               |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `acos(x)` , `asin(x)` , `atan(x)` | inverse trigonometric functions                                                                                                                                                                                                                                                                                                                |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| `abs(x)`                          | absolute value                                                                                                                                                                                                                                                                                                                                 |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+##### Exercise {.unnumbered}
+
+5.  Evaluate the following expressions:\
+    a)  $1 + 3 \cdot (2 / 3)\:\mathrm{mod}\:3$\
+    b)  $\dfrac{\sin(2.3)}{\cos(\pi)}$\
+    c)  $\sum\limits_{i = 1}^{53}i$\
+    d)  $\dfrac{-\infty}{0}$, $\dfrac{-\infty}{\infty}$, $\dfrac{0}{0}$\
+    e)  $\left(\dfrac{2}{35}\right)^{0.5} \cdot 3 \cdot (2 / 3)$\
+    f)  $20!$\
+    g)  $\int_{0}^{3\pi} \sin(x) dx$
+
 #### Matrix operations {.unnumbered}
 
-For the purpose of following examples let's use an arbitrary matrix $M$ and a vectors $U$ and $V$.
+Let's say we have a set of linear equations
 
 $$
-\mathbf{A} = \left(\begin{matrix}
+\begin{matrix}
 2x& - 3y& &= 3\\
 & - 2y& + 4z &= 9\\
 2x& + 13y& + 9z&= 10
-\end{matrix}\right),\\
+\end{matrix}\\
 $$ {#eq-sys-linear}
 
-$$
-\mathbf{u} = \begin{pmatrix}
-1\\
--3\\
-8\\
-\end{pmatrix},
-\mathbf{v} = \begin{pmatrix}
-1\\
--3\\
-8\\
-\end{pmatrix}
-$$ {#eq-uv-vctrs}
-
-Solving a system of linear equations {@eq-sys-linear} is a one-liner:
+Solving {@eq-sys-linear} is a one-liner:
 
 ```{r}
 A <- matrix(data = c(2, -3, 0, 0, -2, 4, 2, 13, 9), nrow = 3, byrow = TRUE)
@@ -111,7 +188,31 @@ solve(A, B)
 
 ### Variables and name conventions
 
-It is possible. We highly discourage using diacritical marks in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things. Variables do not contain spaces, quotes, arithmetical, logical nor relational operators neither they contain special characters like `=`, `-`, ``.
+It is highly discouraged using spaces and diacritical marks in naming, like the Czech translation of the term *"variable"* - `proměnná`. Most programmers use either `camelNotation` or `snake_notation` for naming purposes. Obviously the R is *case-sensitive* so `camelNotation` and `CamelNotation` are two different things. Variables do not contain spaces, quotes, arithmetical, logical nor relational operators neither they contain special characters like `=`, `-`, \`\`. Objects cannot be named by key words.
+
+##### Key words {.unnumbered}
+
+`if`, `else`, `repeat`, `while`, `function`, `for`, `in`, `next`, `repeat`, `break`, `TRUE`, `FALSE`, `NULL`, `Inf`, `NaN`, `NA`, `NA_integer_`, `NA_real_`, `NA_complex_`, `NA_character_`
+
+It is not recommended to inlude dot in the name, like `morava.prutoky`, and to match the names with commonly used functions. R is "case-sensitive" which means, that `X` does not equal `x`.
+
+##### Exercise {.unnumbered}
+
+2.  Intuitively, we might be guided to load the data into the `data` variable. This is the wrong however, since `data()` is a function to access datasets that are part of the basic R installation. Try it out.
+
+##### Some cases of possible but wrong naming {.unnumbered}
+
+`aaa`, `Morávka průtok [m/s]`, `moje.proměnná`\
+
+### Rules of quotation marks and parenthesses
+
+Both represent the paired characters in R. Parenthesses are used in three versions: classical, square brackets and curly brackets (braces). All of them have specific non-overlaping usage.
+
+-   `()` **are always to be found right next to a function name** they delineate the space where function arguments are to be specified.\
+-   `[]` **are always use with the name of the object** (vector, array, list, ...) and signalize subselecting from the object.\
+-   `{}` **mark a block of code**, which should be executed at once.\
+
+Quotation marks introduce text strings. Both "double" and 'single' quotes can be used completely at will, they just need to be closed with the same type. Back quotes are also common and are used, for example, to delimit a non-standard column name in a structure.
 
 ### Functions
 
@@ -140,6 +241,19 @@ w_mean <- function(x, w = 1/length(x)) {
 w_mean(1:10)
 ```
 
+Here is a different example:
+
+```{r}
+x <- rnorm(100)
+nejblizsi_hodnota <- function(x, value) { # <1>
+  x[which(abs(x - value) == min(abs(x - value)))] # <1>
+} # <1>
+
+cat("Hodnota nejblíže 0 z vektoru x je:" , nejblizsi_hodnota(x = x, value = 0))
+```
+
+1.  Example of function, which seeks the neares number from a vector `x` to a certain referential `value`.
+
 We can test if we get the same result as the *primitive* function from R using `all.equal()` statement.
 
 ```{r}
@@ -161,11 +275,102 @@ TRUE    # logical, also T as short version
 "A"     # character, also 'A'
 ```
 
+They represent the individual elements of data structures. R dynamically typed and does not require declarations before usage.
+
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+|               | logical      | integer                | numeric                | complex                | character   |
++===============+==============+========================+========================+========================+=============+
+| **logical**   | `logical`    | `integer`              | `numeric`              | `complex`              | `character` |
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+| **integer**   | `logical`    | `integer`              | `numeric`              | `complex`              | `character` |
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+| **numeric**   | `logical`    | `numeric`              | `numeric`              | `complex`              | `character` |
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+| **complex**   | `logical`    | `integer` + warning    | `numeric` + warning    | `complex`              | `character` |
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+| **character** | `NA_logical` | `NA_integer` + warning | `NA_numeric` + warning | `NA_complex` + warning | `character` |
++---------------+--------------+------------------------+------------------------+------------------------+-------------+
+
+: Basic types and coercions.
+
+Two types of functions are connected to data types: `is.___` a `as.___`. Is is either questioning or coertion of data type. Try also `class()`, `mode()`.
+
+```{r}
+is.character("ABC")
+as.integer(11 + 1i)
+```
+
+##### Exercise
+
+a)  Create in any way a vector `x` of 10 different numerical values, where $x\in\mathbb{R}$.
+b)  Write an expression to select numbers between -5 and 5 from this vector.
+c)  Convert to integer type and discuss the result.
+d)  Add 3 positions "A", "B" and "C" to the vector, has the vector changed?
+
 ### Data structures
 
 #### Vectors {.unnumbered}
 
-Atomic vectors are single-type linear structures. They can contain elements of any type, from **logical**, **integer**, **numeric**, **complex**, **character**.
+Atomic vectors are single-type linear structures. They can contain elements of any type, from **logical**, **integer**, **numeric**, **complex**, **character**. A vector is a basic building structure in the R language, there is nothing like a scalar quantity here. The concept of vector is understood here in the mathematical sense as a vector of values representing a point in $n$-dimensional space.
+
+$$
+\mathbf{\mathrm{u}} = 
+\begin{pmatrix}
+1\\
+1.5\\
+-14\\
+7.223\\
+\end{pmatrix}, \qquad
+\mathbf{\mathrm{v}} = 
+\begin{pmatrix}
+\mathrm{TRUE}\\
+\mathrm{FALSE}\\
+\mathrm{TRUE}\\
+\mathrm{TRUE}\\
+\end{pmatrix}, \qquad
+\mathbf{\mathrm{u^T}} =
+\begin{pmatrix}
+1 & 1.5 & -14 & 7.233\\
+\end{pmatrix}
+$$
+
+Many functions lead to creation of a vector, among the most used are `vector(mode = "numeric", length = 10)`, function `c()`, or using subset operators `[` or `[[`.
+
+An important rule is tied to vectors - **value recycling**.
+
+```{r}
+v <- c(1.4, 2.0, 6.1, 2.7)
+u <- c(2.0, 1.3)
+u + v # <1> 
+u * v # <2> 
+u * 2.3 # <3> 
+```
+
+1.  Adding two vectors while length of second is the multiple of the first
+2.  Multiplying two vectors while length of second is the multiple of the first
+3.  Multipling with single numeric value
+
+##### Working with vectors {.unnumbered}
+
+```{r}
+x <- 1:10 #<1>
+x <- seq(10:1) #<1>
+x <- vector(mode = "numeric", length = 10) #<1>
+x <- replicate(n = 10, expr = eval(2)) #<1>
+x <- sample(x = 10, size = 10, replace = TRUE) #<1>
+x <- rep(x = 15, times = 2) #<1>
+x <- rnorm(n = 10, mean = 2, sd = 20) #<1>
+t(x) * x #<2> 
+names(x) <- LETTERS[1:length(x)] #<3>
+x[x > 0] #<4> 
+x[1:3] #<5> 
+```
+
+1.  Vector creation $\boldsymbol{\mathrm{x}}$ by different approaches. Sequences, repeats, repetitions and sampling
+2.  Transposition of vector.
+3.  Naming elements of a vector.
+4.  Selection of elements from a vector based on a condition.
+5.  Selection of elements from a vector based on an index.
 
 ```{r}
 #| label: test-code-annotation
@@ -177,6 +382,28 @@ V[1] <- "A"
 #### Matrices and arrays {.unnumbered}
 
 If the object has more than one *dimension*, it is treated as an array. A special type of **array** is a **matrix**. Both object types have accompanying functions like `colSums()`, `rowMeans()`.
+
+| Function           | Meaning                              |
+|--------------------|--------------------------------------|
+| `nrow()`, `ncol()` | number of rows, columns in matrix    |
+| `dim()`            | dtto                                 |
+| `det()`            | matrix determinant                   |
+| `eigen()`          | eigenvalues, eigenvectors            |
+| `colnames()`       | column names in matrix               |
+| `rowSums()`        | row sums in matrix                   |
+| `colMeans()`       | column means of matrix               |
+| `M[m, ]`           | Selection of $m$-th row of matrix    |
+| `M[ ,n]`           | Selection of $n$-th column of matrix |
+
+: List of `matrix` bounded functions
+
+```{r}
+x <- c(1:10)
+dim(x) <- c(2, 5) #<1>
+x
+```
+
+1.  Conversion to $2\times 2$ dimension
 
 ```{r, collapse=TRUE}
 M <- matrix(data = 0, nrow = 5, ncol = 2) # empty matrix creation
@@ -200,10 +427,6 @@ N = \left(\begin{matrix}
 10+2i & i
 \end{matrix}\right)
 $$
-
-```{r}
-
-```
 
 #### Data frames {.unnumbered}
 
@@ -236,9 +459,14 @@ Although R is intended as functional programming language, more than one object 
 
 ```
 
-### Conditions
+### Control flow
+
+Condition and cycles govern the run of the general flow of calculation, they are the building blocks of algorithms.
+
+#### Conditions
 
 A condition in code creates branching of computation. Placing a condition creates at least two options from which only one is to be satisfied. The condition is created either by `if()`/`ifelse()` or `switch()` construct. We can again call for a snippet from RStudio help resulting in
+
 
 ```{r, eval=FALSE}
 if (condition) {
@@ -253,22 +481,65 @@ ifelse(test, TRUE, FALSE)
 ```
 
 
-The condition can be branched to larger structures like
+##### `if()` {.unnumbered}
+
 ```{r}
-temperature <- 30
-if (temperature > 30) {
-  cat("The temperature is hot.")
-} else if (temperature > 15) {
-  cat("The temperature is warm.")
+A <- 1
+if(A >= 1) {
+  cat("A larger than or equal 1.")
 }
 ```
 
+```{r}
+A <- 5
+if(A >= 2) { #<1>
+  cat("A is larger than or equal 2.") #<1>
+} else if(A > 2) { #<1>
+  cat("A is larger than 2.") #<1>
+} #<1>
+```
 
-### Repetition
+1.  The chain of conditions will close **at the first evaluation which happens to be TRUE**.
+
+##### `ifelse()` {.unnumbered}
+
+Vectorized condition, in general looks like
+
+```{r}
+x <- -5:5
+cat("Element x + 3 is more than 0: ", ifelse(x - 3 > 0, yes = "Yes", no = "No"))
+```
+
+
+#### `switch()` {.unnumbered}
+
+```{r}
+variant <- "B"
+2 * (switch(
+      variant,
+        "A" = 2,  # <1> 
+        "B" = 3)) # <2> 
+```
+
+1.  "A" variant did not happen,
+2.  instead the "B" variant is truthful, so the expression is evaluated as $2\cdot 3 = 6$
+
+##### Exercise {.unnumbered}
+
+8.  Create a following grading scheme:
+
+    | Grade | Result       |
+    |-------|--------------|
+    | A     | 90 % - 100 % |
+    | B     | 75 % - 89 %  |
+    | C     | 60 % - 74 %  |
+    | D     | \< 60 %      |
+
+### Loops
 
 Loops (cycles) provide use with the ability to execute single statement of a block of code in `{}` multiple times. There are three key words for loop construction. They differ in use cases.
 
-#### `for` cycle
+#### `for` cycle {.unnumbered}
 
 Probably the most common loop is used when you **know the number of iterations prior to calling**. The iteration is therefore explicitly finite.
 
@@ -284,46 +555,44 @@ An example
 for(i in 1:4) cat(i, ". iteration", "\n", sep = "")
 ```
 
-
-#### `while` cycle
+#### `while` cycle {.unnumbered}
 
 **while** is used in when it is impossible to state how many times something should be repeated. The case is rather in the form *while some condition is or is not met, repeat what is inside the body*. It is also used in intentionally infinite loop e.g. operating systems.
 
-#### `repeat` cycle
+```{r}
+i <- 1
+while(i < 5) {
+  cat("Iteration ", i, "\n", sep = "")
+  i <- i + 1
+}
+```
+
+#### `repeat` cycle {.unnumbered}
 
 In the cases when we need the repetition at least once, we will evaluate the code inside *until* a condition is met.
 
 ```{r}
-repeat({
-  x <- rnorm(1)
-  cat(x)
-  if(x > 0) break
-})
+i <- 1
+repeat { #<1>
+  cat("Iteration", i, "\n") #<1>
+  i <- i + 1 #<1>
+  if(i >= 5) break #<1> # <2>
+} #<1>
 ```
+
+1.  Execute in loop,
+2.  if a condition is met, `break` stops the cycle.
 
 #### `break` and `next`
 
 There are two statements which controls the iteration flow. Anytime `break` is called, the rest of the body is skipped and the loop ends. Anytime `next` is called, the rest of the body is skipped and next iteration is started.
 
-::: columns
-::: {.column width="70%"}
-I would like to have text here
+##### Exercise
 
-Sentence becomes longer, it should automatically stay in their column
-:::
-
-::: {.column width="10%"}
-<!-- empty column to create gap -->
-:::
-
-::: {.column width="20%"}
-and here
-
-More text
-:::
-:::
-
-### Exercise
-
-1.  create a sequence of numbers calling
-2.  What type is `NA`, why would you say is it?
+```         
+a)  Create a cycle, whsich for the numberes $1, 2, 3, 4, 5$ writes them out to the power of three.
+b)  Calculates the cumulative sum for these.
+c)  Calculates the factorial number for the number `n`.
+d)  Withe the help of `readline()` function (requests a number from the user), 
+prints the number. If the given number is negative, the loop ends.
+```

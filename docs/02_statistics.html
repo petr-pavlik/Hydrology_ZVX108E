@@ -189,6 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -219,6 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#flow-duration-curve" id="toc-flow-duration-curve" class="nav-link" data-scroll-target="#flow-duration-curve"><span class="header-section-number">2.4.2</span> Flow duration curve</a></li>
   <li><a href="#baseflow" id="toc-baseflow" class="nav-link" data-scroll-target="#baseflow"><span class="header-section-number">2.4.3</span> Baseflow</a></li>
   </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/02_statistics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -242,16 +249,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>A dataset is a collection of measurements which is used to create or evaluate assumptions about a population. Within this session, only <strong>univariate</strong> data are studied.</p>
-<section id="at-the-end-of-the-lecture-you-should-be-familiar-with-following-concepts" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="at-the-end-of-the-lecture-you-should-be-familiar-with-following-concepts">At the end of the lecture you should be familiar with following concepts:</h4>
+<section id="the-following-concepts-will-be-discussed" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="the-following-concepts-will-be-discussed">The following concepts will be discussed:</h4>
 <ul>
-<li>hydrological year</li>
+<li>A hydrologic year,</li>
 <li>data screening and cleaning</li>
-<li>basic data summation and aggregation</li>
+<li>summation and aggregation of data</li>
 <li>descriptive statistics</li>
+<li>time series decomposition</li>
 <li>visualization of statistical data</li>
 </ul>
+<p>A dataset is a collection of measurements which is used to create or evaluate assumptions about a population. Within this session, only <strong>univariate</strong> data are studied.</p>
 </section>
 <section id="exploratory-data-analysis-eda" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="exploratory-data-analysis-eda"><span class="header-section-number">2.1</span> Exploratory Data Analysis (EDA)</h2>
@@ -564,7 +572,7 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-16" data-code-lines="1">Create the empirical cumulative distribution function (ECDF) for the data</span>
+<span data-code-annotation="1" data-code-lines="1" data-code-cell="annotated-cell-16">Create the empirical cumulative distribution function (ECDF) for the data</span>
 </dd>
 </dl>
 </div>
@@ -699,9 +707,28 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <!-- #### Eckhart-filter -->
 <!-- #### Lyne-Hollick -->
 <!-- ## Exercise -->
-
-
 </section>
+</section>
+<section id="exercises" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
+<ol type="1">
+<li>Find the mean, median, mode and standard deviation of the following series.</li>
+</ol>
+<strong>1.</strong> Which of the following is functions is used to filter rows? <select class="webex-select"><option value="blank"></option><option value="">select()</option><option value="answer">filter()</option><option value="">mutate()</option><option value="">nest()</option></select>; which operates on columns? <select class="webex-select"><option value="blank"></option><option value="">select()</option><option value="answer">filter()</option><option value="">mutate()</option><option value="">nest()</option></select>.<br>
+<strong>2.</strong> <select class="webex-select"><option value="blank"></option><option value="">Alec Guinness</option><option value="answer">Mark Hamill</option><option value="">Harrison Ford</option></select><br>
+<strong>3.</strong> The difference between operators <code>%&gt;%</code> and <code>|&gt;</code> lies in
+<div id="radio_EHLMRAYYFU" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value=""> <span>the probability that the null hypothesis is true</span></label><label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value="answer"> <span>the probability of the observed, or more extreme, data under the assumption that the null-hypothesis is true</span></label><label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value=""> <span>the probability of making an error in your conclusion</span></label>
+</div>
+.<br>
+<strong>4.</strong> Hi my name is - 2 + 2 is <select class="webex-select"><option value="blank"></option><option value="answer">TRUE</option><option value="">FALSE</option></select>.<br>
+<strong>5.</strong> What is the primary function of the <code>tidyr</code> package?
+<div id="radio_OIOZPTFKHV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OIOZPTFKHV" value=""> <span>data visualization</span></label><label><input type="radio" autocomplete="off" name="radio_OIOZPTFKHV" value=""> <span>string manipulation</span></label><label><input type="radio" autocomplete="off" name="radio_OIOZPTFKHV" value="answer"> <span>data tidying</span></label><label><input type="radio" autocomplete="off" name="radio_OIOZPTFKHV" value=""> <span>statistical modeling</span></label>
+</div>
+<p>.</p>
+
+
 </section>
 
 </main> <!-- /main -->

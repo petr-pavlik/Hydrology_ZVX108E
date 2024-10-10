@@ -63,6 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./04_interpolation.html" rel="next">
 <link href="./02_statistics.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -186,6 +187,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -199,12 +206,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#whiteboxtools" id="toc-whiteboxtools" class="nav-link active" data-scroll-target="#whiteboxtools"><span class="header-section-number">3.1</span> WhiteboxTools</a></li>
   <li><a href="#raster-and-vector-data" id="toc-raster-and-vector-data" class="nav-link" data-scroll-target="#raster-and-vector-data"><span class="header-section-number">3.2</span> Raster and vector data</a></li>
   <li><a href="#watershed-delineation" id="toc-watershed-delineation" class="nav-link" data-scroll-target="#watershed-delineation"><span class="header-section-number">3.3</span> Watershed delineation</a></li>
-  <li><a href="#watershed-delineation-workflow" id="toc-watershed-delineation-workflow" class="nav-link" data-scroll-target="#watershed-delineation-workflow"><span class="header-section-number">3.4</span> Watershed delineation workflow</a>
-  <ul class="collapse">
-  <li><a href="#gauge" id="toc-gauge" class="nav-link" data-scroll-target="#gauge"><span class="header-section-number">3.4.1</span> Gauge</a></li>
-  </ul></li>
-  <li><a href="#river-morphology" id="toc-river-morphology" class="nav-link" data-scroll-target="#river-morphology"><span class="header-section-number">3.5</span> River morphology</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3.6</span> Results</a></li>
+  <li><a href="#watershed-delineation-workflow" id="toc-watershed-delineation-workflow" class="nav-link" data-scroll-target="#watershed-delineation-workflow"><span class="header-section-number">3.4</span> Watershed delineation workflow</a></li>
+  <li><a href="#gauge" id="toc-gauge" class="nav-link" data-scroll-target="#gauge"><span class="header-section-number">3.5</span> Gauge</a></li>
+  <li><a href="#river-morphology" id="toc-river-morphology" class="nav-link" data-scroll-target="#river-morphology"><span class="header-section-number">3.6</span> River morphology</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3.7</span> Results</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/03_gis.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -269,7 +274,7 @@ We need to reference path to the executable</p>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(whitebox)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## terra 1.7.55</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a><span class="do">## terra 1.7.78</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-6" class="code-annotation-target"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
@@ -393,8 +398,9 @@ We need to reference path to the executable</p>
 </div>
 </div>
 </section>
-<section id="gauge" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="gauge"><span class="header-section-number">3.4.1</span> Gauge</h3>
+</section>
+<section id="gauge" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="gauge"><span class="header-section-number">3.5</span> Gauge</h2>
 <p>We have the raster prepared for the delineation, now we need to provide a point layer with the gauge, to which the watershed should be delineated. The point has to be placed at the stream network. We will create the layer from scratch.</p>
 <div class="cell">
 <details open="">
@@ -421,7 +427,7 @@ Writing 1 features with 0 fields and geometry type Point.</code></pre>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(dem) <span class="sc">+</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_raster</span>(<span class="at">palette =</span> <span class="st">"-Greys"</span>, <span class="at">n =</span> <span class="dv">50</span>, <span class="at">legend.show =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(gauge) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">col =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_dots</span>(<span class="at">col =</span> <span class="st">"orangered"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_gis_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid"></p>
@@ -461,9 +467,8 @@ Writing 1 features with 0 fields and geometry type Point.</code></pre>
 </details>
 </div>
 </section>
-</section>
-<section id="river-morphology" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="river-morphology"><span class="header-section-number">3.5</span> River morphology</h2>
+<section id="river-morphology" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="river-morphology"><span class="header-section-number">3.6</span> River morphology</h2>
 <p>Under the term <strong>river morphology</strong> we understand the description of the shape of river channels. Hydrologists use indices such as <strong>stream length</strong> or <strong>Strahler order</strong>.</p>
 <div class="cell">
 <details open="">
@@ -474,11 +479,11 @@ Writing 1 features with 0 fields and geometry type Point.</code></pre>
 </details>
 </div>
 </section>
-<section id="results" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="results"><span class="header-section-number">3.6</span> Results</h2>
+<section id="results" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="results"><span class="header-section-number">3.7</span> Results</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="data/output.png" class="img-fluid figure-img"></p>
+<p><img src="./data/output.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">data/output.png</figcaption>
 </figure>
 </div>
@@ -792,6 +797,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./04_interpolation.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

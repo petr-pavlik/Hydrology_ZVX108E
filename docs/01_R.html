@@ -189,6 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -199,16 +205,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-as-scientific-calculator" id="toc-r-as-scientific-calculator" class="nav-link active" data-scroll-target="#r-as-scientific-calculator"><span class="header-section-number">1.1</span> R as scientific calculator</a></li>
-  <li><a href="#r-as-programming-language" id="toc-r-as-programming-language" class="nav-link" data-scroll-target="#r-as-programming-language"><span class="header-section-number">1.2</span> R as programming language</a>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link active" data-scroll-target="#getting-help"><span class="header-section-number">1.1</span> Getting help</a></li>
+  <li><a href="#r-as-scientific-calculator" id="toc-r-as-scientific-calculator" class="nav-link" data-scroll-target="#r-as-scientific-calculator"><span class="header-section-number">1.2</span> R as scientific calculator</a>
   <ul class="collapse">
-  <li><a href="#variables-and-name-conventions" id="toc-variables-and-name-conventions" class="nav-link" data-scroll-target="#variables-and-name-conventions"><span class="header-section-number">1.2.1</span> Variables and name conventions</a></li>
-  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">1.2.2</span> Functions</a></li>
-  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">1.2.3</span> Data types</a></li>
-  <li><a href="#data-structures" id="toc-data-structures" class="nav-link" data-scroll-target="#data-structures"><span class="header-section-number">1.2.4</span> Data structures</a></li>
-  <li><a href="#conditions" id="toc-conditions" class="nav-link" data-scroll-target="#conditions"><span class="header-section-number">1.2.5</span> Conditions</a></li>
-  <li><a href="#repetition" id="toc-repetition" class="nav-link" data-scroll-target="#repetition"><span class="header-section-number">1.2.6</span> Repetition</a></li>
-  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">1.2.7</span> Exercise</a></li>
+  <li><a href="#arithmetic-operations" id="toc-arithmetic-operations" class="nav-link" data-scroll-target="#arithmetic-operations"><span class="header-section-number">1.2.1</span> Arithmetic operations</a></li>
+  <li><a href="#special-values" id="toc-special-values" class="nav-link" data-scroll-target="#special-values"><span class="header-section-number">1.2.2</span> Special values</a></li>
+  <li><a href="#set-operations" id="toc-set-operations" class="nav-link" data-scroll-target="#set-operations"><span class="header-section-number">1.2.3</span> Set operations</a></li>
+  <li><a href="#mathematical-functions" id="toc-mathematical-functions" class="nav-link" data-scroll-target="#mathematical-functions"><span class="header-section-number">1.2.4</span> Mathematical functions</a></li>
+  </ul></li>
+  <li><a href="#r-as-programming-language" id="toc-r-as-programming-language" class="nav-link" data-scroll-target="#r-as-programming-language"><span class="header-section-number">1.3</span> R as programming language</a>
+  <ul class="collapse">
+  <li><a href="#variables-and-name-conventions" id="toc-variables-and-name-conventions" class="nav-link" data-scroll-target="#variables-and-name-conventions"><span class="header-section-number">1.3.1</span> Variables and name conventions</a></li>
+  <li><a href="#rules-of-quotation-marks-and-parenthesses" id="toc-rules-of-quotation-marks-and-parenthesses" class="nav-link" data-scroll-target="#rules-of-quotation-marks-and-parenthesses"><span class="header-section-number">1.3.2</span> Rules of quotation marks and parenthesses</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">1.3.3</span> Functions</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="header-section-number">1.3.4</span> Data types</a></li>
+  <li><a href="#data-structures" id="toc-data-structures" class="nav-link" data-scroll-target="#data-structures"><span class="header-section-number">1.3.5</span> Data structures</a></li>
+  <li><a href="#control-flow" id="toc-control-flow" class="nav-link" data-scroll-target="#control-flow"><span class="header-section-number">1.3.6</span> Control flow</a></li>
+  <li><a href="#loops" id="toc-loops" class="nav-link" data-scroll-target="#loops"><span class="header-section-number">1.3.7</span> Loops</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/01_R.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -240,10 +253,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>CRAN manuals like <strong>Introduction to R</strong> at <a href="https://cran.r-project.org/doc/manuals/R-intro.pdf" class="uri">https://cran.r-project.org/doc/manuals/R-intro.pdf</a></li>
 <li><a href="https://www.cs.upc.edu/~robert/teaching/estadistica/TheRBook.pdf">The R Book</a> is a very comprehensive source, although strongly oriented towards statistics</li>
 <li>freeCodeCamp’s <a href="https://www.youtube.com/watch?v=_V8eKsto3Ug&amp;t=4052s&amp;pp=ygUWciBwcm9ncmFtbWluZyBsYW5ndWFnZQ%3D%3D">R programming tutorial</a> is a very mild introduction to scripting language</li>
-<li><a href="https://adv-r.hadley.nz/">Advanced R (2nd edition)</a> from Hadley Wickham contains a lot of information about langugae fundamentals and<br>
-</li>
+<li><a href="https://adv-r.hadley.nz/">Advanced R (2nd edition)</a> from Hadley Wickham contains a lot of information about langugae fundamentals and extra information.</li>
 </ul>
-<p>For the newcomer to R ecosystem we highly encourage to print and use the various official <em>cheat sheets</em>, created by <strong>Posit Inc.</strong>.</p>
+<p>For the newcomer to R ecosystem we highly encourage to print and use the various official <em>cheat sheets</em>, created by the R community and <strong>Posit Inc.</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/base-r-cheat-sheet.pdf"><img src="images/base-r-1.jpg" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
 <section id="some-basic-commands" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="some-basic-commands">Some basic commands</h4>
 <div class="cell">
@@ -271,10 +288,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>and you can also invoke any shell/cmd command plus attributes with <code>system2()</code> interface.</p>
 </section>
-<section id="r-as-scientific-calculator" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="r-as-scientific-calculator"><span class="header-section-number">1.1</span> R as scientific calculator</h2>
-<section id="arithmetic-operations" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="arithmetic-operations">Arithmetic operations</h4>
+<section id="getting-help" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="getting-help"><span class="header-section-number">1.1</span> Getting help</h2>
+<p>It is entered into the console in the form <code>help(&lt;function name&gt;)</code> or <code>?&lt;function name&gt;</code>. If we would like to look directly into the code of the function, it is also possible, we just enter the name of the function in the console without brackets, or use the command <code>View(&lt;function name&gt;)</code>. In addition, R also has <code>help.search(&lt;function name&gt;)</code> under the shortcut <code>??,</code> which searches for full-text help across installed packages. Furthermore, it is still possible to search the R language mailing list using the function <code>RSiteSearch()</code>, which opens a new window of the predefined browser. In addition, thematically integrated help cards are very useful: <code>?Logical</code>, <code>?Constants</code>, <code>?Control</code>, <code>?Arithmetic</code>, <code>?Syntax</code>, <code>?Special</code> etc.</p>
+<section id="exercise" class="level5" data-number="1.1.0.0.1">
+<h5 data-number="1.1.0.0.1" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.1.0.0.1</span> Exercise</h5>
+<ol type="1">
+<li>Try to find help to <code>DateTimeClasses</code>.
+<ol type="a">
+<li>What do the <code>POSIXct</code> a <code>POSIXlt</code> represent?</li>
+<li>What is the difference between them?</li>
+<li>Find a function for calculating <span class="math inline">\(5!\)</span></li>
+</ol></li>
+</ol>
+</section>
+</section>
+<section id="r-as-scientific-calculator" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="r-as-scientific-calculator"><span class="header-section-number">1.2</span> R as scientific calculator</h2>
+<section id="arithmetic-operations" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="arithmetic-operations"><span class="header-section-number">1.2.1</span> Arithmetic operations</h3>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -293,81 +325,227 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="special-values" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="special-values">Special values</h4>
-<p>R is familiar with the concept of <span class="math inline">\(\pm\infty\)</span>, hence <code>-Inf</code> and <code>Inf</code> values are at disposal. You will get them most probably as results from computation heading to <span class="math inline">\(\frac{\pm1}{0}\)</span> numerically. There are other special values like <code>NULL</code> (<em>null value</em>), <code>NA</code> (<em>not assigned</em>) and <code>NaN</code> (<em>not a number</em>). The concept of <em>not assigned</em> is one that is particularly important, since it has significant impact on the computed result ({<span class="citation" data-cites="code-mean-rm">(<a href="#ref-code-mean-rm" role="doc-biblioref"><strong>code-mean-rm?</strong></a>)</span>}).</p>
+<section id="special-values" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="special-values"><span class="header-section-number">1.2.2</span> Special values</h3>
+<p>R is familiar with the concept of <span class="math inline">\(\pm\infty\)</span>, hence <code>-Inf</code> and <code>Inf</code> values are at disposal. You will get them most probably as results from computation heading to <span class="math inline">\(\frac{\pm1}{0}\)</span> numerically. There are other special values like <code>NULL</code> (<em>null value</em>), <code>NA</code> (<em>not assigned</em>) and <code>NaN</code> (<em>not a number</em>). The concept of <em>not assigned</em> is one that is particularly important, since it has significant impact on the computed result ({<span class="citation" data-cites="code-mean-rm">(<a href="#ref-code-mean-rm" role="doc-biblioref"><strong>code-mean-rm?</strong></a>)</span>}). <code>NA</code> is of default type <code>logical</code>. Otherwise it si possible to specify missing value in all other data type like <code>NA_real_</code> (matches double), <code>NA_integer_</code>, <code>NA_complex_</code> and <code>NA_character_</code>, these are all usable in pre-allocation of memory for data structures. Try to find the usage of functions <code>na.omit()</code>, <code>is.na()</code>, <code>complete.cases()</code>.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)             <span class="co"># general sequence of numbers</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span>            <span class="co"># change some elements to not assigned</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1]  1  2  3  4 NA NA  7  8  9 10</code></pre>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-4">General sequence of numbers</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-4">change some elements to not assigned</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="4" data-code-annotation="3" data-code-cell="annotated-cell-4">without removal</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="4" data-code-cell="annotated-cell-4">and with removal</span>
+</dd>
+</dl>
 </div>
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)                    <span class="co"># without removal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] NA</code></pre>
-</div>
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)      <span class="co"># and with removal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.5</code></pre>
+<pre><code> [1]  1  2  3  4 NA NA  7  8  9 10
+[1] NA
+[1] 5.5</code></pre>
 </div>
 </div>
 </section>
-<section id="set-operations" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="set-operations">Set operations</h4>
+<section id="set-operations" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="set-operations"><span class="header-section-number">1.2.3</span> Set operations</h3>
 <p>For manipulating sets, there are a couple of essential functions <code>union()</code>, <code>intersect()</code>, <code>setdiff()</code> and operator <code>%in%</code>.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>set_A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"D"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>set_B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"d"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(set_A, set_B)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "a" "b" "c" "D" "d"</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(set_A, set_B)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "a" "b"</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>set_A <span class="sc">%in%</span> set_B</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  TRUE  TRUE  TRUE FALSE FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>set_A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"D"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>set_B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"d"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">union</span>(set_A, set_B)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "a" "b" "c" "D" "d"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">intersect</span>(set_A, set_B)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "a" "b"</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>set_A <span class="sc">%in%</span> set_B</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  TRUE  TRUE  TRUE FALSE FALSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>The operators fall in arithmetic, relation, assign categories and we also put set functions here.</p>
+<table class="table">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sign</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code> , <code>-</code> , <code>*</code> , <code>/</code> , <code>%%</code> , <code>%/%</code> , <code>**</code> nebo <code>^</code>, <code>%*%</code></td>
+<td>arithmetic operators (plus, minus, multiply, divide, modulo, integer division, power and matrix multiplication)</td>
+</tr>
+<tr class="even">
+<td><code>&gt;</code> ,<code>&gt;=</code> , <code>&lt;</code> , <code>&lt;=</code> , <code>==</code> , <code>!=</code></td>
+<td>relation operators (larger/smaller than, equal, not equal)</td>
+</tr>
+<tr class="odd">
+<td><code>!</code> , <code>&amp;</code> , <code>&amp;&amp;</code> , <code>|</code> , <code>||</code></td>
+<td>logical (negation, and, or)</td>
+</tr>
+<tr class="even">
+<td><code>~</code></td>
+<td>functional relationship</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;-</code> , <code>=</code>, <code>&lt;&lt;-</code>, <code>-&gt;</code></td>
+<td>assign operator</td>
+</tr>
+<tr class="even">
+<td><code>$</code></td>
+<td>naming indexation in heterogenic structures</td>
+</tr>
+<tr class="odd">
+<td><code>:</code></td>
+<td>rangea</td>
+</tr>
+<tr class="even">
+<td><code>isTRUE()</code> , <code>all()</code> , <code>any()</code> , <code>%in%</code> , <code>setdiff()</code></td>
+<td>set functions</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mathematical-functions" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="mathematical-functions"><span class="header-section-number">1.2.4</span> Mathematical functions</h3>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 90%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>log(x)</code></td>
+<td>logarithm <span class="math inline">\(x\)</span> to the base <span class="math inline">\(e\)</span></td>
+</tr>
+<tr class="even">
+<td><code>exp(x)</code></td>
+<td><span class="math inline">\(x(e^x)\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>log(x, n)</code></td>
+<td>logarithm <span class="math inline">\(x\)</span> base <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td><code>log10(x)</code></td>
+<td>logarithm <span class="math inline">\(x\)</span> base <span class="math inline">\(10\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>sqrt(x)</code></td>
+<td>square root from <span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td><code>factorial</code>(x)</td>
+<td><span class="math inline">\(x!\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>choose(n, x)</code></td>
+<td>binomial coefficients<br>
+<span class="math display">\[
+                                                                                                                                                                                                                                                                                                            \binom{n}{k} = \frac{n!}{k!(n-k)!}
+                                                                                                                                                                                                                                                                                                         \]</span></td>
+</tr>
+<tr class="even">
+<td><code>ceiling(x)</code></td>
+<td>smallest integer large than <span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>floor(x)</code></td>
+<td>largest integer before <span class="math inline">\(x\)</span></td>
+</tr>
+<tr class="even">
+<td><code>trunc(x)</code></td>
+<td>closest number between <span class="math inline">\(x\)</span> a 0</td>
+</tr>
+<tr class="odd">
+<td><code>round(x, digits)</code></td>
+<td>round <span class="math inline">\(x\)</span> to <span class="math inline">\(n\)</span> decimals</td>
+</tr>
+<tr class="even">
+<td><code>signif(x, digits)</code></td>
+<td>round <span class="math inline">\(x\)</span> to <span class="math inline">\(n\)</span> significant numbers</td>
+</tr>
+<tr class="odd">
+<td><code>cos(x)</code> , <code>sin(x)</code> , <code>tan(x)</code></td>
+<td>function ins rad</td>
+</tr>
+<tr class="even">
+<td><code>acos(x)</code> , <code>asin(x)</code> , <code>atan(x)</code></td>
+<td>inverse trigonometric functions</td>
+</tr>
+<tr class="odd">
+<td><code>abs(x)</code></td>
+<td>absolute value</td>
+</tr>
+</tbody>
+</table>
+<section id="exercise-1" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h5>
+<ol start="5" type="1">
+<li>Evaluate the following expressions:<br>
+
+<ol type="a">
+<li><span class="math inline">\(1 + 3 \cdot (2 / 3)\:\mathrm{mod}\:3\)</span><br>
+</li>
+<li><span class="math inline">\(\dfrac{\sin(2.3)}{\cos(\pi)}\)</span><br>
+</li>
+<li><span class="math inline">\(\sum\limits_{i = 1}^{53}i\)</span><br>
+</li>
+<li><span class="math inline">\(\dfrac{-\infty}{0}\)</span>, <span class="math inline">\(\dfrac{-\infty}{\infty}\)</span>, <span class="math inline">\(\dfrac{0}{0}\)</span><br>
+</li>
+<li><span class="math inline">\(\left(\dfrac{2}{35}\right)^{0.5} \cdot 3 \cdot (2 / 3)\)</span><br>
+</li>
+<li><span class="math inline">\(20!\)</span><br>
+</li>
+<li><span class="math inline">\(\int_{0}^{3\pi} \sin(x) dx\)</span></li>
+</ol></li>
+</ol>
 </section>
 <section id="matrix-operations" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="matrix-operations">Matrix operations</h4>
-<p>For the purpose of following examples let’s use an arbitrary matrix <span class="math inline">\(M\)</span> and a vectors <span class="math inline">\(U\)</span> and <span class="math inline">\(V\)</span>.</p>
+<p>Let’s say we have a set of linear equations</p>
 <p><span id="eq-sys-linear"><span class="math display">\[
-\mathbf{A} = \left(\begin{matrix}
+\begin{matrix}
 2x&amp; - 3y&amp; &amp;= 3\\
 &amp; - 2y&amp; + 4z &amp;= 9\\
 2x&amp; + 13y&amp; + 9z&amp;= 10
-\end{matrix}\right),\\
+\end{matrix}\\
 \tag{1.1}\]</span></span></p>
-<p><span id="eq-uv-vctrs"><span class="math display">\[
-\mathbf{u} = \begin{pmatrix}
-1\\
--3\\
-8\\
-\end{pmatrix},
-\mathbf{v} = \begin{pmatrix}
-1\\
--3\\
-8\\
-\end{pmatrix}
-\tag{1.2}\]</span></span></p>
-<p>Solving a system of linear equations {<a href="#eq-sys-linear">Equation&nbsp;<span>1.1</span></a>} is a one-liner:</p>
+<p>Solving {<a href="#eq-sys-linear">Equation&nbsp;<span>1.1</span></a>} is a one-liner:</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">13</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">13</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A, B)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  0.5304878 -0.6463415  1.9268293</code></pre>
@@ -375,21 +553,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="r-as-programming-language" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="r-as-programming-language"><span class="header-section-number">1.2</span> R as programming language</h2>
-<section id="variables-and-name-conventions" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="variables-and-name-conventions"><span class="header-section-number">1.2.1</span> Variables and name conventions</h3>
-<p>It is possible. We highly discourage using diacritical marks in naming, like the Czech translation of the term <em>“variable”</em> - <code>proměnná</code>. Most programmers use either <code>camelNotation</code> or <code>snake_notation</code> for naming purposes. Obviously the R is <em>case-sensitive</em> so <code>camelNotation</code> and <code>CamelNotation</code> are two different things. Variables do not contain spaces, quotes, arithmetical, logical nor relational operators neither they contain special characters like <code>=</code>, <code>-</code>, ``.</p>
 </section>
-<section id="functions" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="functions"><span class="header-section-number">1.2.2</span> Functions</h3>
+<section id="r-as-programming-language" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="r-as-programming-language"><span class="header-section-number">1.3</span> R as programming language</h2>
+<section id="variables-and-name-conventions" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="variables-and-name-conventions"><span class="header-section-number">1.3.1</span> Variables and name conventions</h3>
+<p>It is highly discouraged using spaces and diacritical marks in naming, like the Czech translation of the term <em>“variable”</em> - <code>proměnná</code>. Most programmers use either <code>camelNotation</code> or <code>snake_notation</code> for naming purposes. Obviously the R is <em>case-sensitive</em> so <code>camelNotation</code> and <code>CamelNotation</code> are two different things. Variables do not contain spaces, quotes, arithmetical, logical nor relational operators neither they contain special characters like <code>=</code>, <code>-</code>, ``. Objects cannot be named by key words.</p>
+<section id="key-words" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="key-words">Key words</h5>
+<p><code>if</code>, <code>else</code>, <code>repeat</code>, <code>while</code>, <code>function</code>, <code>for</code>, <code>in</code>, <code>next</code>, <code>repeat</code>, <code>break</code>, <code>TRUE</code>, <code>FALSE</code>, <code>NULL</code>, <code>Inf</code>, <code>NaN</code>, <code>NA</code>, <code>NA_integer_</code>, <code>NA_real_</code>, <code>NA_complex_</code>, <code>NA_character_</code></p>
+<p>It is not recommended to inlude dot in the name, like <code>morava.prutoky</code>, and to match the names with commonly used functions. R is “case-sensitive” which means, that <code>X</code> does not equal <code>x</code>.</p>
+</section>
+<section id="exercise-2" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="exercise-2">Exercise</h5>
+<ol start="2" type="1">
+<li>Intuitively, we might be guided to load the data into the <code>data</code> variable. This is the wrong however, since <code>data()</code> is a function to access datasets that are part of the basic R installation. Try it out.</li>
+</ol>
+</section>
+<section id="some-cases-of-possible-but-wrong-naming" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="some-cases-of-possible-but-wrong-naming">Some cases of possible but wrong naming</h5>
+<p><code>aaa</code>, <code>Morávka průtok [m/s]</code>, <code>moje.proměnná</code><br>
+</p>
+</section>
+</section>
+<section id="rules-of-quotation-marks-and-parenthesses" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="rules-of-quotation-marks-and-parenthesses"><span class="header-section-number">1.3.2</span> Rules of quotation marks and parenthesses</h3>
+<p>Both represent the paired characters in R. Parenthesses are used in three versions: classical, square brackets and curly brackets (braces). All of them have specific non-overlaping usage.</p>
+<ul>
+<li><code>()</code> <strong>are always to be found right next to a function name</strong> they delineate the space where function arguments are to be specified.<br>
+</li>
+<li><code>[]</code> <strong>are always use with the name of the object</strong> (vector, array, list, …) and signalize subselecting from the object.<br>
+</li>
+<li><code>{}</code> <strong>mark a block of code</strong>, which should be executed at once.<br>
+</li>
+</ul>
+<p>Quotation marks introduce text strings. Both “double” and ‘single’ quotes can be used completely at will, they just need to be closed with the same type. Back quotes are also common and are used, for example, to delimit a non-standard column name in a structure.</p>
+</section>
+<section id="functions" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="functions"><span class="header-section-number">1.3.3</span> Functions</h3>
 <p>You can define own functions using the <code>function()</code> construct. If you work in ****RStudio, just type <code>fun</code> and tabulate a snippet from the IDE help. The action produces {<span class="citation" data-cites="code-function-snippet">(<a href="#ref-code-function-snippet" role="doc-biblioref"><strong>code-function-snippet?</strong></a>)</span>}.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="cf">function</span>(variables) {</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>name <span class="ot">&lt;-</span> <span class="cf">function</span>(variables) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p><code>name</code> is the name of the function we would like to create and <code>variables</code> are the arguments of that function. Space between the <code>{</code>and <code>}</code> is called a body of a function and contains all the computation which is invoked when the function is called.</p>
@@ -401,21 +609,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>w_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">w =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(x)) {</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x<span class="sc">*</span>w)<span class="sc">/</span><span class="fu">sum</span>(w)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">w_mean</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>w_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">w =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">length</span>(x)) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x<span class="sc">*</span>w)<span class="sc">/</span><span class="fu">sum</span>(w)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">w_mean</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 55</code></pre>
+</div>
+</div>
+<p>Here is a different example:</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1">1</button><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>nejblizsi_hodnota <span class="ot">&lt;-</span> <span class="cf">function</span>(x, value) {</span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  x[<span class="fu">which</span>(<span class="fu">abs</span>(x <span class="sc">-</span> value) <span class="sc">==</span> <span class="fu">min</span>(<span class="fu">abs</span>(x <span class="sc">-</span> value)))]</span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-9-6"><a href="#annotated-cell-9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Hodnota nejblíže 0 z vektoru x je:"</span> , <span class="fu">nejblizsi_hodnota</span>(<span class="at">x =</span> x, <span class="at">value =</span> <span class="dv">0</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2,3,4" data-code-annotation="1" data-code-cell="annotated-cell-9">Example of function, which seeks the neares number from a vector <code>x</code> to a certain referential <code>value</code>.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hodnota nejblíže 0 z vektoru x je: -0.01673926</code></pre>
 </div>
 </div>
 <p>We can test if we get the same result as the <em>primitive</em> function from R using <code>all.equal()</code> statement.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">w_mean</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)), </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">weighted.mean</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">w_mean</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)), </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">weighted.mean</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">w =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.25</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
@@ -423,56 +654,323 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Any argument without default value in the function definition has to be provided on function call. You can frequently see functions with the possibility to specify <code>...</code> a so-called <em>three dot construct</em> or <em>ellipsis</em>. The <strong>ellipsis</strong> allows for adding any number of arguments to a function call, after all the named ones.</p>
 </section>
-<section id="data-types" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="data-types"><span class="header-section-number">1.2.3</span> Data types</h3>
+<section id="data-types" class="level3" data-number="1.3.4">
+<h3 data-number="1.3.4" class="anchored" data-anchor-id="data-types"><span class="header-section-number">1.3.4</span> Data types</h3>
 <p>The basic types are <strong>logical</strong>, <strong>integer</strong>, <strong>numeric</strong>, <strong>complex</strong>, <strong>character</strong> and <strong>raw</strong>. There are some additional types which we will encounter like <strong>Date</strong>. Since R is dynamically typed, it is not necessary for the user to declare variables before using them. Also the type changes without notice based on the stored values, where the chain goes from the least complex to the most. The summary is in the following table</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span>    <span class="co"># logical, also T as short version</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>1L      <span class="co"># integer</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fl">1.2</span>     <span class="co"># numeric</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.2</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span>3i    <span class="co"># complex</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1+3i</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="st">"A"</span>     <span class="co"># character, also 'A'</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "A"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cn">TRUE</span>    <span class="co"># logical, also T as short version</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>1L      <span class="co"># integer</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fl">1.2</span>     <span class="co"># numeric</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.2</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span>3i    <span class="co"># complex</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1+3i</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="st">"A"</span>     <span class="co"># character, also 'A'</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "A"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="data-structures" class="level3" data-number="1.2.4">
-<h3 data-number="1.2.4" class="anchored" data-anchor-id="data-structures"><span class="header-section-number">1.2.4</span> Data structures</h3>
-<section id="vectors" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="vectors">Vectors</h4>
-<p>Atomic vectors are single-type linear structures. They can contain elements of any type, from <strong>logical</strong>, <strong>integer</strong>, <strong>numeric</strong>, <strong>complex</strong>, <strong>character</strong>.</p>
+<p>They represent the individual elements of data structures. R dynamically typed and does not require declarations before usage.</p>
+<table class="table">
+<caption>Basic types and coercions.</caption>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>logical</th>
+<th>integer</th>
+<th>numeric</th>
+<th>complex</th>
+<th>character</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>logical</strong></td>
+<td><code>logical</code></td>
+<td><code>integer</code></td>
+<td><code>numeric</code></td>
+<td><code>complex</code></td>
+<td><code>character</code></td>
+</tr>
+<tr class="even">
+<td><strong>integer</strong></td>
+<td><code>logical</code></td>
+<td><code>integer</code></td>
+<td><code>numeric</code></td>
+<td><code>complex</code></td>
+<td><code>character</code></td>
+</tr>
+<tr class="odd">
+<td><strong>numeric</strong></td>
+<td><code>logical</code></td>
+<td><code>numeric</code></td>
+<td><code>numeric</code></td>
+<td><code>complex</code></td>
+<td><code>character</code></td>
+</tr>
+<tr class="even">
+<td><strong>complex</strong></td>
+<td><code>logical</code></td>
+<td><code>integer</code> + warning</td>
+<td><code>numeric</code> + warning</td>
+<td><code>complex</code></td>
+<td><code>character</code></td>
+</tr>
+<tr class="odd">
+<td><strong>character</strong></td>
+<td><code>NA_logical</code></td>
+<td><code>NA_integer</code> + warning</td>
+<td><code>NA_numeric</code> + warning</td>
+<td><code>NA_complex</code> + warning</td>
+<td><code>character</code></td>
+</tr>
+</tbody>
+</table>
+<p>Two types of functions are connected to data types: <code>is.___</code> a <code>as.___</code>. Is is either questioning or coertion of data type. Try also <code>class()</code>, <code>mode()</code>.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: test-code-annotation</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">0</span>) <span class="co"># empty numeric vector creation</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>V[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"A"</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.character</span>(<span class="st">"ABC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.integer</span>(<span class="dv">11</span> <span class="sc">+</span> 1i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: imaginary parts discarded in coercion</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+</div>
+<section id="exercise-3" class="level5" data-number="1.3.4.0.1">
+<h5 data-number="1.3.4.0.1" class="anchored" data-anchor-id="exercise-3"><span class="header-section-number">1.3.4.0.1</span> Exercise</h5>
+<ol type="a">
+<li>Create in any way a vector <code>x</code> of 10 different numerical values, where <span class="math inline">\(x\in\mathbb{R}\)</span>.</li>
+<li>Write an expression to select numbers between -5 and 5 from this vector.</li>
+<li>Convert to integer type and discuss the result.</li>
+<li>Add 3 positions “A”, “B” and “C” to the vector, has the vector changed?</li>
+</ol>
+</section>
+</section>
+<section id="data-structures" class="level3" data-number="1.3.5">
+<h3 data-number="1.3.5" class="anchored" data-anchor-id="data-structures"><span class="header-section-number">1.3.5</span> Data structures</h3>
+<section id="vectors" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="vectors">Vectors</h4>
+<p>Atomic vectors are single-type linear structures. They can contain elements of any type, from <strong>logical</strong>, <strong>integer</strong>, <strong>numeric</strong>, <strong>complex</strong>, <strong>character</strong>. A vector is a basic building structure in the R language, there is nothing like a scalar quantity here. The concept of vector is understood here in the mathematical sense as a vector of values representing a point in <span class="math inline">\(n\)</span>-dimensional space.</p>
+<p><span class="math display">\[
+\mathbf{\mathrm{u}} =
+\begin{pmatrix}
+1\\
+1.5\\
+-14\\
+7.223\\
+\end{pmatrix}, \qquad
+\mathbf{\mathrm{v}} =
+\begin{pmatrix}
+\mathrm{TRUE}\\
+\mathrm{FALSE}\\
+\mathrm{TRUE}\\
+\mathrm{TRUE}\\
+\end{pmatrix}, \qquad
+\mathbf{\mathrm{u^T}} =
+\begin{pmatrix}
+1 &amp; 1.5 &amp; -14 &amp; 7.233\\
+\end{pmatrix}
+\]</span></p>
+<p>Many functions lead to creation of a vector, among the most used are <code>vector(mode = "numeric", length = 10)</code>, function <code>c()</code>, or using subset operators <code>[</code> or <code>[[</code>.</p>
+<p>An important rule is tied to vectors - <strong>value recycling</strong>.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-14-1"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">2.0</span>, <span class="fl">6.1</span>, <span class="fl">2.7</span>)</span>
+<span id="annotated-cell-14-2"><a href="#annotated-cell-14-2" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.0</span>, <span class="fl">1.3</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1">1</button><span id="annotated-cell-14-3" class="code-annotation-target"><a href="#annotated-cell-14-3" aria-hidden="true" tabindex="-1"></a>u <span class="sc">+</span> v</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2">2</button><span id="annotated-cell-14-4" class="code-annotation-target"><a href="#annotated-cell-14-4" aria-hidden="true" tabindex="-1"></a>u <span class="sc">*</span> v</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="3">3</button><span id="annotated-cell-14-5" class="code-annotation-target"><a href="#annotated-cell-14-5" aria-hidden="true" tabindex="-1"></a>u <span class="sc">*</span> <span class="fl">2.3</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="3" data-code-annotation="1" data-code-cell="annotated-cell-14">Adding two vectors while length of second is the multiple of the first</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-14">Multiplying two vectors while length of second is the multiple of the first</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-14">Multipling with single numeric value</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.4 3.3 8.1 4.0
+[1]  2.80  2.60 12.20  3.51
+[1] 4.60 2.99</code></pre>
+</div>
+</div>
+<section id="working-with-vectors" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="working-with-vectors">Working with vectors</h5>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1">1</button><span id="annotated-cell-15-1" class="code-annotation-target"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="annotated-cell-15-2"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="annotated-cell-15-3"><a href="#annotated-cell-15-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">10</span>)</span>
+<span id="annotated-cell-15-4"><a href="#annotated-cell-15-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">expr =</span> <span class="fu">eval</span>(<span class="dv">2</span>))</span>
+<span id="annotated-cell-15-5"><a href="#annotated-cell-15-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="annotated-cell-15-6"><a href="#annotated-cell-15-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="at">x =</span> <span class="dv">15</span>, <span class="at">times =</span> <span class="dv">2</span>)</span>
+<span id="annotated-cell-15-7"><a href="#annotated-cell-15-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">20</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2">2</button><span id="annotated-cell-15-8" class="code-annotation-target"><a href="#annotated-cell-15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x) <span class="sc">*</span> x</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="3">3</button><span id="annotated-cell-15-9" class="code-annotation-target"><a href="#annotated-cell-15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="4">4</button><span id="annotated-cell-15-10" class="code-annotation-target"><a href="#annotated-cell-15-10" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="5">5</button><span id="annotated-cell-15-11" class="code-annotation-target"><a href="#annotated-cell-15-11" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1,2,3,4,5,6,7" data-code-annotation="1" data-code-cell="annotated-cell-15">Vector creation <span class="math inline">\(\boldsymbol{\mathrm{x}}\)</span> by different approaches. Sequences, repeats, repetitions and sampling</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="8" data-code-annotation="2" data-code-cell="annotated-cell-15">Transposition of vector.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="9" data-code-annotation="3" data-code-cell="annotated-cell-15">Naming elements of a vector.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-lines="10" data-code-annotation="4" data-code-cell="annotated-cell-15">Selection of elements from a vector based on a condition.</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-lines="11" data-code-annotation="5" data-code-cell="annotated-cell-15">Selection of elements from a vector based on an index.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         [,1]     [,2]       [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
+[1,] 9.262738 199.7026 0.05877431 256.1379 58.12413 650.7149 220.7695 224.1972
+       [,9]   [,10]
+[1,] 301.39 394.822
+       F        G        I        J 
+25.50911 14.85831 17.36059 19.87013 
+          A           B           C 
+ -3.0434747 -14.1316182  -0.2424341 </code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: test-code-annotation</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"numeric"</span>, <span class="at">length =</span> <span class="dv">0</span>) <span class="co"># empty numeric vector creation</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>V[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">"A"</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
 </section>
 <section id="matrices-and-arrays" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="matrices-and-arrays">Matrices and arrays</h4>
 <p>If the object has more than one <em>dimension</em>, it is treated as an array. A special type of <strong>array</strong> is a <strong>matrix</strong>. Both object types have accompanying functions like <code>colSums()</code>, <code>rowMeans()</code>.</p>
+<table class="table">
+<caption>List of <code>matrix</code> bounded functions</caption>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>nrow()</code>, <code>ncol()</code></td>
+<td>number of rows, columns in matrix</td>
+</tr>
+<tr class="even">
+<td><code>dim()</code></td>
+<td>dtto</td>
+</tr>
+<tr class="odd">
+<td><code>det()</code></td>
+<td>matrix determinant</td>
+</tr>
+<tr class="even">
+<td><code>eigen()</code></td>
+<td>eigenvalues, eigenvectors</td>
+</tr>
+<tr class="odd">
+<td><code>colnames()</code></td>
+<td>column names in matrix</td>
+</tr>
+<tr class="even">
+<td><code>rowSums()</code></td>
+<td>row sums in matrix</td>
+</tr>
+<tr class="odd">
+<td><code>colMeans()</code></td>
+<td>column means of matrix</td>
+</tr>
+<tr class="even">
+<td><code>M[m, ]</code></td>
+<td>Selection of <span class="math inline">\(m\)</span>-th row of matrix</td>
+</tr>
+<tr class="odd">
+<td><code>M[ ,n]</code></td>
+<td>Selection of <span class="math inline">\(n\)</span>-th column of matrix</td>
+</tr>
+</tbody>
+</table>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="co"># empty matrix creation</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>M[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>                              <span class="co"># add single value at origin</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>M[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">1.5</span>                             <span class="co"># store 1.5 to the whole first column</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2</span>)                <span class="co"># store random numbers to first two rows</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(M) </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  0.767096 -0.132904</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(M)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] -0.7383973  1.5000000 -0.5906430  1.5000000  1.5000000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-17"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-17-1"><a href="#annotated-cell-17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1">1</button><span id="annotated-cell-17-2" class="code-annotation-target"><a href="#annotated-cell-17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)</span>
+<span id="annotated-cell-17-3"><a href="#annotated-cell-17-3" aria-hidden="true" tabindex="-1"></a>x</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-17">Conversion to <span class="math inline">\(2\times 2\)</span> dimension</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    3    5    7    9
+[2,]    2    4    6    8   10</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="co"># empty matrix creation</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>M[<span class="dv">1</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span>                              <span class="co"># add single value at origin</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>M[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fl">1.5</span>                             <span class="co"># store 1.5 to the whole first column</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2</span>)                <span class="co"># store random numbers to first two rows</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(M) </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  0.6939527 -0.2060473</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(M)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] -2.08671974  1.50000000  0.02624674  1.50000000  1.50000000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>It is possible to have matrices containing any data type, e.g.</p>
@@ -493,10 +991,10 @@ N = \left(\begin{matrix}
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>thaya <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="cn">NA</span>, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">runoff =</span> <span class="cn">NA</span>, </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">precipitation =</span> <span class="cn">NA</span>) <span class="co"># new empty data.frame with variables 'date', 'runoff', 'precipitation' and 'temperature'</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#thaya$runoff &lt;- rnorm(100, 1, 2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>thaya <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="cn">NA</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">runoff =</span> <span class="cn">NA</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">precipitation =</span> <span class="cn">NA</span>) <span class="co"># new empty data.frame with variables 'date', 'runoff', 'precipitation' and 'temperature'</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#thaya$runoff &lt;- rnorm(100, 1, 2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -506,9 +1004,9 @@ N = \left(\begin{matrix}
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># empty list creation </span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>l[<span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">list</span>() <span class="co"># empty list creation </span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>l[<span class="st">"A"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$A
@@ -516,8 +1014,8 @@ N = \left(\begin{matrix}
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>l<span class="sc">$</span>A <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(l)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$A
@@ -530,58 +1028,158 @@ N = \left(\begin{matrix}
 <p>Although R is intended as functional programming language, more than one object oriented paradigm is implemented in the language. As new R users we encounter first OOP system in functions like <code>summary</code> and <code>plot</code>, which represent so called <strong>S3 generic functions</strong>. We will further work with <strong>S4</strong> system when processing geospatial data using proxy libraries like <code>sf</code> and <code>terra</code>. The OOP is very complex and will not be further discussed within this text. For further study we recommend OOP sections in <strong>Advanced R</strong> by Hadley Wickham.</p>
 </section>
 </section>
-<section id="conditions" class="level3" data-number="1.2.5">
-<h3 data-number="1.2.5" class="anchored" data-anchor-id="conditions"><span class="header-section-number">1.2.5</span> Conditions</h3>
+<section id="control-flow" class="level3" data-number="1.3.6">
+<h3 data-number="1.3.6" class="anchored" data-anchor-id="control-flow"><span class="header-section-number">1.3.6</span> Control flow</h3>
+<p>Condition and cycles govern the run of the general flow of calculation, they are the building blocks of algorithms.</p>
+<section id="conditions" class="level4" data-number="1.3.6.1">
+<h4 data-number="1.3.6.1" class="anchored" data-anchor-id="conditions"><span class="header-section-number">1.3.6.1</span> Conditions</h4>
 <p>A condition in code creates branching of computation. Placing a condition creates at least two options from which only one is to be satisfied. The condition is created either by <code>if()</code>/<code>ifelse()</code> or <code>switch()</code> construct. We can again call for a snippet from RStudio help resulting in</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (condition) {</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="cf">switch</span> (object,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">case =</span> action</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(test, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (condition) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="cf">switch</span> (object,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">case =</span> action</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(test, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>The condition can be branched to larger structures like</p>
+<section id="if" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="if"><code>if()</code></h5>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="ot">&lt;-</span> <span class="dv">30</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (temperature <span class="sc">&gt;</span> <span class="dv">30</span>) {</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"The temperature is hot."</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span> (temperature <span class="sc">&gt;</span> <span class="dv">15</span>) {</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"The temperature is warm."</span>)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(A <span class="sc">&gt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"A larger than or equal 1."</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>The temperature is warm.</code></pre>
+<pre><code>A larger than or equal 1.</code></pre>
+</div>
+</div>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-24"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-24-1"><a href="#annotated-cell-24-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-24" data-target-annotation="1">1</button><span id="annotated-cell-24-2" class="code-annotation-target"><a href="#annotated-cell-24-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(A <span class="sc">&gt;=</span> <span class="dv">2</span>) {</span>
+<span id="annotated-cell-24-3"><a href="#annotated-cell-24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"A is larger than or equal 2."</span>)</span>
+<span id="annotated-cell-24-4"><a href="#annotated-cell-24-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(A <span class="sc">&gt;</span> <span class="dv">2</span>) {</span>
+<span id="annotated-cell-24-5"><a href="#annotated-cell-24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"A is larger than 2."</span>)</span>
+<span id="annotated-cell-24-6"><a href="#annotated-cell-24-6" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2,3,4,5,6" data-code-annotation="1" data-code-cell="annotated-cell-24">The chain of conditions will close <strong>at the first evaluation which happens to be TRUE</strong>.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A is larger than or equal 2.</code></pre>
 </div>
 </div>
 </section>
-<section id="repetition" class="level3" data-number="1.2.6">
-<h3 data-number="1.2.6" class="anchored" data-anchor-id="repetition"><span class="header-section-number">1.2.6</span> Repetition</h3>
+<section id="ifelse" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="ifelse"><code>ifelse()</code></h5>
+<p>Vectorized condition, in general looks like</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Element x + 3 is more than 0: "</span>, <span class="fu">ifelse</span>(x <span class="sc">-</span> <span class="dv">3</span> <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">yes =</span> <span class="st">"Yes"</span>, <span class="at">no =</span> <span class="st">"No"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Element x + 3 is more than 0:  No No No No No No No No No Yes Yes</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="switch" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="switch"><code>switch()</code></h4>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="annotated-cell-26"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-26-1"><a href="#annotated-cell-26-1" aria-hidden="true" tabindex="-1"></a>variant <span class="ot">&lt;-</span> <span class="st">"B"</span></span>
+<span id="annotated-cell-26-2"><a href="#annotated-cell-26-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">*</span> (<span class="cf">switch</span>(</span>
+<span id="annotated-cell-26-3"><a href="#annotated-cell-26-3" aria-hidden="true" tabindex="-1"></a>      variant,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-26" data-target-annotation="1">1</button><span id="annotated-cell-26-4" class="code-annotation-target"><a href="#annotated-cell-26-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"A"</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-26" data-target-annotation="2">2</button><span id="annotated-cell-26-5" class="code-annotation-target"><a href="#annotated-cell-26-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"B"</span> <span class="ot">=</span> <span class="dv">3</span>))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-26" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="4" data-code-annotation="1" data-code-cell="annotated-cell-26">“A” variant did not happen,</span>
+</dd>
+<dt data-target-cell="annotated-cell-26" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="2" data-code-cell="annotated-cell-26">instead the “B” variant is truthful, so the expression is evaluated as <span class="math inline">\(2\cdot 3 = 6\)</span></span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<section id="exercise-4" class="level5 unnumbered">
+<h5 class="unnumbered anchored" data-anchor-id="exercise-4">Exercise</h5>
+<ol start="8" type="1">
+<li><p>Create a following grading scheme:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Grade</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>90 % - 100 %</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>75 % - 89 %</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>60 % - 74 %</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>&lt; 60 %</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+</section>
+</section>
+</section>
+<section id="loops" class="level3" data-number="1.3.7">
+<h3 data-number="1.3.7" class="anchored" data-anchor-id="loops"><span class="header-section-number">1.3.7</span> Loops</h3>
 <p>Loops (cycles) provide use with the ability to execute single statement of a block of code in <code>{}</code> multiple times. There are three key words for loop construction. They differ in use cases.</p>
-<section id="for-cycle" class="level4" data-number="1.2.6.1">
-<h4 data-number="1.2.6.1" class="anchored" data-anchor-id="for-cycle"><span class="header-section-number">1.2.6.1</span> <code>for</code> cycle</h4>
+<section id="for-cycle" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="for-cycle"><code>for</code> cycle</h4>
 <p>Probably the most common loop is used when you <strong>know the number of iterations prior to calling</strong>. The iteration is therefore explicitly finite.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> vector) {</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> vector) {</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>An example</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) <span class="fu">cat</span>(i, <span class="st">". iteration"</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) <span class="fu">cat</span>(i, <span class="st">". iteration"</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>1. iteration
@@ -591,51 +1189,73 @@ N = \left(\begin{matrix}
 </div>
 </div>
 </section>
-<section id="while-cycle" class="level4" data-number="1.2.6.2">
-<h4 data-number="1.2.6.2" class="anchored" data-anchor-id="while-cycle"><span class="header-section-number">1.2.6.2</span> <code>while</code> cycle</h4>
+<section id="while-cycle" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="while-cycle"><code>while</code> cycle</h4>
 <p><strong>while</strong> is used in when it is impossible to state how many times something should be repeated. The case is rather in the form <em>while some condition is or is not met, repeat what is inside the body</em>. It is also used in intentionally infinite loop e.g.&nbsp;operating systems.</p>
+<div class="cell">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iteration 1
+Iteration 2
+Iteration 3
+Iteration 4</code></pre>
+</div>
+</div>
 </section>
-<section id="repeat-cycle" class="level4" data-number="1.2.6.3">
-<h4 data-number="1.2.6.3" class="anchored" data-anchor-id="repeat-cycle"><span class="header-section-number">1.2.6.3</span> <code>repeat</code> cycle</h4>
+<section id="repeat-cycle" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="repeat-cycle"><code>repeat</code> cycle</h4>
 <p>In the cases when we need the repetition at least once, we will evaluate the code inside <em>until</em> a condition is met.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span>({</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">1</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(x)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(x <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="cf">break</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-30"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-30-1"><a href="#annotated-cell-30-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="1">1</button><span id="annotated-cell-30-2" class="code-annotation-target"><a href="#annotated-cell-30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
+<span id="annotated-cell-30-3"><a href="#annotated-cell-30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration"</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="annotated-cell-30-4"><a href="#annotated-cell-30-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="2">2</button><span id="annotated-cell-30-5" class="code-annotation-target"><a href="#annotated-cell-30-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="cf">break</span> <span class="co">#&lt;1&gt;</span></span>
+<span id="annotated-cell-30-6"><a href="#annotated-cell-30-6" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-30" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2,3,4,6" data-code-annotation="1" data-code-cell="annotated-cell-30">Execute in loop,</span>
+</dd>
+<dt data-target-cell="annotated-cell-30" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="2" data-code-cell="annotated-cell-30">if a condition is met, <code>break</code> stops the cycle.</span>
+</dd>
+</dl>
+</div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-1.0191321.047872</code></pre>
+<pre><code>Iteration 1 
+Iteration 2 
+Iteration 3 
+Iteration 4 </code></pre>
 </div>
 </div>
 </section>
-<section id="break-and-next" class="level4" data-number="1.2.6.4">
-<h4 data-number="1.2.6.4" class="anchored" data-anchor-id="break-and-next"><span class="header-section-number">1.2.6.4</span> <code>break</code> and <code>next</code></h4>
+<section id="break-and-next" class="level4" data-number="1.3.7.1">
+<h4 data-number="1.3.7.1" class="anchored" data-anchor-id="break-and-next"><span class="header-section-number">1.3.7.1</span> <code>break</code> and <code>next</code></h4>
 <p>There are two statements which controls the iteration flow. Anytime <code>break</code> is called, the rest of the body is skipped and the loop ends. Anytime <code>next</code> is called, the rest of the body is skipped and next iteration is started.</p>
-<div class="columns">
-<div class="column" style="width:70%;">
-<p>I would like to have text here</p>
-<p>Sentence becomes longer, it should automatically stay in their column</p>
-</div><div class="column" style="width:10%;">
-<!-- empty column to create gap -->
-</div><div class="column" style="width:20%;">
-<p>and here</p>
-<p>More text</p>
-</div>
-</div>
-</section>
-</section>
-<section id="exercise" class="level3" data-number="1.2.7">
-<h3 data-number="1.2.7" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.2.7</span> Exercise</h3>
-<ol type="1">
-<li>create a sequence of numbers calling</li>
-<li>What type is <code>NA</code>, why would you say is it?</li>
-</ol>
+<section id="exercise-5" class="level5" data-number="1.3.7.1.1">
+<h5 data-number="1.3.7.1.1" class="anchored" data-anchor-id="exercise-5"><span class="header-section-number">1.3.7.1.1</span> Exercise</h5>
+<pre><code>a)  Create a cycle, whsich for the numberes $1, 2, 3, 4, 5$ writes them out to the power of three.
+b)  Calculates the cumulative sum for these.
+c)  Calculates the factorial number for the number `n`.
+d)  Withe the help of `readline()` function (requests a number from the user), 
+prints the number. If the given number is negative, the loop ends.</code></pre>
 
 
+</section>
+</section>
 </section>
 </section>
 

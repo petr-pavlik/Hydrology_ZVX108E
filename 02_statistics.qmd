@@ -1,14 +1,18 @@
 # Statistical processing of hydrological dataset
 
+#### The following concepts will be discussed: {.unnumbered}
+
+-  A hydrologic year,
+-  data screening and cleaning
+-  summation and aggregation of data
+-  descriptive statistics
+-  time series decomposition
+-  visualization of statistical data
+
+
 A dataset is a collection of measurements which is used to create or evaluate assumptions about a population. Within this session, only **univariate** data are studied.
 
-#### At the end of the lecture you should be familiar with following concepts: {.unnumbered}
 
--   hydrological year
--   data screening and cleaning
--   basic data summation and aggregation
--   descriptive statistics
--   visualization of statistical data
 
 ## Exploratory Data Analysis (EDA)
 
@@ -396,7 +400,43 @@ The **Total runoff** comprises from **direct runoff**, **hypodermic runoff** and
 
 <!-- ## Exercise -->
 
+# Exercises
+
+1. Find the mean, median, mode and standard deviation of the following series. 
 
 
 
+```{r, echo=FALSE}
+library(webexercises)
+```
 
+```{r, echo=FALSE}
+
+opts_2 <- c(
+  "select()",
+  answer = "filter()",
+  "mutate()",
+  "nest()"
+)
+
+opts_6 <- c(
+  "data visualization",
+  "string manipulation",
+  answer = "data tidying",
+  "statistical modeling"
+)
+
+opts_4 <- c(
+  "the probability that the null hypothesis is true",
+  answer = paste("the probability of the observed, or more extreme, data",
+                 "under the assumption that the null-hypothesis is true"),
+  "the probability of making an error in your conclusion"
+)
+```
+
+ **1.** Which of the following is functions is used to filter rows? `r mcq(opts_2)`; 
+ which operates on columns? `r mcq(opts_2)`.   
+ **2.** `r mcq(c("Alec Guinness", answer = "Mark Hamill", "Harrison Ford"))`     
+ **3.** The difference between operators `%>%` and `|>` lies in `r longmcq(opts_4)`.     
+ **4.** Hi my name is - 2 + 2 is `r torf(T)`.    
+ **5.** What is the primary function of the `tidyr` package? `r longmcq(opts_6)`.    

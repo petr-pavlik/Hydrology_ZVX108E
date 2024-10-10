@@ -146,7 +146,7 @@ tm_layout() +
   tm_shape(dem) +
   tm_raster(palette = "-Greys", n = 50, legend.show = FALSE) +
   tm_shape(gauge) +
-  tm_dots(col = "red", size = 1)
+  tm_dots(col = "orangered", size = 1)
 ```
 If the point is not located directly in the stream, it could cause troubles.
 The **Jenson snap pour** makes sure to move the point to the nearest stream pixel.
@@ -195,6 +195,7 @@ wbt_strahler_stream_order(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
 ```{r, echo=FALSE, eval=FALSE}
 library(ggplot2)
 library(tidyterra)
+library(scico)
 
 results <- list.files(wd_path, pattern = "tif$", full.names = TRUE)
 r <- lapply(results, rast)
@@ -209,17 +210,17 @@ r6 <- rast(results[5])
 p1 <- ggplot() +
   ggtitle(label = "a) Corrected DEM") +
   geom_spatraster(data = r1, show.legend = FALSE) +
-  scale_fill_viridis_c() +
+  scale_fill_scico(palette = "lapaz") +
   theme_minimal()
 p2 <- ggplot() +
   ggtitle(label = "b) D8 Pointer") +
   geom_spatraster(data = r2, show.legend = FALSE) +
-  scale_fill_viridis_c() +
+  scale_fill_scico(palette = "hawai") +
   theme_minimal() 
 p3 <- ggplot() +
   ggtitle(label = "c) Flow Accumulation") +
   geom_spatraster(data = r3, show.legend = FALSE) +
-  scale_fill_viridis_b(na.value = "white") +
+  scale_fill_scico(palette = "oslo", direction = -1) +
   theme_minimal() 
 p4 <- ggplot() +
   ggtitle(label = "d) Identified Streams") +
@@ -229,7 +230,7 @@ p4 <- ggplot() +
 p5 <- ggplot() +
   ggtitle(label = "e) Watershed") +
   geom_spatraster(data = r1, show.legend = FALSE) +
-  scale_fill_viridis_c() +
+  scale_fill_scico(palette = "lapaz") +
   geom_spatvector(data = r5, show.legend = FALSE) +
   theme_minimal() 
 p6 <- ggplot() +
@@ -238,11 +239,14 @@ p6 <- ggplot() +
   scale_fill_viridis_b(na.value = "white") +
   theme_minimal() 
 
-cowplot::plot_grid(p1, p2, p3, p4, p5, p6, ncol = 2, greedy = TRUE)
+cowplot::plot_grid(p1, NULL, p2, 
+                   p3, NULL, p4, 
+                   p5, NULL, p6, 
+                   nrow = 3, align = "hv", rel_widths = c(1,0,1), greedy = TRUE)
 ggsave("~/Documents/github_projects/Hydrology_ZVX108E/data/output.png")
 ```
 
 ## Results
 
-![data/output.png](data/output.png)
+![data/output.png](./data/output.png)
 

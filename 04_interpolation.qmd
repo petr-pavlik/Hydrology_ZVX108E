@@ -1,63 +1,88 @@
-# Interpolation
+# Data interpolation
 
-Products which enter hydrological analysis like temperatures or precipitation are measured **locally at point locations**. Here we will show one well-known method to interpolate across fairly homogeneous space and one method for interpolation across more tedious and complex domain like a river network.
+Variables which enter hydrological analysis like *temperature* or *precipitation* are measured **locally at point locations**. Many of these qualities are then recalculated on different domains 
+using **interpolation** or **extrapolation** algorithms. We interpolate within the boundary given by the values which are known to us and extrapolate outside this boundary. Here the two common methods for interpolation are demonstrated. 
 
 ## Inverse distance weighting (IDW)
+
+IDW is a simple **deterministic** interpolation method, which is also non-parametric. 
+The interpolated points are calculated with a weighted average of the values which are at disposal.
+The space is a weighted average of the distribution of points and the weight assigned to each point decrease with increasing distance from the interpolated point.
+
+The point value $Z_p$ is calculated with the knowledge of $z_i$ and distance $d_i$ to the power of $P$.
 
 $$
 Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^P}}
 $$
+Since this method is very simpley, let's calculate it on our own, in a step-by-step manner. 
 
-Let's create an arbitrary spatial domain
+ 1.   First we generate some point in the spatial domain, which will represent our measurements.
+ 2.   Next we create a new domain, spatially regular to which we will interpolate.
+ 3.   Finally we will perform the calculations and visualize the results.
 
-```{r, fig.align='center'}
+### Random measurements generation
+
+We will create 25 points in the space and also assign some coordinate reference system. 
+These points will be used for both of the methods.
+
+```{r, fig.align='center', message=FALSE}
 library(sf)          # Spatial Feature library for spatial data
 library(scico)       # Scientific pallette collection called "scico"
 
-n <- 25
-dom <- data.frame(x     = runif(n, 0, 50),
-                  y     = runif(n, 0, 50), 
-                  value = rnorm(n)) |>
-  sf::st_as_sf(coords   = c("x", "y"), crs = 4326)
-plot(dom, 
-     nbreaks = 26,
-     pal = scico(n = 25,      
-                 palette   = "davos", 
-                 end       = 0.9, 
-                 direction = -1), 
-     main      = "Precipitation [mm]", 
-     pch       = 20,          # Point character selection
-     graticule = TRUE,        # Display graticules
-     axes      = TRUE,        # Display plot axes
-     bgc       = "#f0f0f033", # Background color
-     key.pos   = 1)           # Legend position
+n <- 25 # <1>
+dom <- data.frame(x = runif(n, 0, 50), # <1>
+                  y = runif(n, 0, 50), # <1>
+                  value = rnorm(n, mean = 5)) |> # <1>
+  sf::st_as_sf(coords = c("x", "y"), # <2>
+               crs = 4326) # <2>
+plot(dom,  # <3>
+     nbreaks = 26, # <3>
+     pal = scico(n = 25,      # <3>
+                 palette = "davos", # <3>
+                 end = 0.9, # <3>
+                 direction = -1), # <3>
+     main = "Precipitation [mm]", # <3>  
+     pch  = 20,          # Point character selection # <3>
+     graticule = TRUE,   # Display graticules # <3>
+     axes = TRUE,        # Display plot axes # <3>
+     bgc = "#f0f0f033",  # Background color # <3> 
+     key.pos = 1)        # Legend position # <3>
 ```
+1. Create $25$ points with random values, which will serve as the computation origin,
+2. store them as **SimpleFeatures** object with coordinate reference system via EPSG,
+search in [https://epsg.io](https://epsg.io)
+3. Specify `sf:::plot.sf()` function and use scientific colormaps from `scico` package.
 
-We need a grid of new points, which will represent the raster on which we want to recalculate
+We do have the original points, which are scarcely distributed across the domain. 
+Now we need a grid of new points, which will represent the centroids of a raster, 
+on which we want to recalculate.
 
 ```{r, fig.align='center', fig.cap='Point location of Precipitation measuring stations'}
-grid <- st_make_grid(x = dom, 
-                     cellsize = 2, 
-                     crs = 4326) |> 
+grid <- st_make_grid(x = dom,  # <1>
+                     cellsize = 2, # <1> 
+                     crs = 4326) |> # <1>
   st_sf()
-plot(x = dom, 
-     nbreaks = 26,
-     pal = scico(n = 25,      
-                 palette   = "davos", 
-                 end       = 0.9, 
-                 direction = -1), 
-     main      = "Precipitation [mm]", 
-     pch       = 20,          # Point character selection
-     graticule = TRUE,        # Display graticules
-     axes      = TRUE,        # Display plot axes
-     bgc       = "#f0f0f033", # Background color
-     key.pos   = 1, reset = FALSE)           # Legend position
-plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE)
+plot(x = dom, # <2>
+     breaks = seq(min(dom$value), max(dom$value), length.out = 25), # <2>
+     pal = scico(n = 24,      # <2>
+                 palette   = "davos", # <2>
+                 end       = 0.9, # <2>
+                 direction = -1), # <2>
+     main      = "Precipitation [mm]", # <2>
+     pch       = 20,          # Point character selection # <2>
+     graticule = TRUE,        # Display graticules # <2>
+     axes      = TRUE,        # Display plot axes # <2>
+     bgc       = "#f0f0f033", # Background color # <2>
+     key.pos   = 1, reset = FALSE)           # Legend position # <2>
+plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE) # <2>
 
 
 ```
+1. Construct a regular grid using extreme points as boundary limits. 
+2. Plot with the points.
 
-Now we compute the distances between the points
+
+Now we compute the distances between the points usint the `outer()` function
 
 ```{r, eval=TRUE, fig.align='center', fig.cap=''}
 distances <- outer(
@@ -66,6 +91,8 @@ distances <- outer(
   FUN = function(x1, x2, y1, y2) sqrt((x1 - x2)^2 + (y1 - y2)^2)
 )
 ```
+
+and use these distances for missing values computation
 
 ```{r, eval=TRUE, fig.align='center', fig.ext='svg'}
 power <- 2
@@ -84,56 +111,50 @@ results <- data.frame(
 
 results$value[which(is.nan(results$value))] <- NA
 
-library(ggplot2)
-ggplot() +
-  geom_sf(data = results, aes(color = value)) +
-  geom_sf(data = grid, fill = NA) +
-  theme_bw() +
-  scale_color_scico(palette = "davos")
-ggsave("docs/grid.svg", device = "svg")
 
-# plot(x = results, 
-#      nbreaks = 11,
-#      pal = scico(n = 10,
-#                  palette   = "davos",
-#                  end       = 0.9,
-#                  direction = -1),
-#      main      = "Precipitation [mm] estimated by IDW", 
-#      pch       = 20,          # Point character selection
-#      graticule = TRUE,        # Display graticules
-#      axes      = TRUE,        # Display plot axes
-#      bgc       = "#f0f0f033", # Background color
-#      key.pos   = 1, reset = FALSE)           # Legend position
-# plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE)
-# 
-# interpolated_matrix <- matrix(interpolated_values, ncol = length(st_coordinates(grid)[, "X"]), nrow = length(st_coordinates(grid)[, "Y"]))
-# 
-# nrow <- length(unique(st_coordinates(results)[, "Y"]))
-# ncol <- length(unique(st_coordinates(results)[, "X"]))
-# dim(results)
-# interpolated_matrix <- matrix(results_df$interpolated_value, nrow = nrow, ncol = ncol, byrow = TRUE)
-# 
-# plot(interpolated_matrix[, 1], interpolated_matrix[, 2])
-# contour(unique(st_coordinates(results)[, "X"]), unique(st_coordinates(results)[, "Y"]), z = results$value)
-# # Plot the interpolated values as an image
-# image(
-#   x = na.omit(st_coordinates(grid)[, "X"]),
-#   y = na.omit(st_coordinates(grid)[, "Y"]),
-#   z = interpolated_matrix,
-#   col = heat.colors(100),  # You can choose a color palette
-#   main = "Interpolated Values"
-# )
+join <- st_join(grid, results)
 ```
 
-![](grid.svg)
+At last we visualize the results. 
+
+```{r, eval=TRUE, fig.align='center', fig.ext='svg'}
+plot(x = join, 
+     breaks = seq(min(results$value), max(results$value), length.out = 25),
+     lwd = 0.001,
+     pal = scico(24, 
+                 palette = "davos",
+                 end       = 0.9, 
+                 direction = -1),
+     main      = "Precipitation [mm]", 
+     #pch       = 20,          # Point character selection
+     graticule = TRUE,        # Display graticules
+     axes      = TRUE,        # Display plot axes
+     bgc       = "#f0f0f033", # Background color
+     key.pos   = 1, reset = FALSE)           # Legend position
+```
 
 ## `gstat`
 
 There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages.
+The gstat package contains functions no olny for interpolations.
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 library(gstat)
-gstat::idw(precipitation ~ x + y, locations = ~x+y)
+krigged <- gstat::idw(formula = value ~ 1, locations = dom, newdata = grid)
+krigged <- st_as_sf(krigged)
+plot(krigged |> dplyr::select(var1.pred), 
+     breaks = seq(min(krigged$var1.pred), max(krigged$var1.pred), length.out = 25),
+     lwd = 0.001,
+     pal = scico(24, 
+                 palette = "davos",
+                 end       = 0.9, 
+                 direction = -1),
+     main      = "Precipitation [mm]", 
+     #pch       = 20,          # Point character selection
+     graticule = TRUE,        # Display graticules
+     axes      = TRUE,        # Display plot axes
+     bgc       = "#f0f0f033", # Background color
+     key.pos   = 1, reset = FALSE)
 ```
 
 ```{r, eval=FALSE}
@@ -144,7 +165,29 @@ weighted_sum
 
 ## Krigging
 
-Another interpolation technique is called **Krigging**.
+Another interpolation technique is called **Krigging**. Opposing to the Inverse
+Distance Weighted method. 
+
+```{r, eval=FALSE}
+krigged <- gstat::krige(formula = value ~ st_coordinates(dom)[, 1] + st_coordinates(dom)[, 2], 
+                        locations = dom, 
+                        newdata = grid)
+krigged <- st_as_sf(krigged)
+plot(krigged |> dplyr::select(var1.pred), 
+     breaks = seq(min(krigged$var1.pred), max(krigged$var1.pred), length.out = 25),
+     lwd = 0.001,
+     pal = scico(24, 
+                 palette = "davos",
+                 end       = 0.9, 
+                 direction = -1),
+     main      = "Precipitation [mm]", 
+     #pch       = 20,          # Point character selection
+     graticule = TRUE,        # Display graticules
+     axes      = TRUE,        # Display plot axes
+     bgc       = "#f0f0f033", # Background color
+     key.pos   = 1, reset = FALSE)
+```
+
 
 ### Data
 
@@ -156,7 +199,13 @@ $$
 
 $$
 \mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for} 
-$$ \### Semivariogram calculation
+$$ 
+
+### Semivariogram calculation
+
+```{r, fig.width=400}
+show.vgms()
+```
 
 $$
 \gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2
