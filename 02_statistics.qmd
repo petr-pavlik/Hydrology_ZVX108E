@@ -408,9 +408,6 @@ The **Total runoff** comprises from **direct runoff**, **hypodermic runoff** and
 
 ```{r, echo=FALSE}
 library(webexercises)
-```
-
-```{r, echo=FALSE}
 
 opts_2 <- c(
   "select()",
@@ -419,24 +416,14 @@ opts_2 <- c(
   "nest()"
 )
 
-opts_6 <- c(
-  "data visualization",
-  "string manipulation",
-  answer = "data tidying",
-  "statistical modeling"
+opts_3 <- c(
+  answer = "select()",
+  "filter()",
+  "mutate()",
+  "nest()"
 )
 
-opts_4 <- c(
-  "the probability that the null hypothesis is true",
-  answer = paste("the probability of the observed, or more extreme, data",
-                 "under the assumption that the null-hypothesis is true"),
-  "the probability of making an error in your conclusion"
-)
 ```
 
  **1.** Which of the following is functions is used to filter rows? `r mcq(opts_2)`; 
- which operates on columns? `r mcq(opts_2)`.   
- **2.** `r mcq(c("Alec Guinness", answer = "Mark Hamill", "Harrison Ford"))`     
- **3.** The difference between operators `%>%` and `|>` lies in `r longmcq(opts_4)`.     
- **4.** Hi my name is - 2 + 2 is `r torf(T)`.    
- **5.** What is the primary function of the `tidyr` package? `r longmcq(opts_6)`.    
+ which select columns? `r mcq(opts_3)`.   

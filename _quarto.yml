@@ -1,65 +1,57 @@
 prefer-html: true
-
 project:
   type: book
   output-dir: docs
-
 book:
-  title: "ZVX108E Hydrology"
-  subtitle: "Hydrology WS 23/24 Individual Sessions Companion"
-  author: 
-    - Petr Pavlík
+  title: ZVX108E Hydrology
+  subtitle: Hydrology WS 23/24 Individual Sessions Companion
+  author: Petr Pavlík
   favicon: cover.png
   repo-url: https://github.com/petr-pavlik/Hydrology_ZVX108E/
-  repo-actions: [edit, issue]
+  repo-actions:
+  - edit
+  - issue
   date: today
   chapters:
-    - index.qmd
-    # - intro.qmd
-    - 01_R.qmd
-    - 02_statistics.qmd
-    - 03_gis.qmd
-    - 04_interpolation.qmd
-    # - 05_CN.qmd
-    
-  downloads: [pdf, epub]
+  - index.qmd
+  - 01_R.qmd
+  - 02_statistics.qmd
+  - 03_gis.qmd
+  - 04_interpolation.qmd
+  downloads:
+  - pdf
+  - epub
   sidebar:
-    title: "Hydrology ZVX108E"
+    title: Hydrology ZVX108E
     pinned: true
     tools:
-      - icon: save
-        menu:
-          - text: "mpx.dly"
-            url:  "./data/01138000.dly"
-
-  search: 
+    - icon: save
+      menu:
+      - text: mpx.dly
+        url: ./data/01138000.dly
+  search:
     location: sidebar
     type: textbox
-  
 bibliography: references.bib
-
 format:
   html:
     page-layout: article
-    #include-after-body: custom.html
-    theme: 
-      - cosmo
-      - style.scss
+    theme:
+    - cosmo
+    - style.scss
     max-width: 1600px
     code-fold: show
-    #linkcolor: "#006666"
     highlight-style: syntax.theme
     code-annotations: hover
     fig-format: svg
     fig-dpi: 400
     fig-cap-location: bottom
-    
+    css: include/webex.css
+    include-after-body: include/webex.js
   pdf:
     documentclass: scrreprt
-
 editor: visual
 lang: en-EN
-
 quarto:
   footnotes:
-    footnoteRef: '<i class="fa-duotone fa-arrow-left"></i>'
+    footnoteRef: <i class="fa-duotone fa-arrow-left"></i>
