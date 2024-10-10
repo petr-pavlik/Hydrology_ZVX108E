@@ -32,7 +32,7 @@
     "href": "02_statistics.html",
     "title": "2  Statistical processing of hydrological dataset",
     "section": "",
-    "text": "3 Exercises\n."
+    "text": "3 Exercises\n1. Which of the following is functions is used to filter rows? select()filter()mutate()nest(); which select columns? select()filter()mutate()nest()."
   },
   {
     "objectID": "02_statistics.html#exploratory-data-analysis-eda",

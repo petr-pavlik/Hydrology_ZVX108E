@@ -422,7 +422,6 @@ opts_3 <- c(
   "mutate()",
   "nest()"
 )
-
 ```
 
  **1.** Which of the following is functions is used to filter rows? `r mcq(opts_2)`; 
