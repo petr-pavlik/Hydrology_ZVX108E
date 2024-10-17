@@ -1,4 +1,4 @@
-# Introduction to R language
+# Introduction to R language {#sec-introduction}
 
 R is a **dynamically typed interpreted** language. It is a highly capable enviornment for computing and graphics, for which R is often labeled a *glue* language. It has built-in functions for statistical computing.
 

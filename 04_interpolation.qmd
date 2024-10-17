@@ -204,7 +204,7 @@ $$
 ### Semivariogram calculation
 
 ```{r, fig.width=400}
-show.vgms()
+# show.vgms()
 ```
 
 $$

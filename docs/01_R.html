@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_statistics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological dataset</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -232,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R language</span></h1>
+<h1 class="title"><span id="sec-introduction" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span></h1>
 </div>
 
 
@@ -294,14 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It is entered into the console in the form <code>help(&lt;function name&gt;)</code> or <code>?&lt;function name&gt;</code>. If we would like to look directly into the code of the function, it is also possible, we just enter the name of the function in the console without brackets, or use the command <code>View(&lt;function name&gt;)</code>. In addition, R also has <code>help.search(&lt;function name&gt;)</code> under the shortcut <code>??,</code> which searches for full-text help across installed packages. Furthermore, it is still possible to search the R language mailing list using the function <code>RSiteSearch()</code>, which opens a new window of the predefined browser. In addition, thematically integrated help cards are very useful: <code>?Logical</code>, <code>?Constants</code>, <code>?Control</code>, <code>?Arithmetic</code>, <code>?Syntax</code>, <code>?Special</code> etc.</p>
 <section id="exercise" class="level5" data-number="1.1.0.0.1">
 <h5 data-number="1.1.0.0.1" class="anchored" data-anchor-id="exercise"><span class="header-section-number">1.1.0.0.1</span> Exercise</h5>
-<ol type="1">
-<li>Try to find help to <code>DateTimeClasses</code>.
-<ol type="a">
-<li>What do the <code>POSIXct</code> a <code>POSIXlt</code> represent?</li>
-<li>What is the difference between them?</li>
-<li>Find a function for calculating <span class="math inline">\(5!\)</span></li>
-</ol></li>
-</ol>
+<p>Try to find help to <code>DateTimeClasses</code>. a) What do the <code>POSIXct</code> a <code>POSIXlt</code> represent? b) What is the difference between them? c) Find a function for calculating <span class="math inline">\(5!\)</span></p>
 </section>
 </section>
 <section id="r-as-scientific-calculator" class="level2" data-number="1.2">
@@ -342,19 +335,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-4">General sequence of numbers</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="1" data-code-annotation="1">General sequence of numbers</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-4">change some elements to not assigned</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="2">change some elements to not assigned</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="4" data-code-annotation="3" data-code-cell="annotated-cell-4">without removal</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">without removal</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="5" data-code-annotation="4" data-code-cell="annotated-cell-4">and with removal</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="4">and with removal</span>
 </dd>
 </dl>
 </div>
@@ -510,25 +503,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="exercise-1" class="level5 unnumbered">
 <h5 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise</h5>
-<ol start="5" type="1">
-<li>Evaluate the following expressions:<br>
-
-<ol type="a">
-<li><span class="math inline">\(1 + 3 \cdot (2 / 3)\:\mathrm{mod}\:3\)</span><br>
-</li>
-<li><span class="math inline">\(\dfrac{\sin(2.3)}{\cos(\pi)}\)</span><br>
-</li>
-<li><span class="math inline">\(\sum\limits_{i = 1}^{53}i\)</span><br>
-</li>
-<li><span class="math inline">\(\dfrac{-\infty}{0}\)</span>, <span class="math inline">\(\dfrac{-\infty}{\infty}\)</span>, <span class="math inline">\(\dfrac{0}{0}\)</span><br>
-</li>
-<li><span class="math inline">\(\left(\dfrac{2}{35}\right)^{0.5} \cdot 3 \cdot (2 / 3)\)</span><br>
-</li>
-<li><span class="math inline">\(20!\)</span><br>
-</li>
-<li><span class="math inline">\(\int_{0}^{3\pi} \sin(x) dx\)</span></li>
-</ol></li>
-</ol>
+<p>Evaluate the following expressions:<br>
+a) <span class="math inline">\(1 + 3 \cdot (2 / 3)\:\mathrm{mod}\:3\)</span><br>
+b) <span class="math inline">\(\dfrac{\sin(2.3)}{\cos(\pi)}\)</span><br>
+c) <span class="math inline">\(\sum\limits_{i = 1}^{53}i\)</span><br>
+d) <span class="math inline">\(\dfrac{-\infty}{0}\)</span>, <span class="math inline">\(\dfrac{-\infty}{\infty}\)</span>, <span class="math inline">\(\dfrac{0}{0}\)</span><br>
+e) <span class="math inline">\(\left(\dfrac{2}{35}\right)^{0.5} \cdot 3 \cdot (2 / 3)\)</span><br>
+f) <span class="math inline">\(20!\)</span><br>
+g) <span class="math inline">\(\int_{0}^{3\pi} \sin(x) dx\)</span></p>
 </section>
 <section id="matrix-operations" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="matrix-operations">Matrix operations</h4>
@@ -567,9 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exercise-2" class="level5 unnumbered">
 <h5 class="unnumbered anchored" data-anchor-id="exercise-2">Exercise</h5>
-<ol start="2" type="1">
-<li>Intuitively, we might be guided to load the data into the <code>data</code> variable. This is the wrong however, since <code>data()</code> is a function to access datasets that are part of the basic R installation. Try it out.</li>
-</ol>
+<p>Intuitively, we might be guided to load the data into the <code>data</code> variable. This is the wrong however, since <code>data()</code> is a function to access datasets that are part of the basic R installation. Try it out.</p>
 </section>
 <section id="some-cases-of-possible-but-wrong-naming" class="level5 unnumbered">
 <h5 class="unnumbered anchored" data-anchor-id="some-cases-of-possible-but-wrong-naming">Some cases of possible but wrong naming</h5>
@@ -634,12 +614,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2,3,4" data-code-annotation="1" data-code-cell="annotated-cell-9">Example of function, which seeks the neares number from a vector <code>x</code> to a certain referential <code>value</code>.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="2,3,4" data-code-annotation="1">Example of function, which seeks the neares number from a vector <code>x</code> to a certain referential <code>value</code>.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Hodnota nejblíže 0 z vektoru x je: 0.01245087</code></pre>
+<pre><code>Hodnota nejblíže 0 z vektoru x je: 0.01173592</code></pre>
 </div>
 </div>
 <p>We can test if we get the same result as the <em>primitive</em> function from R using <code>all.equal()</code> statement.</p>
@@ -807,15 +787,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="3" data-code-annotation="1" data-code-cell="annotated-cell-14">Adding two vectors while length of second is the multiple of the first</span>
+<span data-code-cell="annotated-cell-14" data-code-lines="3" data-code-annotation="1">Adding two vectors while length of second is the multiple of the first</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-14">Multiplying two vectors while length of second is the multiple of the first</span>
+<span data-code-cell="annotated-cell-14" data-code-lines="4" data-code-annotation="2">Multiplying two vectors while length of second is the multiple of the first</span>
 </dd>
 <dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-14">Multipling with single numeric value</span>
+<span data-code-cell="annotated-cell-14" data-code-lines="5" data-code-annotation="3">Multipling with single numeric value</span>
 </dd>
 </dl>
 </div>
@@ -846,35 +826,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1,2,3,4,5,6,7" data-code-annotation="1" data-code-cell="annotated-cell-15">Vector creation <span class="math inline">\(\boldsymbol{\mathrm{x}}\)</span> by different approaches. Sequences, repeats, repetitions and sampling</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="1,2,3,4,5,6,7" data-code-annotation="1">Vector creation <span class="math inline">\(\boldsymbol{\mathrm{x}}\)</span> by different approaches. Sequences, repeats, repetitions and sampling</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="8" data-code-annotation="2" data-code-cell="annotated-cell-15">Transposition of vector.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="8" data-code-annotation="2">Transposition of vector.</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="9" data-code-annotation="3" data-code-cell="annotated-cell-15">Naming elements of a vector.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="9" data-code-annotation="3">Naming elements of a vector.</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-lines="10" data-code-annotation="4" data-code-cell="annotated-cell-15">Selection of elements from a vector based on a condition.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="10" data-code-annotation="4">Selection of elements from a vector based on a condition.</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-lines="11" data-code-annotation="5" data-code-cell="annotated-cell-15">Selection of elements from a vector based on an index.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="11" data-code-annotation="5">Selection of elements from a vector based on an index.</span>
 </dd>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         [,1]    [,2]    [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
-[1,] 300.9817 12.5528 57.5766 204.3497 95.11372 195.2631 11.24384 1645.769
-         [,9]   [,10]
-[1,] 482.4629 752.328
-        A         B         C         E         F 
-17.348825  3.542993  7.587925  9.752626 13.973659 
-        A         B         C 
-17.348825  3.542993  7.587925 </code></pre>
+<pre><code>         [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]     [,8]
+[1,] 429.2795 1354.618 59.85222 947.3219 4.903014 135.1811 1823.176 1024.744
+         [,9]    [,10]
+[1,] 431.2664 49.46276
+        C         D         E         F         H         I 
+ 7.736422 30.778596  2.214275 11.626743 32.011630 20.766954 
+         A          B          C 
+-20.719062 -36.805132   7.736422 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -950,7 +930,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-17">Conversion to <span class="math inline">\(2\times 2\)</span> dimension</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="2" data-code-annotation="1">Conversion to <span class="math inline">\(2\times 2\)</span> dimension</span>
 </dd>
 </dl>
 </div>
@@ -969,9 +949,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2</span>)                <span class="co"># store random numbers to first two rows</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(M) </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  0.3629166 -0.5370834</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.0366712 0.1366712</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(M)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] -2.788922  1.500000 -2.581911  1.500000  1.500000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  1.6843325  1.5000000 -0.3176203  1.5000000  1.5000000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>It is possible to have matrices containing any data type, e.g.</p>
@@ -1077,7 +1057,7 @@ N = \left(\begin{matrix}
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2,3,4,5,6" data-code-annotation="1" data-code-cell="annotated-cell-24">The chain of conditions will close <strong>at the first evaluation which happens to be TRUE</strong>.</span>
+<span data-code-cell="annotated-cell-24" data-code-lines="2,3,4,5,6" data-code-annotation="1">The chain of conditions will close <strong>at the first evaluation which happens to be TRUE</strong>.</span>
 </dd>
 </dl>
 </div>
@@ -1116,11 +1096,11 @@ N = \left(\begin{matrix}
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-26" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="4" data-code-annotation="1" data-code-cell="annotated-cell-26">“A” variant did not happen,</span>
+<span data-code-cell="annotated-cell-26" data-code-lines="4" data-code-annotation="1">“A” variant did not happen,</span>
 </dd>
 <dt data-target-cell="annotated-cell-26" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5" data-code-annotation="2" data-code-cell="annotated-cell-26">instead the “B” variant is truthful, so the expression is evaluated as <span class="math inline">\(2\cdot 3 = 6\)</span></span>
+<span data-code-cell="annotated-cell-26" data-code-lines="5" data-code-annotation="2">instead the “B” variant is truthful, so the expression is evaluated as <span class="math inline">\(2\cdot 3 = 6\)</span></span>
 </dd>
 </dl>
 </div>
@@ -1130,35 +1110,13 @@ N = \left(\begin{matrix}
 </div>
 <section id="exercise-4" class="level5 unnumbered">
 <h5 class="unnumbered anchored" data-anchor-id="exercise-4">Exercise</h5>
-<ol start="8" type="1">
-<li><p>Create a following grading scheme:</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Grade</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>90 % - 100 %</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>75 % - 89 %</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>60 % - 74 %</td>
-</tr>
-<tr class="even">
-<td>D</td>
-<td>&lt; 60 %</td>
-</tr>
-</tbody>
-</table></li>
-</ol>
+<p>Create a following grading scheme:</p>
+<pre><code>| Grade | Result       |
+|-------|--------------|
+| A     | 90 % - 100 % |
+| B     | 75 % - 89 %  |
+| C     | 60 % - 74 %  |
+| D     | \&lt; 60 %      |</code></pre>
 </section>
 </section>
 </section>
@@ -1171,16 +1129,16 @@ N = \left(\begin{matrix}
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> vector) {</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> vector) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>An example</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) <span class="fu">cat</span>(i, <span class="st">". iteration"</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) <span class="fu">cat</span>(i, <span class="st">". iteration"</span>, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>1. iteration
@@ -1196,11 +1154,11 @@ N = \left(\begin{matrix}
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(i <span class="sc">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration "</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">sep =</span> <span class="st">""</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Iteration 1
@@ -1216,22 +1174,22 @@ Iteration 4</code></pre>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="annotated-cell-30"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-30-1"><a href="#annotated-cell-30-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="1">1</button><span id="annotated-cell-30-2" class="code-annotation-target"><a href="#annotated-cell-30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
-<span id="annotated-cell-30-3"><a href="#annotated-cell-30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration"</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="annotated-cell-30-4"><a href="#annotated-cell-30-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-30" data-target-annotation="2">2</button><span id="annotated-cell-30-5" class="code-annotation-target"><a href="#annotated-cell-30-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="cf">break</span> <span class="co">#&lt;1&gt;</span></span>
-<span id="annotated-cell-30-6"><a href="#annotated-cell-30-6" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-31"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-31-1"><a href="#annotated-cell-31-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="1">1</button><span id="annotated-cell-31-2" class="code-annotation-target"><a href="#annotated-cell-31-2" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
+<span id="annotated-cell-31-3"><a href="#annotated-cell-31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Iteration"</span>, i, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="annotated-cell-31-4"><a href="#annotated-cell-31-4" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="2">2</button><span id="annotated-cell-31-5" class="code-annotation-target"><a href="#annotated-cell-31-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="cf">break</span> <span class="co">#&lt;1&gt;</span></span>
+<span id="annotated-cell-31-6"><a href="#annotated-cell-31-6" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-30" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2,3,4,6" data-code-annotation="1" data-code-cell="annotated-cell-30">Execute in loop,</span>
+<span data-code-cell="annotated-cell-31" data-code-lines="2,3,4,6" data-code-annotation="1">Execute in loop,</span>
 </dd>
-<dt data-target-cell="annotated-cell-30" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5" data-code-annotation="2" data-code-cell="annotated-cell-30">if a condition is met, <code>break</code> stops the cycle.</span>
+<span data-code-cell="annotated-cell-31" data-code-lines="5" data-code-annotation="2">if a condition is met, <code>break</code> stops the cycle.</span>
 </dd>
 </dl>
 </div>
@@ -1243,16 +1201,17 @@ Iteration 4 </code></pre>
 </div>
 </div>
 </section>
-<section id="break-and-next" class="level4" data-number="1.3.7.1">
-<h4 data-number="1.3.7.1" class="anchored" data-anchor-id="break-and-next"><span class="header-section-number">1.3.7.1</span> <code>break</code> and <code>next</code></h4>
+<section id="break-and-next" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="break-and-next"><code>break</code> and <code>next</code></h4>
 <p>There are two statements which controls the iteration flow. Anytime <code>break</code> is called, the rest of the body is skipped and the loop ends. Anytime <code>next</code> is called, the rest of the body is skipped and next iteration is started.</p>
-<section id="exercise-5" class="level5" data-number="1.3.7.1.1">
-<h5 data-number="1.3.7.1.1" class="anchored" data-anchor-id="exercise-5"><span class="header-section-number">1.3.7.1.1</span> Exercise</h5>
-<pre><code>a)  Create a cycle, whsich for the numberes $1, 2, 3, 4, 5$ writes them out to the power of three.
-b)  Calculates the cumulative sum for these.
-c)  Calculates the factorial number for the number `n`.
-d)  Withe the help of `readline()` function (requests a number from the user), 
-prints the number. If the given number is negative, the loop ends.</code></pre>
+<section id="exercise-5" class="level5" data-number="1.3.7.0.1">
+<h5 data-number="1.3.7.0.1" class="anchored" data-anchor-id="exercise-5"><span class="header-section-number">1.3.7.0.1</span> Exercise</h5>
+<ol type="a">
+<li>Create a cycle, whsich for the numbers <span class="math inline">\(1, 2, 3, 4, 5\)</span> writes them out to the power of three.</li>
+<li>Calculates the cumulative sum for these.</li>
+<li>Calculates the factorial number for the number <code>n</code>.</li>
+<li>Withe the help of <code>readline()</code> function (requests a number from the user), prints the number. If the given number is negative, the loop ends.</li>
+</ol>
 
 
 </section>
@@ -1773,7 +1732,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./02_statistics.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical processing of hydrological dataset</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
