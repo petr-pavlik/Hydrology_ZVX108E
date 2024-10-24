@@ -1,76 +1,21 @@
-::: download_btn
-```{css}
-#| echo: false
-
-.btn-default,
-.btn-default:hover,
-.btn-default:active {
-  font-size: 16px;
-  color: dimgrey;
-  background-color: transparent;
-  border-color: transparent;
-}
-
-.btn-default:hover {
-  color: #0e0e0e;
-  transition: 0.2s;
-}
-
-```
+## Data
 
 A list of datasets, used within the sessions.
 
-```{r}
-#| echo: false
++-----------------------------+-------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
+| Chapter                     | File                                                                                                                          | Description                                                               | Reference                                                                                      |
++=============================+===============================================================================================================================+===========================================================================+================================================================================================+
+| @sec-processing Excercise 2 | [![budyko_dfr](images/mage--file-download.svg){alt="P2VSEL01_SRA_N.csv" width="28"}](/data/01138000.dly)                      | Daily time series from MOPEX dataset in \*.fwf format                     | \-                                                                                             |
++-----------------------------+-------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
+| @sec-processing Exercise 3  | [![Daily Streamflow](images/mage--file-download.svg){alt="P2VSEL01_SRA_N.csv" width="28"}](/data/6242910_Q_Day.Cmd.txt)       | Daily time series with metadata. Czech Hydrometeorological Institute      |                                                                                                |
++-----------------------------+-------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
+| @sec-hydroklimatickeindexy  | [![165600 - Lounovice pod Blanikem](images/mage--file-download.svg){alt="P2VSEL01_SRA_N.csv" width="28"}](data/QD_165600.zip) | Průměrný denní průtok 11/1991 - 12/2023 QD165600 - Louňovice pod Blaníkem | Český hydrometeorologický ústav                                                                |
+|                             |                                                                                                                               |                                                                           |                                                                                                |
+|                             |                                                                                                                               |                                                                           | [Podmínky užití](https://isvs.chmi.cz/ords/chmi_app/r/11002/files/static/v5/chmu/podmCHMU.pdf) |
++-----------------------------+-------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+------------------------------------------------------------------------------------------------+
 
-library(downloadthis)
+: Přehled datových sad ke cvičením.
 
-mtcars %>%
-  download_this(
-    output_name = "mtcars data set",
-    output_extension = ".csv",
-    button_label = "mtcars.csv",
-    button_type = "default",
-    has_icon = TRUE,
-    icon = "fa fa-file-csv"
-  )
-```
+<!-- ## Recommended literature -->
 
-```{r}
-#| echo: false
-
-iris %>%
-  download_this(
-    output_name = "Iris data set",
-    output_extension = ".csv",
-    button_label = "iris.csv",
-    button_type = "default",
-    has_icon = TRUE,
-    icon = "fa fa-file-csv"
-  )
-```
-
-```{r}
-#| echo: false
-
-palmerpenguins::penguins %>%
-  download_this(
-    output_name = "penguins data set",
-    output_extension = ".csv",
-    button_label = "penguins.csv",
-    button_type = "default",
-    has_icon = TRUE,
-    icon = "fa fa-file-csv"
-  )
-```
-:::
-
-# Data and companion structure
-
-The data for all the chapters
-At the beginning of each chapter there is a list of needed knowledge and  that you need to grasp in order
-## Data download
-
-## Recommended literature
-
-See @knuth84 for additional discussion of literate programming.
+<!-- See @knuth84 for additional discussion of literate programming. -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ZVX108E Hydrology - 2&nbsp; Processing of hydrological dataset</title>
+<title>ZVX108E Hydrology - 3&nbsp; Processing of hydrological dataset</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_statistics.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_statistics.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -127,21 +127,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Hydrology ZVX108E</a> 
-        <div class="sidebar-tools-main tools-wide">
-    <div class="dropdown">
-      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-save"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
-          <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="././data/01138000.dly">
-            mpx.dly
-            </a>
-          </li>
-      </ul>
-    </div>
+        <div class="sidebar-tools-main">
     <a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <div class="dropdown">
-      <a href="" title="Download" id="quarto-navigation-tool-dropdown-1" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
-      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-1">
+      <a href="" title="Download" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download"><i class="bi bi-download"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
           <li>
             <a class="dropdown-item sidebar-tools-main-item" href="./ZVX108E-Hydrology.pdf">
               <i class="bi bi-bi-file-pdf pe-1"></i>
@@ -174,26 +164,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01_R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_statistics.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03_gis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
   </div>
 </li>
     </ul>
@@ -206,27 +202,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link active" data-scroll-target="#exploratory-data-analysis-eda"><span class="header-section-number">2.1</span> Exploratory Data Analysis (EDA)</a>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link active" data-scroll-target="#exploratory-data-analysis-eda"><span class="header-section-number">3.1</span> Exploratory Data Analysis (EDA)</a>
   <ul class="collapse">
-  <li><a href="#measures-of-location" id="toc-measures-of-location" class="nav-link" data-scroll-target="#measures-of-location"><span class="header-section-number">2.1.1</span> Measures of location</a></li>
-  <li><a href="#measures-of-spread" id="toc-measures-of-spread" class="nav-link" data-scroll-target="#measures-of-spread"><span class="header-section-number">2.1.2</span> Measures of spread</a></li>
+  <li><a href="#measures-of-location" id="toc-measures-of-location" class="nav-link" data-scroll-target="#measures-of-location"><span class="header-section-number">3.1.1</span> Measures of location</a></li>
+  <li><a href="#measures-of-spread" id="toc-measures-of-spread" class="nav-link" data-scroll-target="#measures-of-spread"><span class="header-section-number">3.1.2</span> Measures of spread</a></li>
   </ul></li>
-  <li><a href="#hydrological-data" id="toc-hydrological-data" class="nav-link" data-scroll-target="#hydrological-data"><span class="header-section-number">2.2</span> Hydrological data</a></li>
-  <li><a href="#aggregation-and-summation" id="toc-aggregation-and-summation" class="nav-link" data-scroll-target="#aggregation-and-summation"><span class="header-section-number">2.3</span> Aggregation and summation</a>
+  <li><a href="#hydrological-data" id="toc-hydrological-data" class="nav-link" data-scroll-target="#hydrological-data"><span class="header-section-number">3.2</span> Hydrological data</a></li>
+  <li><a href="#aggregation-and-summation" id="toc-aggregation-and-summation" class="nav-link" data-scroll-target="#aggregation-and-summation"><span class="header-section-number">3.3</span> Aggregation and summation</a>
   <ul class="collapse">
-  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="header-section-number">2.3.1</span> Box-plot</a></li>
-  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="header-section-number">2.3.2</span> Q-Q plot</a></li>
-  <li><a href="#empirical-distribution-function" id="toc-empirical-distribution-function" class="nav-link" data-scroll-target="#empirical-distribution-function"><span class="header-section-number">2.3.3</span> Empirical distribution function</a></li>
-  <li><a href="#exceedance-curve" id="toc-exceedance-curve" class="nav-link" data-scroll-target="#exceedance-curve"><span class="header-section-number">2.3.4</span> Exceedance curve</a></li>
-  <li><a href="#return-period" id="toc-return-period" class="nav-link" data-scroll-target="#return-period"><span class="header-section-number">2.3.5</span> Return period</a></li>
+  <li><a href="#box-plot" id="toc-box-plot" class="nav-link" data-scroll-target="#box-plot"><span class="header-section-number">3.3.1</span> Box-plot</a></li>
+  <li><a href="#q-q-plot" id="toc-q-q-plot" class="nav-link" data-scroll-target="#q-q-plot"><span class="header-section-number">3.3.2</span> Q-Q plot</a></li>
+  <li><a href="#empirical-distribution-function" id="toc-empirical-distribution-function" class="nav-link" data-scroll-target="#empirical-distribution-function"><span class="header-section-number">3.3.3</span> Empirical distribution function</a></li>
+  <li><a href="#exceedance-curve" id="toc-exceedance-curve" class="nav-link" data-scroll-target="#exceedance-curve"><span class="header-section-number">3.3.4</span> Exceedance curve</a></li>
   </ul></li>
-  <li><a href="#hydroclimatic-indices" id="toc-hydroclimatic-indices" class="nav-link" data-scroll-target="#hydroclimatic-indices"><span class="header-section-number">2.4</span> Hydroclimatic indices</a>
+  <li><a href="#hydroclimatic-indices" id="toc-hydroclimatic-indices" class="nav-link" data-scroll-target="#hydroclimatic-indices"><span class="header-section-number">3.4</span> Hydroclimatic indices</a>
   <ul class="collapse">
-  <li><a href="#runoff-coefficient" id="toc-runoff-coefficient" class="nav-link" data-scroll-target="#runoff-coefficient"><span class="header-section-number">2.4.1</span> Runoff coefficient</a></li>
-  <li><a href="#flow-duration-curve" id="toc-flow-duration-curve" class="nav-link" data-scroll-target="#flow-duration-curve"><span class="header-section-number">2.4.2</span> Flow duration curve</a></li>
-  <li><a href="#baseflow" id="toc-baseflow" class="nav-link" data-scroll-target="#baseflow"><span class="header-section-number">2.4.3</span> Baseflow</a></li>
+  <li><a href="#runoff-coefficient" id="toc-runoff-coefficient" class="nav-link" data-scroll-target="#runoff-coefficient"><span class="header-section-number">3.4.1</span> Runoff coefficient</a></li>
+  <li><a href="#flow-duration-curve" id="toc-flow-duration-curve" class="nav-link" data-scroll-target="#flow-duration-curve"><span class="header-section-number">3.4.2</span> Flow duration curve</a></li>
   </ul></li>
-  <li><a href="#review" id="toc-review" class="nav-link" data-scroll-target="#review"><span class="header-section-number">2.5</span> Review</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/edit/main/02_statistics.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/petr-pavlik/Hydrology_ZVX108E/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -235,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-processing" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span></h1>
+<h1 class="title"><span id="sec-processing" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Processing of hydrological dataset</span></span></h1>
 </div>
 
 
@@ -267,15 +260,14 @@ Concepts
 <li>data screening and cleaning,</li>
 <li>summation and aggregation of data,</li>
 <li>descriptive statistics,</li>
-<li>time series decomposition,</li>
 <li>visualization of statistical data.</li>
 </ul>
 </div>
 </div>
 <p>A dataset is a collection of measurements which is used to create or evaluate assumptions about a population. Within this session, only <strong>univariate</strong> data are studied.</p>
 </section>
-<section id="exploratory-data-analysis-eda" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="exploratory-data-analysis-eda"><span class="header-section-number">2.1</span> Exploratory Data Analysis (EDA)</h2>
+<section id="exploratory-data-analysis-eda" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="exploratory-data-analysis-eda"><span class="header-section-number">3.1</span> Exploratory Data Analysis (EDA)</h2>
 <p>EDA is not a strictly formalized set of procedures, rather it is an general approach on how to study, describe, extract, evaluate and report about the data. Hence the workflow is specific to data in process.<br>
 When studying data, we will look at certain statistical features, which represent esteemed characteristics of the whole data set.</p>
 <div class="cell">
@@ -293,11 +285,11 @@ When studying data, we will look at certain statistical features, which represen
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-1" data-code-lines="1">Using the set seed will ensure that we will get the same generated numbers every time.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">Using the set seed will ensure that we will get the same generated numbers every time.</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-1" data-code-lines="2">Some random-generated numbers from the Normal distribution.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2">Some random-generated numbers from the Normal distribution.</span>
 </dd>
 </dl>
 </div>
@@ -313,22 +305,22 @@ Exercise
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>as</li>
+<li>Try to play with the function <code>rnorm()</code> by chaging the parameters. What is the function of <code>set.seed()</code>?</li>
 </ol>
 </div>
 </div>
-<section id="measures-of-location" class="level3" data-number="2.1.1">
-<h3 data-number="2.1.1" class="anchored" data-anchor-id="measures-of-location"><span class="header-section-number">2.1.1</span> Measures of location</h3>
+<section id="measures-of-location" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="measures-of-location"><span class="header-section-number">3.1.1</span> Measures of location</h3>
 <p>The farthest one can reduce data, while still retaining any information at all is by a single value. They describe a central tendency of the data.</p>
-<section id="mean" class="level4" data-number="2.1.1.1">
-<h4 data-number="2.1.1.1" class="anchored" data-anchor-id="mean"><span class="header-section-number">2.1.1.1</span> Mean</h4>
+<section id="mean" class="level4" data-number="3.1.1.1">
+<h4 data-number="3.1.1.1" class="anchored" data-anchor-id="mean"><span class="header-section-number">3.1.1.1</span> Mean</h4>
 <p>The <strong>arithmetic mean</strong> (or average) is simply the sum of observations devided by the number of observations.</p>
 <p><span class="math display">\[
 \bar{x} = \dfrac{1}{n}\sum\limits_{i=1}^{n} x_i
 \]</span></p>
 </section>
-<section id="median" class="level4" data-number="2.1.1.2">
-<h4 data-number="2.1.1.2" class="anchored" data-anchor-id="median"><span class="header-section-number">2.1.1.2</span> Median</h4>
+<section id="median" class="level4" data-number="3.1.1.2">
+<h4 data-number="3.1.1.2" class="anchored" data-anchor-id="median"><span class="header-section-number">3.1.1.2</span> Median</h4>
 <p>The <strong>median</strong> is another central tendency based on the <em>sorted</em> data set. It is the <span class="math inline">\(50\)</span>th quantile in the data. A half of the values is smaller than median, and a half is larger.</p>
 <div class="cell">
 <details open="">
@@ -340,8 +332,8 @@ Exercise
 </details>
 </div>
 </section>
-<section id="mode" class="level4" data-number="2.1.1.3">
-<h4 data-number="2.1.1.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">2.1.1.3</span> Mode</h4>
+<section id="mode" class="level4" data-number="3.1.1.3">
+<h4 data-number="3.1.1.3" class="anchored" data-anchor-id="mode"><span class="header-section-number">3.1.1.3</span> Mode</h4>
 <p>For continuous variables in real numbers, computation of <strong>mode</strong> can be done either by cutting the values into meaningful bins or using the kernel density estimate.</p>
 <div class="cell">
 <details open="">
@@ -395,8 +387,8 @@ Exercise
 </div>
 </div>
 </section>
-<section id="nmathrmth-quantile" class="level4" data-number="2.1.1.4">
-<h4 data-number="2.1.1.4" class="anchored" data-anchor-id="nmathrmth-quantile"><span class="header-section-number">2.1.1.4</span> <span class="math inline">\(n^{\mathrm{th}}\)</span> quantile</h4>
+<section id="nmathrmth-quantile" class="level4" data-number="3.1.1.4">
+<h4 data-number="3.1.1.4" class="anchored" data-anchor-id="nmathrmth-quantile"><span class="header-section-number">3.1.1.4</span> <span class="math inline">\(n^{\mathrm{th}}\)</span> quantile</h4>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
@@ -409,11 +401,11 @@ Exercise
 </div>
 </section>
 </section>
-<section id="measures-of-spread" class="level3" data-number="2.1.2">
-<h3 data-number="2.1.2" class="anchored" data-anchor-id="measures-of-spread"><span class="header-section-number">2.1.2</span> Measures of spread</h3>
+<section id="measures-of-spread" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="measures-of-spread"><span class="header-section-number">3.1.2</span> Measures of spread</h3>
 <p>With <strong>measures of variability</strong> we describe the spread of the data around its central tendency. Some degree of variability is a natural occurring phenomenon.</p>
-<section id="variation-range" class="level4" data-number="2.1.2.1">
-<h4 data-number="2.1.2.1" class="anchored" data-anchor-id="variation-range"><span class="header-section-number">2.1.2.1</span> Variation range</h4>
+<section id="variation-range" class="level4" data-number="3.1.2.1">
+<h4 data-number="3.1.2.1" class="anchored" data-anchor-id="variation-range"><span class="header-section-number">3.1.2.1</span> Variation range</h4>
 <p>The simples measure of spread is the <strong>variation range</strong>. It is computed as the difference of both end extremes of the data.</p>
 <p><span class="math display">\[
 R = \max{x} - \min{x}
@@ -428,8 +420,8 @@ R = \max{x} - \min{x}
 </div>
 </div>
 </section>
-<section id="variance-and-sample-variance" class="level4" data-number="2.1.2.2">
-<h4 data-number="2.1.2.2" class="anchored" data-anchor-id="variance-and-sample-variance"><span class="header-section-number">2.1.2.2</span> Variance and sample variance</h4>
+<section id="variance-and-sample-variance" class="level4" data-number="3.1.2.2">
+<h4 data-number="3.1.2.2" class="anchored" data-anchor-id="variance-and-sample-variance"><span class="header-section-number">3.1.2.2</span> Variance and sample variance</h4>
 <p>We calculate the <strong>variance</strong> as the average of the squares of the deviations of individual character values from their arithmetic mean <span class="math inline">\(\bar{x}\)</span>.</p>
 <p><span class="math display">\[
 \begin{array}{rl}
@@ -438,8 +430,8 @@ s^2 =&amp; \dfrac{1}{n-1}\sum\limits_{i=1}^{n}(x_i - \bar{x})^2
 \end{array}
 \]</span> Usually we do not have the ability to work with the whole population data. <span class="math inline">\(s^2\)</span>, the <strong>sample variance</strong> formula needs to be used for and unbiased estimate.</p>
 </section>
-<section id="standard-deviation" class="level4" data-number="2.1.2.3">
-<h4 data-number="2.1.2.3" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">2.1.2.3</span> Standard deviation</h4>
+<section id="standard-deviation" class="level4" data-number="3.1.2.3">
+<h4 data-number="3.1.2.3" class="anchored" data-anchor-id="standard-deviation"><span class="header-section-number">3.1.2.3</span> Standard deviation</h4>
 <p>The <strong>standard deviation</strong> is defined as square root of variance.</p>
 <div class="cell">
 <details open="">
@@ -451,15 +443,15 @@ s^2 =&amp; \dfrac{1}{n-1}\sum\limits_{i=1}^{n}(x_i - \bar{x})^2
 </details>
 </div>
 </section>
-<section id="coefficient-of-variation" class="level4" data-number="2.1.2.4">
-<h4 data-number="2.1.2.4" class="anchored" data-anchor-id="coefficient-of-variation"><span class="header-section-number">2.1.2.4</span> Coefficient of variation</h4>
+<section id="coefficient-of-variation" class="level4" data-number="3.1.2.4">
+<h4 data-number="3.1.2.4" class="anchored" data-anchor-id="coefficient-of-variation"><span class="header-section-number">3.1.2.4</span> Coefficient of variation</h4>
 <p>The <strong>coefficient of variation</strong> is given by the ratio of the standard deviation and the arithmetic mean, and it follows from the definition of this ratio that it is a dimensionless indicator.</p>
 <p><span class="math display">\[
 \nu = \frac{s}{\bar{x}}
 \]</span></p>
 </section>
-<section id="interquartile-range" class="level4" data-number="2.1.2.5">
-<h4 data-number="2.1.2.5" class="anchored" data-anchor-id="interquartile-range"><span class="header-section-number">2.1.2.5</span> Interquartile range</h4>
+<section id="interquartile-range" class="level4" data-number="3.1.2.5">
+<h4 data-number="3.1.2.5" class="anchored" data-anchor-id="interquartile-range"><span class="header-section-number">3.1.2.5</span> Interquartile range</h4>
 <p>The <span class="math inline">\(\text{IQR}\)</span> is the <strong>upper quartile</strong> (<span class="math inline">\(75\)</span>th percentile) minus the <strong>lower quartile</strong> (<span class="math inline">\(25\)</span>th percentile)</p>
 <p><span class="math display">\[
 \text{IQR} = Q_{\text{III}} - Q_{\text{I}}
@@ -484,15 +476,15 @@ Exercise
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Using the knowledge from the <a href="01_R.html"><span>Chapter&nbsp;1</span></a> create own function to calculate the sample variance according the formula.</li>
+<li>Using the knowledge from the <a href="01_R.html"><span>Chapter&nbsp;2</span></a> create own function to calculate the sample variance according the formula.</li>
 </ol>
 </div>
 </div>
 </section>
 </section>
 </section>
-<section id="hydrological-data" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="hydrological-data"><span class="header-section-number">2.2</span> Hydrological data</h2>
+<section id="hydrological-data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="hydrological-data"><span class="header-section-number">3.2</span> Hydrological data</h2>
 <p>Datasets containing hydrological data are quite commonly, although not exclusively, in tabular (rectangular) shape. Let’s take a look at sample data from <strong>MOPEX</strong>. It is a fairly extensive curated dataset.</p>
 <p>This dataset covered some 438 catchments in daily step with measured discharge. The dataset used to be publicly available at https://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily, the site is unavailable now. Several even more extensive datasets recently came out.</p>
 <div class="cell">
@@ -516,27 +508,27 @@ Exercise
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-10" data-code-lines="1">This file is stored locally as part of this site. You have to change to your path.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">This file is stored locally as part of this site. You have to change to your path.</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-10" data-code-lines="2,3,4">Load the data in <strong>fixed width format</strong> using the <code>read.fwf()</code> function.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="2,3,4" data-code-annotation="2">Load the data in <strong>fixed width format</strong> using the <code>read.fwf()</code> function.</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-10" data-code-lines="5">Provide variable names, since there aren’t any.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="5" data-code-annotation="3">Provide variable names, since there aren’t any.</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-annotation="4" data-code-cell="annotated-cell-10" data-code-lines="6,7,8,9,10">Now there is a trouble with dates. If you evaluate sequentially, you could see that the date format expects <strong>“YYYY-mm-dd”</strong> format, we have to fill the blank spots with zeroes to comply.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="6,7,8,9,10" data-code-annotation="4">Now there is a trouble with dates. If you evaluate sequentially, you could see that the date format expects <strong>“YYYY-mm-dd”</strong> format, we have to fill the blank spots with zeroes to comply.</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-annotation="5" data-code-cell="annotated-cell-10" data-code-lines="11">After that, some variables contain non-physical values like <code>-9999</code>, these would make troubles in statistical processing, we have to replace them with <code>NA</code> (not assigned).</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="11" data-code-annotation="5">After that, some variables contain non-physical values like <code>-9999</code>, these would make troubles in statistical processing, we have to replace them with <code>NA</code> (not assigned).</span>
 </dd>
 <dt data-target-cell="annotated-cell-10" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-annotation="6" data-code-cell="annotated-cell-10" data-code-lines="12,13">Let’s display the 5 first and 5 last rows of the result.</span>
+<span data-code-cell="annotated-cell-10" data-code-lines="12,13" data-code-annotation="6">Let’s display the 5 first and 5 last rows of the result.</span>
 </dd>
 </dl>
 </div>
@@ -570,8 +562,8 @@ Exercise
 </div>
 </div>
 </section>
-<section id="aggregation-and-summation" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="aggregation-and-summation"><span class="header-section-number">2.3</span> Aggregation and summation</h2>
+<section id="aggregation-and-summation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="aggregation-and-summation"><span class="header-section-number">3.3</span> Aggregation and summation</h2>
 <p>Let’s add some features to the data. For the purpose of the analysis it would be beneficial to add <code>year</code>, <code>month</code>, <code>quarters</code>, <code>decade</code> and <code>hyear</code> as <strong>hydrological year</strong>.</p>
 <div class="cell">
 <details open="">
@@ -583,7 +575,7 @@ Exercise
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-11" data-code-lines="1,2">With the help of special characters we are extracting the years and months consecutively.</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="1,2" data-code-annotation="1">With the help of special characters we are extracting the years and months consecutively.</span>
 </dd>
 </dl>
 </div>
@@ -620,14 +612,14 @@ Exercise
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-12" data-code-lines="1,2,3">The hydrological year in Czechia is defined from <span class="math inline">\(1^{\mathrm{st}}\)</span> November to <span class="math inline">\(31^{\mathrm{st}}\)</span> October next year.</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="1,2,3" data-code-annotation="1">The hydrological year in Czechia is defined from <span class="math inline">\(1^{\mathrm{st}}\)</span> November to <span class="math inline">\(31^{\mathrm{st}}\)</span> October next year.</span>
 </dd>
 </dl>
 </div>
 </div>
 <p>These functions are based on <strong>grouping</strong>. In hydrology, the natural groups involve - <em>stations/basins</em>, <em>decades/years/months</em>, <em>groundwater regions</em>, etc.</p>
-<section id="box-plot" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">2.3.1</span> Box-plot</h3>
+<section id="box-plot" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="box-plot"><span class="header-section-number">3.3.1</span> Box-plot</h3>
 <p>Come handy, when we want to visualize the important quantiles related to any categorical variable.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
@@ -666,8 +658,8 @@ Exercise
 </div>
 </div>
 </section>
-<section id="q-q-plot" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">2.3.2</span> Q-Q plot</h3>
+<section id="q-q-plot" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="q-q-plot"><span class="header-section-number">3.3.2</span> Q-Q plot</h3>
 <p>The so called <strong>rankit graph</strong> produces a quantile-quantile graph of the values from selected data. This one can compare if the distribution of the data fit with the assumed distribution, e.q. Normal. <code>qqline</code> then adds the theoretical line.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
@@ -712,8 +704,8 @@ Exercise
 <!-- abline(0, 1, col = "red")  # Add a 45-degree reference line -->
 <!-- ``` -->
 </section>
-<section id="empirical-distribution-function" class="level3" data-number="2.3.3">
-<h3 data-number="2.3.3" class="anchored" data-anchor-id="empirical-distribution-function"><span class="header-section-number">2.3.3</span> Empirical distribution function</h3>
+<section id="empirical-distribution-function" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="empirical-distribution-function"><span class="header-section-number">3.3.3</span> Empirical distribution function</h3>
 <p>Large portion of the data which is processed in Hydrology originates from time series of streamflow or runoff. This enables us to construct empirical probability of exceeding certain value in the data <span class="math inline">\(P(X\geq x_k)\)</span>, simply using the well know definition</p>
 <p><span class="math display">\[
 P = \dfrac{m}{n}
@@ -732,11 +724,11 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-15" data-code-lines="1">Create the empirical cumulative distribution function (ECDF) for the data.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="1" data-code-annotation="1">Create the empirical cumulative distribution function (ECDF) for the data.</span>
 </dd>
 <dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-15" data-code-lines="2">Calculate percent of data lower than 35.</span>
+<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="2">Calculate percent of data lower than 35.</span>
 </dd>
 </dl>
 </div>
@@ -779,8 +771,8 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <!-- rank(x) -->
 <!-- ``` -->
 </section>
-<section id="exceedance-curve" class="level3" data-number="2.3.4">
-<h3 data-number="2.3.4" class="anchored" data-anchor-id="exceedance-curve"><span class="header-section-number">2.3.4</span> Exceedance curve</h3>
+<section id="exceedance-curve" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="exceedance-curve"><span class="header-section-number">3.3.4</span> Exceedance curve</h3>
 <p>Provides an information on how many times or for how long a streamflow value was reached or exceeded within a certain period.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
@@ -791,12 +783,16 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(r_sorted)</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>exceedance_prob <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n <span class="sc">/</span> n</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> exceedance_prob, </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> r_sorted, </span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Exceedance Probability"</span>, </span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Runoff Value"</span>, </span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Empirical Exceedance Curve"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>rank <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span>n)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>return_period <span class="ot">&lt;-</span> (n <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> rank</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>exceedance_prob <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> return_period</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> exceedance_prob, </span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> r_sorted, </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Exceedance Probability"</span>, </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Runoff Value"</span>, </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Empirical Exceedance Curve"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -806,30 +802,17 @@ P = \dfrac{m - 0.3}{n + 0.4}
 </div>
 </div>
 </div>
-</section>
-<section id="return-period" class="level3" data-number="2.3.5">
-<h3 data-number="2.3.5" class="anchored" data-anchor-id="return-period"><span class="header-section-number">2.3.5</span> Return period</h3>
-<p>We calculate the return period as inverse to the exceedance probability</p>
-<div class="cell" data-layout-align="center">
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>return_period <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span>exceedance_prob </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> return_period, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> r_sorted, </span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"l"</span>, </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Return Period"</span>, </span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Runoff Value"</span>, </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Empirical Return Period"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="02_statistics_files/figure-html/unnamed-chunk-16-1.svg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<!-- ### Return period -->
+<!-- We calculate the return period as inverse to the exceedance probability -->
+<!-- ```{r, fig.align='center'} -->
+<!-- # return_period <- 1/exceedance_prob  -->
+<!-- plot(x = return_period,  -->
+<!--      y = r_sorted,  -->
+<!--      type = "l",  -->
+<!--      xlab = "Return Period",  -->
+<!--      ylab = "Runoff Value",  -->
+<!--      main = "Empirical Return Period") -->
+<!-- ``` -->
 <!-- ### Frequency distribution curve -->
 <!-- ## Correlation and autocorrelation -->
 <!-- $$ -->
@@ -839,22 +822,22 @@ P = \dfrac{m - 0.3}{n + 0.4}
 <!-- $$ -->
 </section>
 </section>
-<section id="hydroclimatic-indices" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="hydroclimatic-indices"><span class="header-section-number">2.4</span> Hydroclimatic indices</h2>
+<section id="hydroclimatic-indices" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="hydroclimatic-indices"><span class="header-section-number">3.4</span> Hydroclimatic indices</h2>
 <p>Originated from the combination of aggregation and summation methods and the measures of location and dispersion.</p>
-<section id="runoff-coefficient" class="level3" data-number="2.4.1">
-<h3 data-number="2.4.1" class="anchored" data-anchor-id="runoff-coefficient"><span class="header-section-number">2.4.1</span> Runoff coefficient</h3>
+<section id="runoff-coefficient" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="runoff-coefficient"><span class="header-section-number">3.4.1</span> Runoff coefficient</h3>
 <p>The concept of runoff coefficient comes from the presumption, that over long-time period</p>
 <p><span class="math display">\[
 \varphi [-] = \dfrac{R}{P}
-\]</span> where <span class="math inline">\(R\)</span> represents runoff and <span class="math inline">\(P\)</span> precipitation in long term, typically 30 year so called <strong>Normal period</strong>, which is a decadal moving 30 window; the current being 1991–2020.</p>
+\]</span> where <span class="math inline">\(R\)</span> represents runoff and <span class="math inline">\(P\)</span> precipitation in long term, typically 30 year so called <strong>Climatic period</strong>, which is a decadal 30 year reference moving window; the latest being 1991–2020.</p>
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">aggregate</span>(r <span class="sc">~</span> year, <span class="at">FUN =</span> mean, <span class="at">data =</span> mpx_01138000)[, <span class="st">"r"</span>])</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">aggregate</span>(prec <span class="sc">~</span> year, <span class="at">FUN =</span> mean, <span class="at">data =</span> mpx_01138000)[, <span class="st">"prec"</span>])</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">/</span>P</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">aggregate</span>(r <span class="sc">~</span> year, <span class="at">FUN =</span> mean, <span class="at">data =</span> mpx_01138000)[, <span class="st">"r"</span>])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">aggregate</span>(prec <span class="sc">~</span> year, <span class="at">FUN =</span> mean, <span class="at">data =</span> mpx_01138000)[, <span class="st">"prec"</span>])</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">/</span>P</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.493947</code></pre>
@@ -876,65 +859,35 @@ Exercise
 </div>
 </div>
 </section>
-<section id="flow-duration-curve" class="level3" data-number="2.4.2">
-<h3 data-number="2.4.2" class="anchored" data-anchor-id="flow-duration-curve"><span class="header-section-number">2.4.2</span> Flow duration curve</h3>
+<section id="flow-duration-curve" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="flow-duration-curve"><span class="header-section-number">3.4.2</span> Flow duration curve</h3>
 <p>This is an essential curve in energy as well as river ecology sector.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>, <span class="dv">120</span>, <span class="dv">150</span>, <span class="dv">180</span>, <span class="dv">210</span>, <span class="dv">240</span>, <span class="dv">270</span>, <span class="dv">300</span>, <span class="dv">330</span>, <span class="dv">355</span>, <span class="dv">364</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>m_day <span class="ot">&lt;-</span> <span class="cf">function</span>(streamflow) {</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="fu">na.omit</span>(streamflow), <span class="dv">1</span> <span class="sc">-</span> M<span class="sc">/</span><span class="fl">365.25</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(M, <span class="fu">m_day</span>(mpx_01138000<span class="sc">$</span>r), </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>, </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">21</span>,</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">bg =</span> <span class="st">"darkgray"</span>,</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">""</span>, </span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Discharge"</span>, </span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"M-day discharge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>, <span class="dv">120</span>, <span class="dv">150</span>, <span class="dv">180</span>, <span class="dv">210</span>, <span class="dv">240</span>, <span class="dv">270</span>, <span class="dv">300</span>, <span class="dv">330</span>, <span class="dv">355</span>, <span class="dv">364</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>m_day <span class="ot">&lt;-</span> <span class="cf">function</span>(streamflow) {</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">quantile</span>(<span class="fu">na.omit</span>(streamflow), <span class="dv">1</span> <span class="sc">-</span> M<span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(M, <span class="fu">m_day</span>(mpx_01138000<span class="sc">$</span>r), </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>, </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">21</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">bg =</span> <span class="st">"darkgray"</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">""</span>, </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Discharge"</span>, </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"M-day discharge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="02_statistics_files/figure-html/unnamed-chunk-18-1.svg" class="img-fluid figure-img"></p>
+<p><img src="02_statistics_files/figure-html/unnamed-chunk-17-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="baseflow" class="level3" data-number="2.4.3">
-<h3 data-number="2.4.3" class="anchored" data-anchor-id="baseflow"><span class="header-section-number">2.4.3</span> Baseflow</h3>
-<p>The <strong>Total runoff</strong> comprises from <strong>direct runoff</strong>, <strong>hypodermic runoff</strong> and <strong>baseflow</strong>. From the baseflow separation process usually the <strong>baseflow index</strong> is calculated <span class="math inline">\(\text{BFI}=\dfrac{\text{baseflow}}{\text{total runoff}}\)</span></p>
-</section>
-</section>
-<section id="review" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="review"><span class="header-section-number">2.5</span> Review</h2>
-<ol type="1">
-<li>Load the following <a href="data/03463300_streamflow_qc.txt">dataset</a> into R using the <code>read.delim()</code> function.</li>
-<li>Find the mean, median, mode and standard deviation of the following series.</li>
-</ol>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Review
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li>Calculate the sample mean and sample variance of the <input class="webex-solveme nospaces" size="3" data-answer="[&quot;2.5&quot;]">; which select columns?
-<div id="radio_EHLMRAYYFU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value="answer"> <span>select()</span></label><label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value=""> <span>filter()</span></label><label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value=""> <span>mutate()</span></label><label><input type="radio" autocomplete="off" name="radio_EHLMRAYYFU" value=""> <span>nest()</span></label>
-</div>
-.</li>
-</ol>
-</div>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1445,12 +1398,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./01_R.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R language</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./03_gis.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -4,7 +4,7 @@ project:
   output-dir: docs
 book:
   title: ZVX108E Hydrology
-  subtitle: Hydrology WS 23/24 Individual Sessions Companion
+  subtitle: Hydrology WS 24/25 Sessions Companion
   author: Petr Pavlík
   favicon: cover.png
   repo-url: https://github.com/petr-pavlik/Hydrology_ZVX108E/
@@ -14,6 +14,7 @@ book:
   date: today
   chapters:
   - index.qmd
+  - intro.qmd
   - 01_R.qmd
   - 02_statistics.qmd
   - 03_gis.qmd
@@ -24,11 +25,6 @@ book:
   sidebar:
     title: Hydrology ZVX108E
     pinned: true
-    tools:
-    - icon: save
-      menu:
-      - text: mpx.dly
-        url: ./data/01138000.dly
   search:
     location: sidebar
     type: textbox
