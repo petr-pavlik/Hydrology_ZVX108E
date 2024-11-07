@@ -1,33 +1,30 @@
 # Data interpolation
 
-Variables which enter hydrological analysis like *temperature* or *precipitation* are measured **locally at point locations**. Many of these qualities are then recalculated on different domains 
-using **interpolation** or **extrapolation** algorithms. We interpolate within the boundary given by the values which are known to us and extrapolate outside this boundary. Here the two common methods for interpolation are demonstrated. 
+Variables which enter hydrological analysis like *temperature* or *precipitation* are measured **locally at point locations**. Many of these qualities are then recalculated on different domains using **interpolation** or **extrapolation** algorithms. We interpolate within the boundary given by the values which are known to us and extrapolate outside this boundary. Here the two common methods for interpolation are demonstrated.
 
 ## Inverse distance weighting (IDW)
 
-IDW is a simple **deterministic** interpolation method, which is also non-parametric. 
-The interpolated points are calculated with a weighted average of the values which are at disposal.
-The space is a weighted average of the distribution of points and the weight assigned to each point decrease with increasing distance from the interpolated point.
+IDW is a simple **deterministic** interpolation method, which is also non-parametric. The interpolated points are calculated with a weighted average of the values which are at disposal. The space is a weighted average of the distribution of points and the weight assigned to each point decrease with increasing distance from the interpolated point.
 
 The point value $Z_p$ is calculated with the knowledge of $z_i$ and distance $d_i$ to the power of $P$.
 
 $$
 Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^P}}
-$$
-Since this method is very simpley, let's calculate it on our own, in a step-by-step manner. 
+$$ 
 
- 1.   First we generate some point in the spatial domain, which will represent our measurements.
- 2.   Next we create a new domain, spatially regular to which we will interpolate.
- 3.   Finally we will perform the calculations and visualize the results.
+Since this method is very simple, let's calculate it on our own, in a step-by-step manner.
+
+1.  First we generate some point in the spatial domain, which will represent our measurements.
+2.  Next we create a new domain, spatially regular to which we will interpolate.
+3.  Finally we will perform the calculations and visualize the results.
 
 ### Random measurements generation
 
-We will create 25 points in the space and also assign some coordinate reference system. 
-These points will be used for both of the methods.
+We will create 25 points in the space and also assign some coordinate reference system. These points will be used for both of the methods.
 
 ```{r, fig.align='center', message=FALSE}
 library(sf)          # Spatial Feature library for spatial data
-library(scico)       # Scientific pallette collection called "scico"
+library(scico)       # Scientific palette collection called "scico"
 
 n <- 25 # <1>
 dom <- data.frame(x = runif(n, 0, 50), # <1>
@@ -48,14 +45,12 @@ plot(dom,  # <3>
      bgc = "#f0f0f033",  # Background color # <3> 
      key.pos = 1)        # Legend position # <3>
 ```
-1. Create $25$ points with random values, which will serve as the computation origin,
-2. store them as **SimpleFeatures** object with coordinate reference system via EPSG,
-search in [https://epsg.io](https://epsg.io)
-3. Specify `sf:::plot.sf()` function and use scientific colormaps from `scico` package.
 
-We do have the original points, which are scarcely distributed across the domain. 
-Now we need a grid of new points, which will represent the centroids of a raster, 
-on which we want to recalculate.
+1.  Create $25$ points with random values, which will serve as the computation origin,
+2.  store them as **SimpleFeatures** object with coordinate reference system via EPSG, search in <https://epsg.io>
+3.  Specify `sf:::plot.sf()` function and use scientific colormaps from `scico` package.
+
+We do have the original points, which are scarcely distributed across the domain. Now we need a grid of new points, which will represent the centroids of a raster, on which we want to recalculate.
 
 ```{r, fig.align='center', fig.cap='Point location of Precipitation measuring stations'}
 grid <- st_make_grid(x = dom,  # <1>
@@ -78,44 +73,62 @@ plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE) # <2>
 
 
 ```
-1. Construct a regular grid using extreme points as boundary limits. 
-2. Plot with the points.
 
+1.  Construct a regular grid using extreme points as boundary limits.
+2.  Plot with the points.
 
-Now we compute the distances between the points usint the `outer()` function
+Now we compute the distances between the points using the `outer()` function
 
 ```{r, eval=TRUE, fig.align='center', fig.cap=''}
-distances <- outer(
-  st_coordinates(grid)[, "X"], st_coordinates(dom)[, "X"],
-  st_coordinates(grid)[, "Y"], st_coordinates(dom)[, "Y"],
-  FUN = function(x1, x2, y1, y2) sqrt((x1 - x2)^2 + (y1 - y2)^2)
-)
+distances <- sapply(1:nrow(st_coordinates(grid)), function(i) {
+  sqrt((st_coordinates(grid)[i, "X"] - st_coordinates(dom)[, "X"])^2 +
+       (st_coordinates(grid)[i, "Y"] - st_coordinates(dom)[, "Y"])^2)
+})
+
 ```
 
 and use these distances for missing values computation
 
 ```{r, eval=TRUE, fig.align='center', fig.ext='svg'}
+# # Vectorized calculation of distances for each grid cell to all data points
+# distances <- sapply(1:nrow(st_coordinates(grid)), function(i) {
+#   sqrt((st_coordinates(grid)[i, "X"] - st_coordinates(dom)[, "X"])^2 +
+#        (st_coordinates(grid)[i, "Y"] - st_coordinates(dom)[, "Y"])^2)
+# })
+
+# Handle cases where distances might be zero to avoid division errors
+epsilon <- 1e-6
+distances <- distances + epsilon
 power <- 2
-weighted_sum <- apply(distances, 1, function(d) sum(dom$value / (d^power)))
+# Compute weighted sums for all grid points
+weighted_sum <- sapply(1:ncol(distances), function(i) {
+  sum(dom$value / (distances[, i]^power))
+})
 
+# Compute weights sum for all grid points
+weights_sum <- sapply(1:ncol(distances), function(i) {
+  sum(1 / (distances[, i]^power))
+})
 
-
-weights_sum <- apply(distances, 1, function(d) sum(1 / (d^power)))
+# Calculate interpolated values for all grid points
 interpolated_values <- weighted_sum / weights_sum
 
+# Create a spatial data frame for results
 results <- data.frame(
   x = st_coordinates(grid)[, "X"],
   y = st_coordinates(grid)[, "Y"],
-  value = interpolated_values) |> 
-  sf::st_as_sf(coords   = c("x", "y"), crs = 4326)
+  value = interpolated_values
+) |> 
+  sf::st_as_sf(coords = c("x", "y"), crs = 4326)
 
-results$value[which(is.nan(results$value))] <- NA
+# Replace NaN values with NA for plotting
+results$value[is.nan(results$value)] <- NA
 
-
+# Join results with the grid for visualization
 join <- st_join(grid, results)
 ```
 
-At last we visualize the results. 
+At last we visualize the results.
 
 ```{r, eval=TRUE, fig.align='center', fig.ext='svg'}
 plot(x = join, 
@@ -130,20 +143,25 @@ plot(x = join,
      graticule = TRUE,        # Display graticules
      axes      = TRUE,        # Display plot axes
      bgc       = "#f0f0f033", # Background color
-     key.pos   = 1, reset = FALSE)           # Legend position
+     key.pos   = 1, 
+     reset = FALSE)           # Legend position
 ```
 
 ## `gstat`
 
-There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages.
-The gstat package contains functions no olny for interpolations.
+There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages. The gstat package contains functions no olny for interpolations.
 
 ```{r, eval=TRUE}
 library(gstat)
-krigged <- gstat::idw(formula = value ~ 1, locations = dom, newdata = grid)
-krigged <- st_as_sf(krigged)
-plot(krigged |> dplyr::select(var1.pred), 
-     breaks = seq(min(krigged$var1.pred), max(krigged$var1.pred), length.out = 25),
+idw_res <- gstat::idw(formula = value ~ 1, 
+                      locations = dom, 
+                      newdata = grid)
+idw_res <- st_as_sf(idw_res)
+plot(idw_res |> 
+       dplyr::select(var1.pred), 
+     breaks = seq(min(idw_res$var1.pred), 
+                  max(idw_res$var1.pred), 
+                  length.out = 25),
      lwd = 0.001,
      pal = scico(24, 
                  palette = "davos",
@@ -154,162 +172,203 @@ plot(krigged |> dplyr::select(var1.pred),
      graticule = TRUE,        # Display graticules
      axes      = TRUE,        # Display plot axes
      bgc       = "#f0f0f033", # Background color
-     key.pos   = 1, reset = FALSE)
+     key.pos   = 1, 
+     reset = FALSE)
 ```
 
 ```{r, eval=FALSE}
 power <- 2  # You can adjust the power parameter
-weighted_sum <- apply(distances, 1, function(d) sum(df$value / (d^power)))
+weighted_sum <- apply(distances, 1, function(d) sum(dom$value / (d^power)))
 weighted_sum
 ```
 
 ## Krigging
 
-Another interpolation technique is called **Krigging**. Opposing to the Inverse
-Distance Weighted method. 
+Another interpolation technique is called **Krigging**. Opposing to the Inverse Distance Weighted method.
 
-```{r, eval=FALSE}
-krigged <- gstat::krige(formula = value ~ st_coordinates(dom)[, 1] + st_coordinates(dom)[, 2], 
-                        locations = dom, 
-                        newdata = grid)
-krigged <- st_as_sf(krigged)
-plot(krigged |> dplyr::select(var1.pred), 
-     breaks = seq(min(krigged$var1.pred), max(krigged$var1.pred), length.out = 25),
-     lwd = 0.001,
-     pal = scico(24, 
-                 palette = "davos",
-                 end       = 0.9, 
-                 direction = -1),
-     main      = "Precipitation [mm]", 
-     #pch       = 20,          # Point character selection
-     graticule = TRUE,        # Display graticules
-     axes      = TRUE,        # Display plot axes
-     bgc       = "#f0f0f033", # Background color
-     key.pos   = 1, reset = FALSE)
-```
+```{r, eval=TRUE}
 
+projected_crs <- 32633  # Replace with the appropriate UTM zone for your data
 
-### Data
+dom_projected <- st_transform(dom, crs = projected_crs)
+grid_projected <- st_transform(grid, crs = projected_crs)
 
-Let's use some artificial data set for this example as well.
+set.seed(123)  # For reproducibility
+idw_points <- st_centroid(idw_res)
+sampled_points <- idw_points[sample(1:nrow(idw_points), 50), ]
 
-$$
-\mathrm{Distances} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}\qquad \mathrm{for}\:i, j = 1,2, \ldots,n
-$$
-
-$$
-\mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for} 
-$$ 
-
-### Semivariogram calculation
-
-```{r, fig.width=400}
-# show.vgms()
-```
-
-$$
-\gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2
-$$ where $\gamma(h)$ represents the semivariance lag at distance $h$.
-
-```{r, eval=FALSE}
-df <- data.frame(
-  x = runif(10, 0, 50),
-  y = runif(10, 0, 50),
-  value = rnorm(10)
+combined_points <- rbind(
+  dom,
+  sampled_points |> 
+  dplyr::select(value = var1.pred, geometry)
 )
-n <- nrow(df)
-dist_matrix <- as.matrix(dist(cbind(df$x, df$y)))
-differences_matrix <- matrix(0, n, n)
+combined_points <- st_transform(combined_points, crs = projected_crs)
 
-for (i in 1:n) {
-  differences_matrix[i, ] <- df$value - df$value[i]
-}
-lag_tol <- 1  # Lag tolerance, you can adjust this
-max_lag <- 10  # Maximum lag distance, you can adjust this
+variogram <- vgm(psill = 0.05, model = "Mat", range = 10000, nugget = 0.15)
 
-semivariance <- rep(0, max_lag / lag_tol)
-num_pairs <- rep(0, max_lag / lag_tol)
-
-for (i in 1:(n - 1)) {
-  for (j in (i + 1):n) {
-    distance_ij <- sqrt((df$x[i] - df$x[j])^2 + (df$y[i] - df$y[j])^2)
-    lag <- round(distance_ij / lag_tol)
-    if (lag <= max_lag / lag_tol) {
-      semivariance[lag] <- semivariance[lag] + (df$value[i] - df$value[j])^2
-      num_pairs[lag] <- num_pairs[lag] + 1
-    }
-  }
-}
-
-semivariance <- semivariance / (2 * num_pairs)
-
-prediction_grid <- expand.grid(
-  x = seq(0, 50, by = 1),
-  y = seq(0, 50, by = 1)
+krig_res <- gstat::krige(
+  formula = value ~ 1,
+  locations = combined_points,
+  newdata = grid_projected,
+  model = variogram  # Use the appropriate fitted variogram model
 )
 
-n_grid <- nrow(prediction_grid)
-semivariance_at_grid <- rep(0, n_grid)
+# Step 3: Reproject the kriged result back to the original CRS (WGS84)
+krig_res <- st_transform(st_as_sf(krig_res), crs = 4326)
+# Generate unique breaks
+min_val <- min(krig_res$var1.pred, na.rm = TRUE)
+max_val <- max(krig_res$var1.pred, na.rm = TRUE)
 
-for (i in 1:n_grid) {
-  differences_to_data <- df$value - prediction_grid[i, ]
-  distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2)
-  lag_values <- round(distances_to_data / lag_tol)
-  semivariance_at_grid[i] <- sum((differences_to_data)^2 / (2 * lag_values))
+# Ensure that min and max are sufficiently different to create unique breaks
+if (max_val - min_val > 0) {
+  breaks <- seq(min_val, max_val, length.out = 25)
+} else {
+  breaks <- unique(c(min_val, max_val))  # Fallback for nearly constant data
 }
 
-n_lags <- length(semivariance)
-kriged_values <- rep(0, n_grid)
+# Use the scico color palette with the correct number of colors
+colors <- scico(length(breaks) - 1, 
+                palette = "davos", 
+                end = 0.9, 
+                direction = -1)
 
-for (i in 1:n_grid) {
-  kriging_weights <- rep(0, n)
-  distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2)
-  lag_values <- round(distances_to_data / lag_tol)
-  for (j in 1:n) {
-    if (lag_values[j] <= n_lags) {
-      kriging_weights[j] <- (semivariance[lag_values[j]] - semivariance_at_grid[i]) / semivariance[lag_values[j]]
-    }
-  }
-  # Check if there are valid weights to avoid replacement with length zero
-  if (any(kriging_weights != 0)) {
-    kriged_values[i] <- sum(kriging_weights * df$value)
-  }
-}
-
+# Plotting using the 'pal' argument for sf objects
+plot(
+  krig_res |> dplyr::select(var1.pred), 
+  breaks = breaks,
+  pal = colors,        # Use 'pal' to specify the color palette
+  lwd = 0.001,
+  main = "Precipitation [mm]", 
+  graticule = TRUE, 
+  axes = TRUE, 
+  bgc = "#f0f0f033", 
+  key.pos = 1, 
+  reset = FALSE
+)
 
 ```
 
-$$
-\left[
-\begin{matrix}
-\mathbf{G} & \mathbf{j}\\
-\mathbf{j^\prime} & \mathbf{0}\\
-\end{matrix}
-\right]
-\left[
-\begin{matrix}
-\lambda\\
-\mu_L
-\end{matrix}
-\right] = 
-\left[
-\begin{matrix}
-\mathbf{g}\\
-1
-\end{matrix}
-\right]
-$$ Where $\mathbf{G}$ is a rectangular matrix containing the values of variograph for all doubles of measured points, $\mathbf{1}$ is a vector of weights s with values of
+<!-- ### Data -->
 
-### Now we have to state the varigram model. We will calculate the semivariogram
+<!-- Let's use some artificial data set for this example as well. -->
 
-to model the **spatial covariance** structure. Then calculate the pairwise distances and differences between data points.
+<!-- $$ -->
+<!-- \mathrm{Distances} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}\qquad \mathrm{for}\:i, j = 1,2, \ldots,n -->
+<!-- $$ -->
 
-```{r, eval=FALSE}
-n <- nrow(df)
-dist_matrix <- as.matrix(dist(cbind(df$x, df$y)))
-differences_matrix <- matrix(0, n, n)
+<!-- $$ -->
+<!-- \mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for}  -->
+<!-- $$ -->
 
-for (i in 1:n) {
-  differences_matrix[i, ] <- df$value - df$value[i]
-}
-```
+<!-- ### Semivariogram calculation -->
+
+<!-- ```{r, fig.width=400} -->
+<!-- # show.vgms() -->
+<!-- ``` -->
+
+<!-- $$ -->
+<!-- \gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2 -->
+<!-- $$ where $\gamma(h)$ represents the semivariance lag at distance $h$. -->
+
+<!-- ```{r, eval=FALSE} -->
+<!-- df <- data.frame( -->
+<!--   x = runif(10, 0, 50), -->
+<!--   y = runif(10, 0, 50), -->
+<!--   value = rnorm(10) -->
+<!-- ) -->
+<!-- n <- nrow(df) -->
+<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
+<!-- differences_matrix <- matrix(0, n, n) -->
+
+<!-- for (i in 1:n) { -->
+<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
+<!-- } -->
+<!-- lag_tol <- 1  # Lag tolerance, you can adjust this -->
+<!-- max_lag <- 10  # Maximum lag distance, you can adjust this -->
+
+<!-- semivariance <- rep(0, max_lag / lag_tol) -->
+<!-- num_pairs <- rep(0, max_lag / lag_tol) -->
+
+<!-- for (i in 1:(n - 1)) { -->
+<!--   for (j in (i + 1):n) { -->
+<!--     distance_ij <- sqrt((df$x[i] - df$x[j])^2 + (df$y[i] - df$y[j])^2) -->
+<!--     lag <- round(distance_ij / lag_tol) -->
+<!--     if (lag <= max_lag / lag_tol) { -->
+<!--       semivariance[lag] <- semivariance[lag] + (df$value[i] - df$value[j])^2 -->
+<!--       num_pairs[lag] <- num_pairs[lag] + 1 -->
+<!--     } -->
+<!--   } -->
+<!-- } -->
+
+<!-- semivariance <- semivariance / (2 * num_pairs) -->
+
+<!-- prediction_grid <- expand.grid( -->
+<!--   x = seq(0, 50, by = 1), -->
+<!--   y = seq(0, 50, by = 1) -->
+<!-- ) -->
+
+<!-- n_grid <- nrow(prediction_grid) -->
+<!-- semivariance_at_grid <- rep(0, n_grid) -->
+
+<!-- for (i in 1:n_grid) { -->
+<!--   differences_to_data <- df$value - prediction_grid[i, ] -->
+<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
+<!--   lag_values <- round(distances_to_data / lag_tol) -->
+<!--   semivariance_at_grid[i] <- sum((differences_to_data)^2 / (2 * lag_values)) -->
+<!-- } -->
+
+<!-- n_lags <- length(semivariance) -->
+<!-- kriged_values <- rep(0, n_grid) -->
+
+<!-- for (i in 1:n_grid) { -->
+<!--   kriging_weights <- rep(0, n) -->
+<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
+<!--   lag_values <- round(distances_to_data / lag_tol) -->
+<!--   for (j in 1:n) { -->
+<!--     if (lag_values[j] <= n_lags) { -->
+<!--       kriging_weights[j] <- (semivariance[lag_values[j]] - semivariance_at_grid[i]) / semivariance[lag_values[j]] -->
+<!--     } -->
+<!--   } -->
+<!--   # Check if there are valid weights to avoid replacement with length zero -->
+<!--   if (any(kriging_weights != 0)) { -->
+<!--     kriged_values[i] <- sum(kriging_weights * df$value) -->
+<!--   } -->
+<!-- } -->
+
+
+<!-- ``` -->
+
+<!-- $$ -->
+<!-- \left[ -->
+<!-- \begin{matrix} -->
+<!-- \mathbf{G} & \mathbf{j}\\ -->
+<!-- \mathbf{j^\prime} & \mathbf{0}\\ -->
+<!-- \end{matrix} -->
+<!-- \right] -->
+<!-- \left[ -->
+<!-- \begin{matrix} -->
+<!-- \lambda\\ -->
+<!-- \mu_L -->
+<!-- \end{matrix} -->
+<!-- \right] =  -->
+<!-- \left[ -->
+<!-- \begin{matrix} -->
+<!-- \mathbf{g}\\ -->
+<!-- 1 -->
+<!-- \end{matrix} -->
+<!-- \right] -->
+<!-- $$ Where $\mathbf{G}$ is a rectangular matrix containing the values of variograph for all doubles of measured points, $\mathbf{1}$ is a vector of weights s with values of -->
+
+<!-- ### Now we have to state the varigram model. We will calculate the semivariogram -->
+
+<!-- to model the **spatial covariance** structure. Then calculate the pairwise distances and differences between data points. -->
+
+<!-- ```{r, eval=FALSE} -->
+<!-- n <- nrow(df) -->
+<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
+<!-- differences_matrix <- matrix(0, n, n) -->
+
+<!-- for (i in 1:n) { -->
+<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
+<!-- } -->
+<!-- ``` -->
