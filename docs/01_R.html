@@ -182,8 +182,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_interpolation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
+  <a href="./03_gis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">GIS in Hydrology</span></span></a>
   </div>
 </li>
     </ul>
@@ -627,7 +627,7 @@ g) <span class="math inline">\(\int_{0}^{3\pi} \sin(x) dx\)</span></p>
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Hodnota nejblíže 0 z vektoru x je: 0.0178636</code></pre>
+<pre><code>Hodnota nejblíže 0 z vektoru x je: -0.006253378</code></pre>
 </div>
 </div>
 <p>We can test if we get the same result as the <em>primitive</em> function from R using <code>all.equal()</code> statement.</p>
@@ -864,14 +864,14 @@ Exercise
 </dl>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         [,1]     [,2]     [,3]    [,4]     [,5]     [,6]     [,7]     [,8]
-[1,] 1457.096 465.4857 877.5676 65.0729 201.9803 428.6029 59.06185 173.3833
-         [,9]    [,10]
-[1,] 1366.374 105.2113
-        B         C         D         E         G         H         I         J 
-21.575119 29.623767  8.066777 14.211977  7.685171 13.167508 36.964493 10.257254 
-        A         B         C 
--38.17192  21.57512  29.62377 </code></pre>
+<pre><code>         [,1]     [,2]     [,3]     [,4]     [,5]     [,6]      [,7]     [,8]
+[1,] 31.89935 197.8303 1525.919 99.95653 130.9571 1172.328 0.1014942 293.8076
+         [,9]   [,10]
+[1,] 178.6947 1082.72
+        B         D         E         F         I         J 
+14.065216  9.997826 11.443647 34.239275 13.367672 32.904710 
+         A          B          C 
+ -5.647951  14.065216 -39.063009 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -966,9 +966,9 @@ Exercise
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>M[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2</span>)                <span class="co"># store random numbers to first two rows</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">colMeans</span>(M) </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  0.4079964 -0.4920036</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.2261859 0.3261859</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rowSums</span>(M)</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  1.613221  1.500000 -6.533257  1.500000  1.500000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 3.181351 1.500000 0.080508 1.500000 1.500000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>It is possible to have matrices containing any data type, e.g.</p>

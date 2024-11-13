@@ -1,14 +1,15 @@
 # GIS in Hydrology
 
-Spatial Data Science \
+Spatial Data Science\
 Geocomputation with R
 
 ## WhiteboxTools
 
-In this session we use the **WhiteboxTools** (WBT) a modern and advanced geospatial package, tools collection, which contains \~450 functions. The WBT has an interface to r and python.
+In this session we use the **WhiteboxTools** (WBT) a modern and advanced geospatial package, tools collection, which contains \~450 functions. The WBT has an interface to both R and Python.
 
-The tool can be downloaded from <http://whiteboxgeo.com/>.
-
+The tool can be downloaded from <http://whiteboxgeo.com/>. We have to install through the packge.
+First the necessary packages need to be installed, the installation require compilation 
+and take some time.
 ## Raster and vector data
 
 **Raster** data are represented by a matrix of pixels (cells) with values. Raster is used for data which display continuous information across an area which cannot be easily divided into vector features. For the purpose of watershed delineation the raster input of Digital Elevation Model is used.
@@ -37,15 +38,15 @@ We will install the **whitebox** tools through the whitebox `package`. Other tha
 
 We have to install the sought packages prior the first usage. None of them is actually contained in the default R installation.
 
-```{r, eval=FALSE}
+```{r}
 lapply(
   X = setdiff(
-    c("whitebox", "terra", "sf", "ggplot2", "tidyterra"), 
-    installed.packages()[, "Package"]), 
+    c("whitebox", "terra", "sf", "ggplot2", "tidyterra", "scico"),
+    installed.packages()[, "Package"]),
   FUN = install.packages)
 ```
 
-After the successful installation, the `library` function load the namespace of the pacakges and allows their exported functions to be used directly.
+After the successful installation, the `library` function load the namespace of the packages and allows their exported functions to be used directly.
 
 ```{r, collapse=TRUE}
 library(whitebox)               # <1>
@@ -53,16 +54,23 @@ library(terra)                  # <2>
 library(sf)                     # <3>
 library(ggplot2)                # <4>
 library(tidyterra)              # <5>
+library(scico)              # <6>
 ```
 
 1.  Load the Whitebox API package.
 2.  Load the `terra` package for raster use.
 3.  Load the `sf` package for vector use.
 4.  Load the `ggplot2` plotting functions for layers.
+5.  Load the `tidyterra` for the `terra` objects and `ggplot2` compatibility.
+6.  Load scientific colors library.
+
+**The paths on your OS may vary, you may need to change the direction of the installation.**
 
 ```{r, collapse=TRUE}
-install_whitebox("~/Desktop/GIS/") #<>
-wbt_init(exe_path = "~/Downloads/WBT/whitebox_tools") # <5>
+wd_path <- "~/Desktop/GIS"
+
+wbt_init(exe_path = paste(wd_path, "WBT/whitebox_tools", sep = "/")) # <5>
+
 check_whitebox_binary() # <6>
 ```
 
@@ -73,15 +81,10 @@ check_whitebox_binary() # <6>
 
 ```{r}
 dem <- rast(whitebox::sample_dem_data()) # <1>
-
-st_write(obj = gauge, 
-         dsn = paste(wd_path, "gauge", sep = "/"), 
-         driver = "ESRI Shapefile", 
-         delete_dsn = TRUE)
-
-tm_layout() + # <2>
-  tm_shape(dem) + # <2>
-  tm_raster(palette = "-Greys", n = 50, legend.show = FALSE) # <2>
+writeRaster(dem, paste(wd_path, "dem.tif", sep = "/"), overwrite = TRUE)
+ggplot() + # <2>
+  geom_spatraster(data = dem) + # <2>
+  scale_fill_scico(palette = "fes", midpoint = 150) # <2>
 ```
 
 1.  Use the `rast()` function to load the data
@@ -91,11 +94,7 @@ tm_layout() + # <2>
 
 The digital elevation model has to be adjusted for the watershed delineation algorithm to be able to run successfully.
 
-We need to specifiy a path to working directory. It has to be somewhere where you as a user have access to write files. Be sure the folder exists.
-
-```{r, collapse=TRUE, eval=TRUE}
-wd_path <- "~/Desktop/GIS"
-```
+It's good to specify a path to working directory. It has to be somewhere where you as a user have access to write files. Be sure the folder exists.
 
 ```{r, collapse=TRUE, eval=FALSE}
 
@@ -128,9 +127,6 @@ wbt_extract_streams(flow_accum = paste(wd_path,   # <4>
                                    "streams.tif",    # <4>
                                    sep = "/"),    # <4>
                     threshold = 200)   # <4>
-
-
-
 ```
 
 1.  This algorithm involves removing flat areas and filling depressions, thus producing hydrologically corrected DEM
@@ -144,12 +140,13 @@ We have the raster prepared for the delineation, now we need to provide a point 
 gauge <- st_sfc(st_point(x = c(671035, 4885783), 
                                dim = "XY"), 
                       crs = st_crs(26918))
+st_write(gauge, dsn = paste(wd_path, "gauge", sep = "/"), driver = "ESRI Shapefile", append = FALSE)
 ```
 
 ```{r, eval=TRUE}
 ggplot() +
   geom_spatraster(data = dem) +
-  scico::scale_fill_scico(palette = "lapaz") +
+  scico::scale_fill_scico(palette = "fes", midpoint = 150) +
   geom_sf(data = gauge, color = "orangered")
 ```
 
@@ -193,11 +190,9 @@ wbt_strahler_stream_order(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
                           output = paste(wd_path, "strahler.tif", sep = "/"))
 ```
 
-```{r, echo=FALSE, eval=FALSE}
-library(ggplot2)
-library(tidyterra)
-library(scico)
+## Results
 
+```{r, echo=TRUE, eval=FALSE}
 results <- list.files(wd_path, pattern = "tif$", full.names = TRUE)
 r <- lapply(results, rast)
 r1 <- rast(results[2])
@@ -244,9 +239,7 @@ cowplot::plot_grid(p1, NULL, p2,
                    p3, NULL, p4, 
                    p5, NULL, p6, 
                    nrow = 3, align = "hv", rel_widths = c(1,0,1), greedy = TRUE)
-ggsave("~/Documents/github_projects/Hydrology_ZVX108E/data/output.png")
 ```
 
-## Results
 
 ![data/output.png](./data/output.png)
