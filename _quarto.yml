@@ -18,7 +18,7 @@ book:
   - 01_R.qmd
   - 02_statistics.qmd
   - 03_gis.qmd
-  # - 04_interpolation.qmd
+  - 04_interpolation.qmd
   downloads:
   - pdf
   - epub

@@ -204,7 +204,7 @@ combined_points <- rbind(
 )
 combined_points <- st_transform(combined_points, crs = projected_crs)
 
-variogram <- vgm(psill = 0.05, model = "Mat", range = 10000, nugget = 0.15)
+variogram <- vgm(psill = 0.05, model = "Mat", range = 300000, nugget = 0.15)
 
 krig_res <- gstat::krige(
   formula = value ~ 1,
