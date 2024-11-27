@@ -276,15 +276,15 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="4,5,6,7" data-code-cell="annotated-cell-1" data-code-annotation="1">Create <span class="math inline">\(25\)</span> points with random values, which will serve as the computation origin,</span>
+<span data-code-lines="4,5,6,7" data-code-annotation="1" data-code-cell="annotated-cell-1">Create <span class="math inline">\(25\)</span> points with random values, which will serve as the computation origin,</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="8,9" data-code-cell="annotated-cell-1" data-code-annotation="2">store them as <strong>SimpleFeatures</strong> object with coordinate reference system via EPSG, search in <a href="https://epsg.io" class="uri">https://epsg.io</a></span>
+<span data-code-lines="8,9" data-code-annotation="2" data-code-cell="annotated-cell-1">store them as <strong>SimpleFeatures</strong> object with coordinate reference system via EPSG, search in <a href="https://epsg.io" class="uri">https://epsg.io</a></span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="10,11,12,13,14,15,16,17,18,19,20,21" data-code-cell="annotated-cell-1" data-code-annotation="3">Specify <code>sf:::plot.sf()</code> function and use scientific colormaps from <code>scico</code> package.</span>
+<span data-code-lines="10,11,12,13,14,15,16,17,18,19,20,21" data-code-annotation="3" data-code-cell="annotated-cell-1">Specify <code>sf:::plot.sf()</code> function and use scientific colormaps from <code>scico</code> package.</span>
 </dd>
 </dl>
 </div>
@@ -322,11 +322,11 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1,2,3" data-code-cell="annotated-cell-2" data-code-annotation="1">Construct a regular grid using extreme points as boundary limits.</span>
+<span data-code-lines="1,2,3" data-code-annotation="1" data-code-cell="annotated-cell-2">Construct a regular grid using extreme points as boundary limits.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-cell="annotated-cell-2" data-code-annotation="2">Plot with the points.</span>
+<span data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="2" data-code-cell="annotated-cell-2">Plot with the points.</span>
 </dd>
 </dl>
 </div>
@@ -423,7 +423,7 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <section id="gstat" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="gstat"><span class="header-section-number">5.2</span> <code>gstat</code></h2>
 <p>There are many libraries listed in CRAN <strong>geostatistics</strong> task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the <code>raster</code> and <code>terra</code> packages. The gstat package contains functions no olny for interpolations.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -462,7 +462,11 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">reset =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04_interpolation_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_interpolation_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -477,7 +481,7 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <section id="krigging" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="krigging"><span class="header-section-number">5.3</span> Krigging</h2>
 <p>Another interpolation technique is called <strong>Krigging</strong>. Opposing to the Inverse Distance Weighted method.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>projected_crs <span class="ot">&lt;-</span> <span class="dv">32633</span>  <span class="co"># Replace with the appropriate UTM zone for your data</span></span>
@@ -502,7 +506,7 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>combined_points <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(combined_points, <span class="at">crs =</span> projected_crs)</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>variogram <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="fl">0.05</span>, <span class="at">model =</span> <span class="st">"Mat"</span>, <span class="at">range =</span> <span class="dv">10000</span>, <span class="at">nugget =</span> <span class="fl">0.15</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>variogram <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="fl">0.05</span>, <span class="at">model =</span> <span class="st">"Mat"</span>, <span class="at">range =</span> <span class="dv">300000</span>, <span class="at">nugget =</span> <span class="fl">0.15</span>)</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>krig_res <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">krige</span>(</span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> value <span class="sc">~</span> <span class="dv">1</span>,</span>
@@ -550,110 +554,13 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="04_interpolation_files/figure-html/unnamed-chunk-8-1.svg" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_interpolation_files/figure-html/unnamed-chunk-8-1.svg" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<!-- ### Data -->
-<!-- Let's use some artificial data set for this example as well. -->
-<!-- $$ -->
-<!-- \mathrm{Distances} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}\qquad \mathrm{for}\:i, j = 1,2, \ldots,n -->
-<!-- $$ -->
-<!-- $$ -->
-<!-- \mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for}  -->
-<!-- $$ -->
-<!-- ### Semivariogram calculation -->
-<!-- ```{r, fig.width=400} -->
-<!-- # show.vgms() -->
-<!-- ``` -->
-<!-- $$ -->
-<!-- \gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2 -->
-<!-- $$ where $\gamma(h)$ represents the semivariance lag at distance $h$. -->
-<!-- ```{r, eval=FALSE} -->
-<!-- df <- data.frame( -->
-<!--   x = runif(10, 0, 50), -->
-<!--   y = runif(10, 0, 50), -->
-<!--   value = rnorm(10) -->
-<!-- ) -->
-<!-- n <- nrow(df) -->
-<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
-<!-- differences_matrix <- matrix(0, n, n) -->
-<!-- for (i in 1:n) { -->
-<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
-<!-- } -->
-<!-- lag_tol <- 1  # Lag tolerance, you can adjust this -->
-<!-- max_lag <- 10  # Maximum lag distance, you can adjust this -->
-<!-- semivariance <- rep(0, max_lag / lag_tol) -->
-<!-- num_pairs <- rep(0, max_lag / lag_tol) -->
-<!-- for (i in 1:(n - 1)) { -->
-<!--   for (j in (i + 1):n) { -->
-<!--     distance_ij <- sqrt((df$x[i] - df$x[j])^2 + (df$y[i] - df$y[j])^2) -->
-<!--     lag <- round(distance_ij / lag_tol) -->
-<!--     if (lag <= max_lag / lag_tol) { -->
-<!--       semivariance[lag] <- semivariance[lag] + (df$value[i] - df$value[j])^2 -->
-<!--       num_pairs[lag] <- num_pairs[lag] + 1 -->
-<!--     } -->
-<!--   } -->
-<!-- } -->
-<!-- semivariance <- semivariance / (2 * num_pairs) -->
-<!-- prediction_grid <- expand.grid( -->
-<!--   x = seq(0, 50, by = 1), -->
-<!--   y = seq(0, 50, by = 1) -->
-<!-- ) -->
-<!-- n_grid <- nrow(prediction_grid) -->
-<!-- semivariance_at_grid <- rep(0, n_grid) -->
-<!-- for (i in 1:n_grid) { -->
-<!--   differences_to_data <- df$value - prediction_grid[i, ] -->
-<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
-<!--   lag_values <- round(distances_to_data / lag_tol) -->
-<!--   semivariance_at_grid[i] <- sum((differences_to_data)^2 / (2 * lag_values)) -->
-<!-- } -->
-<!-- n_lags <- length(semivariance) -->
-<!-- kriged_values <- rep(0, n_grid) -->
-<!-- for (i in 1:n_grid) { -->
-<!--   kriging_weights <- rep(0, n) -->
-<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
-<!--   lag_values <- round(distances_to_data / lag_tol) -->
-<!--   for (j in 1:n) { -->
-<!--     if (lag_values[j] <= n_lags) { -->
-<!--       kriging_weights[j] <- (semivariance[lag_values[j]] - semivariance_at_grid[i]) / semivariance[lag_values[j]] -->
-<!--     } -->
-<!--   } -->
-<!--   # Check if there are valid weights to avoid replacement with length zero -->
-<!--   if (any(kriging_weights != 0)) { -->
-<!--     kriged_values[i] <- sum(kriging_weights * df$value) -->
-<!--   } -->
-<!-- } -->
-<!-- ``` -->
-<!-- $$ -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \mathbf{G} & \mathbf{j}\\ -->
-<!-- \mathbf{j^\prime} & \mathbf{0}\\ -->
-<!-- \end{matrix} -->
-<!-- \right] -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \lambda\\ -->
-<!-- \mu_L -->
-<!-- \end{matrix} -->
-<!-- \right] =  -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \mathbf{g}\\ -->
-<!-- 1 -->
-<!-- \end{matrix} -->
-<!-- \right] -->
-<!-- $$ Where $\mathbf{G}$ is a rectangular matrix containing the values of variograph for all doubles of measured points, $\mathbf{1}$ is a vector of weights s with values of -->
-<!-- ### Now we have to state the varigram model. We will calculate the semivariogram -->
-<!-- to model the **spatial covariance** structure. Then calculate the pairwise distances and differences between data points. -->
-<!-- ```{r, eval=FALSE} -->
-<!-- n <- nrow(df) -->
-<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
-<!-- differences_matrix <- matrix(0, n, n) -->
-<!-- for (i in 1:n) { -->
-<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
-<!-- } -->
-<!-- ``` -->
+</div>
 
 
 </section>

@@ -79,7 +79,7 @@ plot(x = st_geometry(grid), lwd = 0.1, add = TRUE, reset = TRUE) # <2>
 
 Now we compute the distances between the points using the `outer()` function
 
-```{r, eval=TRUE, fig.align='center', fig.cap=''}
+```{r, eval=TRUE, fig.align='center'}
 distances <- sapply(1:nrow(st_coordinates(grid)), function(i) {
   sqrt((st_coordinates(grid)[i, "X"] - st_coordinates(dom)[, "X"])^2 +
        (st_coordinates(grid)[i, "Y"] - st_coordinates(dom)[, "Y"])^2)
@@ -151,7 +151,7 @@ plot(x = join,
 
 There are many libraries listed in CRAN **geostatistics** task view. One of these is called gstat, it was developed and is maintained by Edzer Pebesma, who is also behind the `raster` and `terra` packages. The gstat package contains functions no olny for interpolations.
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, fig.align='center'}
 library(gstat)
 idw_res <- gstat::idw(formula = value ~ 1, 
                       locations = dom, 
@@ -186,7 +186,7 @@ weighted_sum
 
 Another interpolation technique is called **Krigging**. Opposing to the Inverse Distance Weighted method.
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, fig.align='center'}
 
 projected_crs <- 32633  # Replace with the appropriate UTM zone for your data
 
@@ -247,128 +247,3 @@ plot(
 )
 
 ```
-
-<!-- ### Data -->
-
-<!-- Let's use some artificial data set for this example as well. -->
-
-<!-- $$ -->
-<!-- \mathrm{Distances} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}\qquad \mathrm{for}\:i, j = 1,2, \ldots,n -->
-<!-- $$ -->
-
-<!-- $$ -->
-<!-- \mathrm{Differences} = \Delta Z_{i,j} = Z_i - Z_j\qquad \mathrm{for}  -->
-<!-- $$ -->
-
-<!-- ### Semivariogram calculation -->
-
-<!-- ```{r, fig.width=400} -->
-<!-- # show.vgms() -->
-<!-- ``` -->
-
-<!-- $$ -->
-<!-- \gamma(h) = \dfrac{1}{2N(h)}\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\Delta Z_{ij}(h)^2 -->
-<!-- $$ where $\gamma(h)$ represents the semivariance lag at distance $h$. -->
-
-<!-- ```{r, eval=FALSE} -->
-<!-- df <- data.frame( -->
-<!--   x = runif(10, 0, 50), -->
-<!--   y = runif(10, 0, 50), -->
-<!--   value = rnorm(10) -->
-<!-- ) -->
-<!-- n <- nrow(df) -->
-<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
-<!-- differences_matrix <- matrix(0, n, n) -->
-
-<!-- for (i in 1:n) { -->
-<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
-<!-- } -->
-<!-- lag_tol <- 1  # Lag tolerance, you can adjust this -->
-<!-- max_lag <- 10  # Maximum lag distance, you can adjust this -->
-
-<!-- semivariance <- rep(0, max_lag / lag_tol) -->
-<!-- num_pairs <- rep(0, max_lag / lag_tol) -->
-
-<!-- for (i in 1:(n - 1)) { -->
-<!--   for (j in (i + 1):n) { -->
-<!--     distance_ij <- sqrt((df$x[i] - df$x[j])^2 + (df$y[i] - df$y[j])^2) -->
-<!--     lag <- round(distance_ij / lag_tol) -->
-<!--     if (lag <= max_lag / lag_tol) { -->
-<!--       semivariance[lag] <- semivariance[lag] + (df$value[i] - df$value[j])^2 -->
-<!--       num_pairs[lag] <- num_pairs[lag] + 1 -->
-<!--     } -->
-<!--   } -->
-<!-- } -->
-
-<!-- semivariance <- semivariance / (2 * num_pairs) -->
-
-<!-- prediction_grid <- expand.grid( -->
-<!--   x = seq(0, 50, by = 1), -->
-<!--   y = seq(0, 50, by = 1) -->
-<!-- ) -->
-
-<!-- n_grid <- nrow(prediction_grid) -->
-<!-- semivariance_at_grid <- rep(0, n_grid) -->
-
-<!-- for (i in 1:n_grid) { -->
-<!--   differences_to_data <- df$value - prediction_grid[i, ] -->
-<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
-<!--   lag_values <- round(distances_to_data / lag_tol) -->
-<!--   semivariance_at_grid[i] <- sum((differences_to_data)^2 / (2 * lag_values)) -->
-<!-- } -->
-
-<!-- n_lags <- length(semivariance) -->
-<!-- kriged_values <- rep(0, n_grid) -->
-
-<!-- for (i in 1:n_grid) { -->
-<!--   kriging_weights <- rep(0, n) -->
-<!--   distances_to_data <- sqrt((df$x - prediction_grid[i, "x"])^2 + (df$y - prediction_grid[i, "y"])^2) -->
-<!--   lag_values <- round(distances_to_data / lag_tol) -->
-<!--   for (j in 1:n) { -->
-<!--     if (lag_values[j] <= n_lags) { -->
-<!--       kriging_weights[j] <- (semivariance[lag_values[j]] - semivariance_at_grid[i]) / semivariance[lag_values[j]] -->
-<!--     } -->
-<!--   } -->
-<!--   # Check if there are valid weights to avoid replacement with length zero -->
-<!--   if (any(kriging_weights != 0)) { -->
-<!--     kriged_values[i] <- sum(kriging_weights * df$value) -->
-<!--   } -->
-<!-- } -->
-
-
-<!-- ``` -->
-
-<!-- $$ -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \mathbf{G} & \mathbf{j}\\ -->
-<!-- \mathbf{j^\prime} & \mathbf{0}\\ -->
-<!-- \end{matrix} -->
-<!-- \right] -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \lambda\\ -->
-<!-- \mu_L -->
-<!-- \end{matrix} -->
-<!-- \right] =  -->
-<!-- \left[ -->
-<!-- \begin{matrix} -->
-<!-- \mathbf{g}\\ -->
-<!-- 1 -->
-<!-- \end{matrix} -->
-<!-- \right] -->
-<!-- $$ Where $\mathbf{G}$ is a rectangular matrix containing the values of variograph for all doubles of measured points, $\mathbf{1}$ is a vector of weights s with values of -->
-
-<!-- ### Now we have to state the varigram model. We will calculate the semivariogram -->
-
-<!-- to model the **spatial covariance** structure. Then calculate the pairwise distances and differences between data points. -->
-
-<!-- ```{r, eval=FALSE} -->
-<!-- n <- nrow(df) -->
-<!-- dist_matrix <- as.matrix(dist(cbind(df$x, df$y))) -->
-<!-- differences_matrix <- matrix(0, n, n) -->
-
-<!-- for (i in 1:n) { -->
-<!--   differences_matrix[i, ] <- df$value - df$value[i] -->
-<!-- } -->
-<!-- ``` -->
