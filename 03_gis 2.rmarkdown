@@ -1,0 +1,268 @@
+# GIS in Hydrology
+
+Spatial Data Science\
+Geocomputation with R
+
+## WhiteboxTools
+
+In this session we use the **WhiteboxTools** (WBT) a modern and advanced geospatial package, tools collection, which contains \~450 functions. The WBT has an interface to both R and Python.
+
+The tool can be downloaded from <http://whiteboxgeo.com/>. We have to install through the packge.
+First the necessary packages need to be installed, the installation require compilation 
+and take some time.
+## Raster and vector data
+
+**Raster** data are represented by a matrix of pixels (cells) with values. Raster is used for data which display continuous information across an area which cannot be easily divided into vector features. For the purpose of watershed delineation the raster input of Digital Elevation Model is used.
+
+## Watershed delineation
+
+The process of delineation is the first step in basin description. One simply has to delineate the domain
+
+The step-by-step process involves:\
+
+-   Acquiring digital elevation model of area\
+-   Pit and sink removal\
+-   Flow accumulation calculation\
+-   Flow direction calculation\
+-   Outlet identification\
+-   Delineation towards specified outlet\
+
+Let's start with `whitebox` package that contains an API to the WhiteboxTools executable binary.\
+We need to reference path to the executable
+
+Except for the `whitebox` package, some other packages for general work with spatial data are necessary. The packages `terra` and `sf` are needed for working with the raster and vector data. They also provide access to **PROJ**, **GEOS** and **GDAL** which are open source libraries that handle projections, format standards and provide geoscientific calculations. And the package `tmap` makes plotting both raster and vector layers very easy.
+
+## Watershed delineation workflow
+
+We will install the **whitebox** tools through the whitebox `package`. Other than this package we will need the `sf` and `terra` in order to deal with the vector and raster data formats and `ggplot2` for general visualisation and map-making.
+
+We have to install the sought packages prior the first usage. None of them is actually contained in the default R installation.
+
+
+```{r}
+lapply(
+  X = setdiff(
+    c("whitebox", "terra", "sf", "ggplot2", "tidyterra", "scico"),
+    installed.packages()[, "Package"]),
+  FUN = install.packages)
+```
+
+
+After the successful installation, the `library` function load the namespace of the packages and allows their exported functions to be used directly.
+
+
+```{r, collapse=TRUE}
+library(whitebox)               # <1>
+library(terra)                  # <2>
+library(sf)                     # <3>
+library(ggplot2)                # <4>
+library(tidyterra)              # <5>
+library(scico)              # <6>
+```
+
+
+1.  Load the Whitebox API package.
+2.  Load the `terra` package for raster use.
+3.  Load the `sf` package for vector use.
+4.  Load the `ggplot2` plotting functions for layers.
+5.  Load the `tidyterra` for the `terra` objects and `ggplot2` compatibility.
+6.  Load scientific colors library.
+
+**The paths on your OS may vary, you may need to change the direction of the installation.**
+
+
+```{r, collapse=TRUE}
+wd_path <- "~/Desktop/GIS"
+
+wbt_init(exe_path = paste(wd_path, "WBT/whitebox_tools", sep = "/")) # <5>
+
+check_whitebox_binary() # <6>
+```
+
+
+5.  Whitebox needs the information where the data executable is stored.
+6.  Binary check. Returns `TRUE` if found.
+
+#### Sample data
+
+
+```{r}
+dem <- rast(whitebox::sample_dem_data()) # <1>
+writeRaster(dem, paste(wd_path, "dem.tif", sep = "/"), overwrite = TRUE)
+ggplot() + # <2>
+  geom_spatraster(data = dem) + # <2>
+  scale_fill_scico(palette = "fes", midpoint = 150) # <2>
+```
+
+
+1.  Use the `rast()` function to load the data
+2.  Plot via the `tmap` workflow
+
+#### DEM workflow
+
+The digital elevation model has to be adjusted for the watershed delineation algorithm to be able to run successfully.
+
+It's good to specify a path to working directory. It has to be somewhere where you as a user have access to write files. Be sure the folder exists.
+
+
+```{r, collapse=TRUE, eval=FALSE}
+
+wbt_fill_depressions_wang_and_liu(dem = paste(wd_path,      # <1>
+                                              "dem.tif",       # <1>
+                                              sep = "/"),       # <1>
+                                  output = paste(wd_path,       # <1>
+                                                 "filled_depresions.tif",      # <1> 
+                                                 sep = "/"))      # <1>
+
+wbt_d8_pointer(dem = paste(wd_path,       # <2>
+                           "filled_depresions.tif",       # <2>
+                           sep = "/"),       # <2>
+               output = paste(wd_path,       # <2>
+                              "d8pointer.tif",       # <2>
+                              sep = "/"))      # <2>
+
+wbt_d8_flow_accumulation(input = paste(wd_path,  # <3>
+                                       "filled_depresions.tif",   # <3>
+                                       sep = "/"),  # <3>
+                         output = paste(wd_path,   # <3>
+                                        "flow_accu.tif",  # <3> 
+                                        sep = "/"),   # <3>
+                         out_type = "cells")  # <3>
+
+wbt_extract_streams(flow_accum = paste(wd_path,   # <4>
+                                       "flow_accu.tif",    # <4>
+                                       sep = "/"),    # <4>
+                    output = paste(wd_path,    # <4>
+                                   "streams.tif",    # <4>
+                                   sep = "/"),    # <4>
+                    threshold = 200)   # <4>
+```
+
+
+1.  This algorithm involves removing flat areas and filling depressions, thus producing hydrologically corrected DEM
+2.  Pointer is ![https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402\@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png](https://www.researchgate.net/publication/333193489/figure/fig14/AS:941786386149402@1601550780863/Sketch-map-of-D8-algorithm-a-direction-coding-of-D8-algorithm-b-sample-elevation.png)
+
+## Gauge
+
+We have the raster prepared for the delineation, now we need to provide a point layer with the gauge, to which the watershed should be delineated. The point has to be placed at the stream network. We will create the layer from scratch.
+
+
+```{r, eval=TRUE}
+gauge <- st_sfc(st_point(x = c(671035, 4885783), 
+                               dim = "XY"), 
+                      crs = st_crs(26918))
+st_write(gauge, dsn = paste(wd_path, "gauge", sep = "/"), driver = "ESRI Shapefile", append = FALSE)
+```
+
+```{r, eval=TRUE, fig.align='center', fig.format='svg'}
+ggplot() +
+  geom_spatraster(data = dem) +
+  scico::scale_fill_scico(palette = "fes", midpoint = 150) +
+  geom_sf(data = gauge, color = "orangered")
+```
+
+
+If the point is not located directly in the stream, it could cause troubles. The **Jenson snap pour** makes sure to move the point to the nearest stream pixel.
+
+
+```{r, eval=FALSE}
+wbt_jenson_snap_pour_points(pour_pts = paste(wd_path, 
+                                             "gauge/gauge.shp", 
+                                             sep = "/"), 
+                            streams = paste(wd_path, 
+                                            "streams.tif", 
+                                            sep = "/"), 
+                            output = paste(wd_path, 
+                                           "gauge_snapped.shp", 
+                                           sep = "/"), 
+                            snap_dist = 1000)
+```
+
+
+Now everything is set to delineate the watershed with using the gauge and D8 pointer.
+
+
+```{r, eval=FALSE}
+wbt_watershed(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"),
+              pour_pts = paste(wd_path, "gauge_snapped.shp", sep = "/"), 
+              output = paste(wd_path, "watershed.tif", sep = "/"))
+```
+
+
+The watershed is usually used in vector format, but now it is in raster. Let's finish with the conversion.
+
+
+```{r}
+wtshd <- rast(paste(wd_path, "watershed.tif", sep = "/"))
+watershed <- terra::as.polygons(wtshd)
+```
+
+
+## River morphology
+
+Under the term **river morphology** we understand the description of the shape of river channels. Hydrologists use indices such as **stream length** or **Strahler order**.
+
+
+```{r}
+wbt_strahler_stream_order(d8_pntr = paste(wd_path, "d8pointer.tif", sep = "/"), 
+                          streams = paste(wd_path, "streams.tif", sep = "/"), 
+                          output = paste(wd_path, "strahler.tif", sep = "/"))
+```
+
+
+## Results
+
+
+```{r, echo=TRUE, eval=FALSE}
+results <- list.files(wd_path, pattern = "tif$", full.names = TRUE)
+r <- lapply(results, rast)
+r1 <- rast(results[2])
+r2 <- rast(results[1])
+r3 <- rast(results[4])
+r4 <- rast(results[6])
+r5 <- watershed
+r6 <- rast(results[5])
+
+
+p1 <- ggplot() +
+  ggtitle(label = "a) Corrected DEM") +
+  geom_spatraster(data = r1, show.legend = FALSE) +
+  scale_fill_scico(palette = "lapaz") +
+  theme_minimal()
+p2 <- ggplot() +
+  ggtitle(label = "b) D8 Pointer") +
+  geom_spatraster(data = r2, show.legend = FALSE) +
+  scale_fill_scico(palette = "hawai") +
+  theme_minimal() 
+p3 <- ggplot() +
+  ggtitle(label = "c) Flow Accumulation") +
+  geom_spatraster(data = r3, show.legend = FALSE) +
+  scale_fill_scico(palette = "oslo", direction = -1) +
+  theme_minimal() 
+p4 <- ggplot() +
+  ggtitle(label = "d) Identified Streams") +
+  geom_spatraster(data = r4, show.legend = FALSE) +
+  scale_fill_viridis_c(na.value = "white") +
+  theme_minimal() 
+p5 <- ggplot() +
+  ggtitle(label = "e) Watershed") +
+  geom_spatraster(data = r1, show.legend = FALSE) +
+  scale_fill_scico(palette = "lapaz") +
+  geom_spatvector(data = r5, show.legend = FALSE) +
+  theme_minimal() 
+p6 <- ggplot() +
+  ggtitle(label = "f) Strahler Order") +
+  geom_spatraster(data = r6, show.legend = FALSE) +
+  scale_fill_viridis_b(na.value = "white") +
+  theme_minimal() 
+
+cowplot::plot_grid(p1, NULL, p2, 
+                   p3, NULL, p4, 
+                   p5, NULL, p6, 
+                   nrow = 3, align = "hv", rel_widths = c(1,0,1), greedy = TRUE)
+```
+
+
+
+![data/output.png](./data/output.png)
+

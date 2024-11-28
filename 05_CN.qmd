@@ -1,7 +1,33 @@
-# Curve number method
+# SCS CN
 
-The Curve number (CN) is a method developed in ... ^[https://edepot.wur.nl/183157] CN helps with the estimation of runoff at basins where no runoff has
-been measured.
+The SCS curve number (CN) is a method developed in ... [^05_cn-1] CN helps with the estimation of runoff at basins where no runoff has been measured. 
+
+We have to start with some initial data.
+
 $$
 \dfrac{F}{S} = \dfrac{Q}{P-I_a}
 $$
+
+$$
+I_a = 0.2\cdot S
+$$
+
+$$
+S = \dfrac{1000}{\mathrm{CN}}
+$$
+where $S$ is a potential maximum retention after the initial runoff.
+
+
+$$
+Q = \dfrac{(P-I_a)^2}{(P-I_a)+S}
+$$
+
+[^05_cn-1]: https://edepot.wur.nl/183157
+
+```{r}
+cn_table <- data.frame(
+  LU_desc = c("Agricultural", "Commerical", "Forest", "Grass/Pasture", "High Density Residential"
+              )
+)
+```
+

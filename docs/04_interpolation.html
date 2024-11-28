@@ -63,6 +63,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./05_CN.html" rel="next">
 <link href="./03_gis.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -191,6 +192,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data interpolation</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_CN.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">SCS CN</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -203,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#inverse-distance-weighting-idw" id="toc-inverse-distance-weighting-idw" class="nav-link active" data-scroll-target="#inverse-distance-weighting-idw"><span class="header-section-number">5.1</span> Inverse distance weighting (IDW)</a>
   <ul class="collapse">
-  <li><a href="#random-measurements-generation" id="toc-random-measurements-generation" class="nav-link" data-scroll-target="#random-measurements-generation"><span class="header-section-number">5.1.1</span> Random measurements generation</a></li>
+  <li><a href="#generation-of-random-measurements-network" id="toc-generation-of-random-measurements-network" class="nav-link" data-scroll-target="#generation-of-random-measurements-network"><span class="header-section-number">5.1.1</span> Generation of random measurements network</a></li>
   </ul></li>
   <li><a href="#gstat" id="toc-gstat" class="nav-link" data-scroll-target="#gstat"><span class="header-section-number">5.2</span> <code>gstat</code></a></li>
   <li><a href="#krigging" id="toc-krigging" class="nav-link" data-scroll-target="#krigging"><span class="header-section-number">5.3</span> Krigging</a></li>
@@ -236,7 +243,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>IDW is a simple <strong>deterministic</strong> interpolation method, which is also non-parametric. The interpolated points are calculated with a weighted average of the values which are at disposal. The space is a weighted average of the distribution of points and the weight assigned to each point decrease with increasing distance from the interpolated point.</p>
 <p>The point value <span class="math inline">\(Z_p\)</span> is calculated with the knowledge of <span class="math inline">\(z_i\)</span> and distance <span class="math inline">\(d_i\)</span> to the power of <span class="math inline">\(P\)</span>.</p>
 <p><span class="math display">\[
-Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^P}}
+Z_L = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^p}}{\sum\limits_{i=1}^{n}\dfrac{1}{d_i^p}}
+\]</span> Let’s imagine we have three values <span class="math inline">\(z_1 = 10\)</span>, <span class="math inline">\(z_2 = 15\)</span>, <span class="math inline">\(z_3 = 20\)</span> and we need to estimate a value in a location <span class="math inline">\(L\)</span>. The distances to the location from these points are: <span class="math inline">\(d_1 = 3.0\)</span>, <span class="math inline">\(d_2 = 2.0\)</span>, <span class="math inline">\(d_3 = 1.5\)</span>. The commonly used power <span class="math inline">\(p\)</span> is <span class="math inline">\(2\)</span>.<br>
+So the respective values of weights for these are:</p>
+<p><span class="math display">\[
+\begin{array}{c}
+w_1 = \dfrac{10}{3.0^2}\\
+w_2 = \dfrac{15}{2.0^2}\\
+w_3 = \dfrac{20}{1.5^2}
+\end{array}
+\]</span></p>
+<p>Hence the numerator and denominator look as follows:</p>
+<p><span class="math display">\[
+\begin{array}{l}
+N = \dfrac{10}{2.0^2} + \dfrac{15}{2.0^2} + \dfrac{20}{1.5^2}\approx 2.5 + 2.2222 + 6.6666 = 11.3888\\
+D = 0.25 + 0.1111 + 0.4444 = 0.8055\\
+\end{array}
 \]</span></p>
 <p>Since this method is very simple, let’s calculate it on our own, in a step-by-step manner.</p>
 <ol type="1">
@@ -244,8 +266,8 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <li>Next we create a new domain, spatially regular to which we will interpolate.</li>
 <li>Finally we will perform the calculations and visualize the results.</li>
 </ol>
-<section id="random-measurements-generation" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="random-measurements-generation"><span class="header-section-number">5.1.1</span> Random measurements generation</h3>
+<section id="generation-of-random-measurements-network" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="generation-of-random-measurements-network"><span class="header-section-number">5.1.1</span> Generation of random measurements network</h3>
 <p>We will create 25 points in the space and also assign some coordinate reference system. These points will be used for both of the methods.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
@@ -253,15 +275,15 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)          <span class="co"># Spatial Feature library for spatial data</span></span>
 <span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scico)       <span class="co"># Scientific palette collection called "scico"</span></span>
 <span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-4" class="code-annotation-target"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
 <span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>dom <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">50</span>),</span>
 <span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">runif</span>(n, <span class="dv">0</span>, <span class="dv">50</span>),</span>
 <span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">value =</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">5</span>)) <span class="sc">|&gt;</span></span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-8" class="code-annotation-target"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>),</span>
 <span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">crs =</span> <span class="dv">4326</span>)</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-10" class="code-annotation-target"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dom,</span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">nbreaks =</span> <span class="dv">26</span>,</span>
-<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="at">n =</span> <span class="dv">25</span>,</span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">nbreaks =</span> n <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="at">n =</span> n,</span>
 <span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="st">"davos"</span>,</span>
 <span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end =</span> <span class="fl">0.9</span>,</span>
 <span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
@@ -276,15 +298,15 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="4,5,6,7" data-code-annotation="1" data-code-cell="annotated-cell-1">Create <span class="math inline">\(25\)</span> points with random values, which will serve as the computation origin,</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="4,5,6,7" data-code-annotation="1">Create <span class="math inline">\(25\)</span> points with random values, which will serve as the computation origin,</span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="8,9" data-code-annotation="2" data-code-cell="annotated-cell-1">store them as <strong>SimpleFeatures</strong> object with coordinate reference system via EPSG, search in <a href="https://epsg.io" class="uri">https://epsg.io</a></span>
+<span data-code-cell="annotated-cell-1" data-code-lines="8,9" data-code-annotation="2">store them as <strong>SimpleFeatures</strong> object with coordinate reference system via EPSG, search in <a href="https://epsg.io" class="uri">https://epsg.io</a></span>
 </dd>
 <dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="10,11,12,13,14,15,16,17,18,19,20,21" data-code-annotation="3" data-code-cell="annotated-cell-1">Specify <code>sf:::plot.sf()</code> function and use scientific colormaps from <code>scico</code> package.</span>
+<span data-code-cell="annotated-cell-1" data-code-lines="10,11,12,13,14,15,16,17,18,19,20,21" data-code-annotation="3">Specify <code>sf:::plot.sf()</code> function and use scientific colormaps from <code>scico</code> package.</span>
 </dd>
 </dl>
 </div>
@@ -305,8 +327,8 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <span id="annotated-cell-2-3"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">|&gt;</span></span>
 <span id="annotated-cell-2-4"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_sf</span>()</span>
 <button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-5" class="code-annotation-target"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> dom,</span>
-<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(dom<span class="sc">$</span>value), <span class="fu">max</span>(dom<span class="sc">$</span>value), <span class="at">length.out =</span> <span class="dv">25</span>),</span>
-<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="at">n =</span> <span class="dv">24</span>,</span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(dom<span class="sc">$</span>value), <span class="fu">max</span>(dom<span class="sc">$</span>value), <span class="at">length.out =</span> n),</span>
+<span id="annotated-cell-2-7"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="at">n =</span> n <span class="sc">-</span> <span class="dv">1</span>,</span>
 <span id="annotated-cell-2-8"><a href="#annotated-cell-2-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette   =</span> <span class="st">"davos"</span>,</span>
 <span id="annotated-cell-2-9"><a href="#annotated-cell-2-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end       =</span> <span class="fl">0.9</span>,</span>
 <span id="annotated-cell-2-10"><a href="#annotated-cell-2-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
@@ -322,11 +344,11 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="1,2,3" data-code-annotation="1" data-code-cell="annotated-cell-2">Construct a regular grid using extreme points as boundary limits.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="1,2,3" data-code-annotation="1">Construct a regular grid using extreme points as boundary limits.</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="2" data-code-cell="annotated-cell-2">Plot with the points.</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="5,6,7,8,9,10,11,12,13,14,15,16,17" data-code-annotation="2">Plot with the points.</span>
 </dd>
 </dl>
 </div>
@@ -353,62 +375,67 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # Vectorized calculation of distances for each grid cell to all data points</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># distances &lt;- sapply(1:nrow(st_coordinates(grid)), function(i) {</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   sqrt((st_coordinates(grid)[i, "X"] - st_coordinates(dom)[, "X"])^2 +</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#        (st_coordinates(grid)[i, "Y"] - st_coordinates(dom)[, "Y"])^2)</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># })</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Handle cases where distances might be zero to avoid division errors</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>distances <span class="ot">&lt;-</span> distances <span class="sc">+</span> epsilon</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute weighted sums for all grid points</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>weighted_sum <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(distances), <span class="cf">function</span>(i) {</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(dom<span class="sc">$</span>value <span class="sc">/</span> (distances[, i]<span class="sc">^</span>power))</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute weights sum for all grid points</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>weights_sum <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(distances), <span class="cf">function</span>(i) {</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="dv">1</span> <span class="sc">/</span> (distances[, i]<span class="sc">^</span>power))</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate interpolated values for all grid points</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>interpolated_values <span class="ot">&lt;-</span> weighted_sum <span class="sc">/</span> weights_sum</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a spatial data frame for results</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">st_coordinates</span>(grid)[, <span class="st">"X"</span>],</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">st_coordinates</span>(grid)[, <span class="st">"Y"</span>],</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> interpolated_values</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace NaN values with NA for plotting</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>value[<span class="fu">is.nan</span>(results<span class="sc">$</span>value)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Join results with the grid for visualization</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>join <span class="ot">&lt;-</span> <span class="fu">st_join</span>(grid, results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-1" class="code-annotation-target"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> <span class="fl">1e-6</span></span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>distances <span class="ot">&lt;-</span> distances <span class="sc">+</span> epsilon</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute weighted sums for all grid points</span></span>
+<span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>weighted_sum <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(distances), <span class="cf">function</span>(i) {</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(dom<span class="sc">$</span>value <span class="sc">/</span> (distances[, i]<span class="sc">^</span>power))</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute weights sum for all grid points</span></span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>weights_sum <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(distances), <span class="cf">function</span>(i) { </span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="dv">1</span> <span class="sc">/</span> (distances[, i]<span class="sc">^</span>power))</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate interpolated values for all grid points</span></span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>interpolated_values <span class="ot">&lt;-</span> weighted_sum <span class="sc">/</span> weights_sum</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a spatial data frame for results</span></span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">st_coordinates</span>(grid)[, <span class="st">"X"</span>],</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="fu">st_coordinates</span>(grid)[, <span class="st">"Y"</span>],</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> interpolated_values</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace NaN values with NA for plotting</span></span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>results<span class="sc">$</span>value[<span class="fu">is.nan</span>(results<span class="sc">$</span>value)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Join results with the grid for visualization</span></span>
+<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>join <span class="ot">&lt;-</span> <span class="fu">st_join</span>(grid, results)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="1,2" data-code-annotation="1">Set a tolerance for when the distance is equal to 0.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">A power for the distance.</span>
+</dd>
+</dl>
+</div>
 </div>
 <p>At last we visualize the results.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> join, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(results<span class="sc">$</span>value), <span class="fu">max</span>(results<span class="sc">$</span>value), <span class="at">length.out =</span> <span class="dv">25</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="dv">24</span>, </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="st">"davos"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end       =</span> <span class="fl">0.9</span>, </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main      =</span> <span class="st">"Precipitation [mm]"</span>, </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>     <span class="co">#pch       = 20,          # Point character selection</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> <span class="cn">TRUE</span>,        <span class="co"># Display graticules</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes      =</span> <span class="cn">TRUE</span>,        <span class="co"># Display plot axes</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">bgc       =</span> <span class="st">"#f0f0f033"</span>, <span class="co"># Background color</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos   =</span> <span class="dv">1</span>, </span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">reset =</span> <span class="cn">FALSE</span>)           <span class="co"># Legend position</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> join, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(results<span class="sc">$</span>value), <span class="fu">max</span>(results<span class="sc">$</span>value), <span class="at">length.out =</span> n),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(n <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="st">"davos"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end       =</span> <span class="fl">0.9</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main      =</span> <span class="st">"Precipitation [mm]"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="co">#pch       = 20,          # Point character selection</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> <span class="cn">TRUE</span>,        <span class="co"># Display graticules</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes      =</span> <span class="cn">TRUE</span>,        <span class="co"># Display plot axes</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">bgc       =</span> <span class="st">"#f0f0f033"</span>, <span class="co"># Background color</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos   =</span> <span class="dv">1</span>, </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">reset =</span> <span class="cn">FALSE</span>)           <span class="co"># Legend position</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -426,40 +453,40 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'gstat' was built under R version 4.4.1</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>idw_res <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">idw</span>(<span class="at">formula =</span> value <span class="sc">~</span> <span class="dv">1</span>, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">locations =</span> dom, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">newdata =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>idw_res <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">idw</span>(<span class="at">formula =</span> value <span class="sc">~</span> <span class="dv">1</span>, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">locations =</span> dom, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">newdata =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[inverse distance weighted interpolation]</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>idw_res <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(idw_res)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(idw_res <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       dplyr<span class="sc">::</span><span class="fu">select</span>(var1.pred), </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(idw_res<span class="sc">$</span>var1.pred), </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">max</span>(idw_res<span class="sc">$</span>var1.pred), </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length.out =</span> <span class="dv">25</span>),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(<span class="dv">24</span>, </span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="st">"davos"</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end       =</span> <span class="fl">0.9</span>, </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main      =</span> <span class="st">"Precipitation [mm]"</span>, </span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>     <span class="co">#pch       = 20,          # Point character selection</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> <span class="cn">TRUE</span>,        <span class="co"># Display graticules</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes      =</span> <span class="cn">TRUE</span>,        <span class="co"># Display plot axes</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">bgc       =</span> <span class="st">"#f0f0f033"</span>, <span class="co"># Background color</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos   =</span> <span class="dv">1</span>, </span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">reset =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>idw_res <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(idw_res)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(idw_res <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       dplyr<span class="sc">::</span><span class="fu">select</span>(var1.pred), </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">min</span>(idw_res<span class="sc">$</span>var1.pred), </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">max</span>(idw_res<span class="sc">$</span>var1.pred), </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length.out =</span> n),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">pal =</span> <span class="fu">scico</span>(n <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="st">"davos"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">end       =</span> <span class="fl">0.9</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">main      =</span> <span class="st">"Precipitation [mm]"</span>, </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>     <span class="co">#pch       = 20,          # Point character selection</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> <span class="cn">TRUE</span>,        <span class="co"># Display graticules</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes      =</span> <span class="cn">TRUE</span>,        <span class="co"># Display plot axes</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">bgc       =</span> <span class="st">"#f0f0f033"</span>, <span class="co"># Background color</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos   =</span> <span class="dv">1</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">reset =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -472,9 +499,9 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <div class="cell">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># You can adjust the power parameter</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>weighted_sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(distances, <span class="dv">1</span>, <span class="cf">function</span>(d) <span class="fu">sum</span>(dom<span class="sc">$</span>value <span class="sc">/</span> (d<span class="sc">^</span>power)))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>weighted_sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> <span class="dv">2</span>  <span class="co"># You can adjust the power parameter</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>weighted_sum <span class="ot">&lt;-</span> <span class="fu">apply</span>(distances, <span class="dv">1</span>, <span class="cf">function</span>(d) <span class="fu">sum</span>(dom<span class="sc">$</span>value <span class="sc">/</span> (d<span class="sc">^</span>power)))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>weighted_sum</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -484,79 +511,88 @@ Z_p = \dfrac{\sum\limits_{i=1}^{n}\dfrac{z_i}{d_i^P}}{\sum\limits_{i=1}^{n}\dfra
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>projected_crs <span class="ot">&lt;-</span> <span class="dv">32633</span>  <span class="co"># Replace with the appropriate UTM zone for your data</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>dom_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(dom, <span class="at">crs =</span> projected_crs)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>grid_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(grid, <span class="at">crs =</span> projected_crs)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>idw_points <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(idw_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>projected_crs <span class="ot">&lt;-</span> <span class="dv">32633</span>  <span class="co"># Replace with the appropriate UTM zone for your data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dom_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(dom, <span class="at">crs =</span> projected_crs)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>grid_projected <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(grid, <span class="at">crs =</span> projected_crs)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>idw_points <span class="ot">&lt;-</span> <span class="fu">st_centroid</span>(idw_res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: st_centroid assumes attributes are constant over geometries</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sampled_points <span class="ot">&lt;-</span> idw_points[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(idw_points), <span class="dv">50</span>), ]</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>combined_points <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  dom,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  sampled_points <span class="sc">|&gt;</span> </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">value =</span> var1.pred, geometry)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>combined_points <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(combined_points, <span class="at">crs =</span> projected_crs)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>variogram <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="fl">0.05</span>, <span class="at">model =</span> <span class="st">"Mat"</span>, <span class="at">range =</span> <span class="dv">300000</span>, <span class="at">nugget =</span> <span class="fl">0.15</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>krig_res <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">krige</span>(</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> value <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> combined_points,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> grid_projected,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> variogram  <span class="co"># Use the appropriate fitted variogram model</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sampled_points <span class="ot">&lt;-</span> idw_points[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(idw_points), <span class="dv">50</span>), ]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>combined_points <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  dom,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  sampled_points <span class="sc">|&gt;</span> </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">value =</span> var1.pred, geometry)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>combined_points <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(combined_points, <span class="at">crs =</span> projected_crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>An essential part of kriging is definition of a variogram, which is a function describing the degree of spatial dependence of a spatial process. Due to the <code>range</code> parameter, the spatial data needs to be projected.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>variogram <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="fl">5.05</span>, <span class="at">model =</span> <span class="st">"Exp"</span>, <span class="at">range =</span> <span class="dv">300000</span>, <span class="at">nugget =</span> <span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>krig_res <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">krige</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> value <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">locations =</span> combined_points,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> grid_projected,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> variogram  <span class="co"># Use the appropriate fitted variogram model</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[using ordinary kriging]</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Reproject the kriged result back to the original CRS (WGS84)</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>krig_res <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sf</span>(krig_res), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate unique breaks</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(krig_res<span class="sc">$</span>var1.pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(krig_res<span class="sc">$</span>var1.pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure that min and max are sufficiently different to create unique breaks</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (max_val <span class="sc">-</span> min_val <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(min_val, max_val, <span class="at">length.out =</span> <span class="dv">25</span>)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(min_val, max_val))  <span class="co"># Fallback for nearly constant data</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the scico color palette with the correct number of colors</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">scico</span>(<span class="fu">length</span>(breaks) <span class="sc">-</span> <span class="dv">1</span>, </span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">palette =</span> <span class="st">"davos"</span>, </span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">end =</span> <span class="fl">0.9</span>, </span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting using the 'pal' argument for sf objects</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  krig_res <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(var1.pred), </span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> breaks,</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">pal =</span> colors,        <span class="co"># Use 'pal' to specify the color palette</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Precipitation [mm]"</span>, </span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">graticule =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">axes =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">bgc =</span> <span class="st">"#f0f0f033"</span>, </span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">key.pos =</span> <span class="dv">1</span>, </span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">reset =</span> <span class="cn">FALSE</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Reproject the kriged result back to the original CRS (WGS84)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>krig_res <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sf</span>(krig_res), <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate unique breaks</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(krig_res<span class="sc">$</span>var1.pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(krig_res<span class="sc">$</span>var1.pred, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure that min and max are sufficiently different to create unique breaks</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (max_val <span class="sc">-</span> min_val <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(min_val, max_val, <span class="at">length.out =</span> <span class="dv">25</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  breaks <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(min_val, max_val))  <span class="co"># Fallback for nearly constant data</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the scico color palette with the correct number of colors</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">scico</span>(<span class="fu">length</span>(breaks) <span class="sc">-</span> <span class="dv">1</span>, </span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">palette =</span> <span class="st">"davos"</span>, </span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">end =</span> <span class="fl">0.9</span>, </span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting using the 'pal' argument for sf objects</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  krig_res <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(var1.pred), </span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> breaks,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">pal =</span> colors,        <span class="co"># Use 'pal' to specify the color palette</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">0.001</span>,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Precipitation [mm]"</span>, </span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">graticule =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">axes =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">bgc =</span> <span class="st">"#f0f0f033"</span>, </span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">key.pos =</span> <span class="dv">1</span>, </span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">reset =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_interpolation_files/figure-html/unnamed-chunk-8-1.svg" class="img-fluid figure-img"></p>
+<p><img src="04_interpolation_files/figure-html/unnamed-chunk-10-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1077,6 +1113,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./05_CN.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">SCS CN</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
