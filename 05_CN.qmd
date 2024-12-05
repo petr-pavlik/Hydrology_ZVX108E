@@ -1,33 +1,238 @@
-# SCS CN
+# SCS Curve number method
 
-The SCS curve number (CN) is a method developed in ... [^05_cn-1] CN helps with the estimation of runoff at basins where no runoff has been measured. 
+```{r, message=FALSE, echo=FALSE}
+library(rvest)
+```
 
-We have to start with some initial data.
+```{r, message=FALSE, include=FALSE}
+library(tidyverse)
+CN_tbl <- rvest::read_html(
+  x = "https://www.hec.usace.army.mil/confluence/hmsdocs/hmstrm/cn-tables") |>
+  html_element(xpath = '//*[@id="main-content"]/div/div/div[1]/table') |>
+  html_table(trim = TRUE, fill = TRUE)
+
+CN_tbl |>
+  janitor::clean_names() |>
+  mutate(cover_description = str_remove_all(cover_description, pattern = "\\."))
+
+```
+
+The SCS curve number (CN) is a method developed by the USDA in 1995, when is was formerly named Soil Conservation Service, hence the SCS in the name. [^05_cn-1] CN helps with the estimation of runoff at basins where no runoff has been measured. The CN (curve number) ranges from 0 to 100 and is a dimensionless index representing the combined effect of LU/LC, Soil type and hydrological conditions. CN is used to calculate the potential maximum retention capacity $S$
+
+[^05_cn-1]: https://edepot.wur.nl/183157
 
 $$
-\dfrac{F}{S} = \dfrac{Q}{P-I_a}
+S = \dfrac{25400}{CN}-254
+$$ where the CN = 0 means complete infiltration, CN = 100 no infiltration at all.
+
+The method estimates the precipitation excess $P_e$ as a function of the cumulative precipitation depth, soil cover, land use, and antecedent soil moisture as
+
+$$
+P_e = \begin{cases}
+          0, \text{ for }\qquad P < I_a\\
+          \dfrac{(P-I_a)^2}{P - I_a + S}\qquad  \text{otherwise }        
+      \end{cases}
+$$
+
+where $P_e$ is accumulated precipitation excess. $P$ is the accummulated precipitation depth, $I_a$ is the initial abstraction (loss) and $S$ is the potential maximum retention
+
+<!-- $$ -->
+<!-- \dfrac{F}{S} = \dfrac{Q}{P-I_a} -->
+<!-- $$ -->
+
+$$
+I_a = rS\approx0.2\cdot S
 $$
 
 $$
-I_a = 0.2\cdot S
-$$
-
-$$
-S = \dfrac{1000}{\mathrm{CN}}
-$$
-where $S$ is a potential maximum retention after the initial runoff.
-
+S = \dfrac{1000}{\mathrm{CN}}-10\:\mathrm{[mm]}
+$$ where $S$ is a potential maximum retention after the initial runoff.
 
 $$
 Q = \dfrac{(P-I_a)^2}{(P-I_a)+S}
 $$
 
-[^05_cn-1]: https://edepot.wur.nl/183157
-
 ```{r}
-cn_table <- data.frame(
-  LU_desc = c("Agricultural", "Commerical", "Forest", "Grass/Pasture", "High Density Residential"
-              )
-)
+LCLU_tbl <- data.frame(LCLU = c("Pasture", "Road", "Legumes"), 
+                       AreaFrac = c(54, 20, 26))
+LCLU_tbl
+
+weather_db <- data.frame(
+  dtm = seq(as.Date("2024-01-01"), as.Date("2024-11-30"), "1 day"), 
+  P = sample(size = 335, c(0, 1), replace = TRUE)*rweibull(335, shape = 1))
+
+head(weather_db)
 ```
 
+```{r}
+# Function to calculate direct runoff using SCS CN method
+scs_cn_method <- function(P, CN) {
+  
+  S <- (25400 / CN) - 254 #<1> 
+  
+  Ia <- 0.1 * S #<1> 
+  
+  ifelse(P <= Ia, 0, ((P - Ia)^2) / (P - Ia + S)) #<3> 
+}
+```
+
+1.  Maximum potential retention (mm)
+2.  Initial abstraction/losses (mm)
+3.  Calculate runoff
+
+```{r, fig.align='center', fig.width=10}
+precipitation <- seq(0, 200, by = 1)  # <1>
+
+curve_numbers <- seq(from = 40, to = 100, by = 5) # <2>
+
+# Calculate runoff for each CN
+runoff_results <- sapply(curve_numbers, function(CN) {
+  sapply(precipitation, scs_cn_method, CN = CN)
+})
+
+# Plot results
+plot(NULL, 
+     xlim = c(0, max(precipitation)), 
+     ylim = c(0, max(runoff_results)),
+     xlab = "Precipitation (mm)", 
+     ylab = "Runoff (mm)", 
+     main = "SCS Curve Number Method: Runoff vs. Precipitation")
+
+for (i in seq_along(curve_numbers)) { #<5>
+  lines(precipitation, 
+        runoff_results[, i], 
+        col = "black", 
+        lty = i, 
+        lwd = 1)
+}
+
+# Add legend
+legend("topright", 
+       legend = paste("CN =", curve_numbers), 
+       col = "black", 
+       lty = i, 
+       lwd = 1)
+
+```
+5. Add lines for each CN
+1.  Theoretical rainfall from 0 to 200 mm
+2.  CN values
+3.  Compute runoff using the SCS CN method
+
+```{r}
+dat01138000 <- read.fwf("data/01138000.dly", 
+                        widths = c(8, rep(10, 5))) |> 
+  mutate(V1 = as.Date(gsub(V1, 
+                           pattern = " ", 
+                           replacement = "0"), 
+                      format = "%Y%m%d")) 
+
+names(dat01138000) <- c("dtm", "prec", "r", "pet", "tmax", "tmin")
+
+dat01138000[which(dat01138000$prec == -99), "prec"] <- NA
+
+head(dat01138000) 
+```
+
+```{r, fig.align='center', fig.width=10}
+# Example measured precipitation time series (daily data in mm)
+precipitation <- dat01138000$prec[100:1000]
+
+# Define Curve Number
+CN <- 75  # Example value for a watershed
+
+# Calculate runoff for each day
+runoff <- sapply(precipitation, scs_cn_method, CN = CN)
+
+# Create a time vector for plotting
+days <- seq_along(precipitation)
+
+# Plot precipitation and runoff
+plot(days, 
+     precipitation, 
+     type = "h", 
+     col = "black", 
+     lwd = 0.5, 
+     ylim = c(0, max(c(precipitation, runoff), na.rm = TRUE)),
+     xlab = "Day", 
+     ylab = "Value (mm)", 
+     main = "CN based Precipitation and Runoff", 
+     lty = 3)
+lines(x = days, 
+      y = runoff, 
+      type = "h", 
+      col = "#0088BB", 
+      lty = 1, 
+      lwd = 1.5)
+legend("topright", 
+       legend = c("Precipitation", "Runoff"), 
+       col = c("black", "#0088BB"), 
+       lty = c(3, 1), 
+       lwd = c(0.5, 1.5))
+```
+
+```{r, fig.align='center', fig.width=9, echo=FALSE}
+# library(sf)
+# library(rworldxtra)
+# library(ggplot2)
+# library(tidyterra)
+# 
+# data(countriesHigh)
+# 
+# domain <- countriesHigh |> 
+#   st_as_sf() |> 
+#   filter(NAME == "Czech Rep.")
+# 
+# sfc <- st_sfc(st_polygon(list(rbind(c(st_bbox(domain)[1], st_bbox(cz)[2]),
+#                                    c(st_bbox(domain)[3], st_bbox(domain)[2]), 
+#                                    c(st_bbox(domain)[3], st_bbox(domain)[4]), 
+#                                    c(st_bbox(domain)[1], st_bbox(domain)[4]),
+#                                    c(st_bbox(domain)[1], st_bbox(domain)[2])))), crs = 4326) 
+# domain_pts <- st_sample(sfc, 100, type = "random")
+# x <- domain_pts |> 
+# st_union() |> 
+#  st_convex_hull()
+# 
+# 
+# plot(domain)
+# domain_pts <- domain_pts |> 
+#   st_transform(crs = 5514) |>  
+#   st_union() |>
+#   st_triangulate()
+# 
+# domain_tr <- st_cast(st_geometry(domain_pts), to = "MULTIPOINT") |> 
+#   st_cast(to = "MULTILINESTRING") |>
+#   st_cast(to = "POLYGON") 
+# 
+# sf_polygons <- st_as_sf(data.frame(id = seq_along(domain_tr)), geometry = domain_tr)
+# plot(sf_polygons)
+#   # st_voronoi(envelope = x) |> 
+#   ggplot() +
+#     geom_sf(fill = "#efefef") +
+#     geom_sf(data = cz_pts) +
+#     theme_minimal(base_size = 16)
+```
+
+<!-- Now we have domain, created from using a convex hull of sampled points.  -->
+
+::: callout-tip
+
+## Exercise
+
+In practice we would have more than one CN type in the watershed. Estimate the 
+runoff from the watershed using the SCS CN method. Using the following
+data.
+  
+
+| HRU | Area | CN$_i$    |
+|-----|------|-----------|
+| 1   | 20   | 70        |
+| 2   | 16   | 84        |
+| 3   | 64   | 74        |
+
+Compare two approaches to calculate runoff.\
+
+  a) Weighted average CN curve.\
+  b) Weighted contribution to discharge (separate contribution, first compute 
+  runoff and weight apply weights by fraction of area).
+:::
